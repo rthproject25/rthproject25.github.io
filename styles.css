@@ -1,88 +1,135 @@
+/* RESET + ROOT */
 :root{
-    --bg:#000;
-    --panel:#111;
-    --text:#e8e8e8;
-    --accent:#b21d19;
+  --bg:#080808;
+  --panel:#0f0f0f;
+  --muted:#a8a8a8;
+  --accent:#b83b34;
+  --white:#efefef;
+  --glass: rgba(255,255,255,0.03);
+  --maxw:980px;
+  --gap:20px;
+  --card-radius:16px;
+  --shadow: 0 18px 30px rgba(0,0,0,0.6);
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
-
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
 body{
-    background:var(--bg);
-    color:var(--text);
-}
-
-.container{
-    width:92%;
-    max-width:900px;
-    margin:auto;
+  background:var(--bg);
+  color:var(--white);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.6;
+  padding:40px 18px;
 }
 
 /* HERO */
 .hero{
-    background-image:url('https://raw.githubusercontent.com/rthproject25/rthproject25.github.io/main/file_0000000079707207be1a2821720f5b52.png');
-    background-size:cover;
-    background-position:center;
-    padding:100px 0;
-    margin-bottom:20px;
+  max-width:var(--maxw);
+  margin:0 auto 28px;
+  padding:8px 12px 28px;
 }
-
-.hero-inner{
-    background:rgba(0,0,0,0.55);
-    padding:25px;
-    border-radius:12px;
+.hero-inner h1{
+  font-size:44px;
+  letter-spacing:1px;
+  margin-bottom:12px;
+  font-weight:800;
 }
+.lead{
+  color:rgba(239,239,239,0.9);
+  font-size:18px;
+  margin-bottom:10px;
+}
+.muted{ color:var(--muted); font-weight:700; margin-bottom:6px; }
 
-h1{font-size:42px;font-weight:800;margin-bottom:10px;}
-.lead{font-size:18px;margin-bottom:6px;}
-.muted{opacity:.85;margin-bottom:10px;}
+/* CONTAINER */
+.container{
+  max-width:var(--maxw);
+  margin:0 auto 56px;
+  padding: 8px 6px;
+}
 
 /* CARD */
 .card{
-    background:var(--panel);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:18px;
-    border-radius:16px;
-    margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  border-radius:var(--card-radius);
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.02);
+  overflow:hidden;
 }
-
-.left{
-    display:flex;
-    align-items:center;
-    gap:15px;
+.card .left{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  flex:1;
+  min-width:0;
 }
-
 .icon{
-    width:45px;
-    height:45px;
+  width:56px;
+  height:56px;
+  object-fit:cover;
+  border-radius:12px;
+  background:linear-gradient(180deg,#111,#080808);
+  padding:8px;
+  flex:0 0 56px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6) inset;
+}
+.card .title{
+  font-weight:700;
+  color:var(--white);
+  font-size:16px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.card .subtitle{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
-.title{
-    font-size:17px;
-    font-weight:700;
-}
-
-.subtitle{
-    font-size:13px;
-    opacity:.7;
-}
-
-/* BTN */
+/* BUTTON */
 .btn{
-    background:var(--accent);
-    padding:10px 18px;
-    color:white;
-    text-decoration:none;
-    font-size:15px;
-    border-radius:10px;
-    font-weight:bold;
+  background:var(--accent);
+  color:var(--white);
+  text-decoration:none;
+  padding:10px 18px;
+  border-radius:12px;
+  font-weight:700;
+  box-shadow: 0 8px 18px rgba(184,59,52,0.18);
+  border: none;
+  transition: transform .12s ease, box-shadow .12s ease;
+  flex:0 0 auto;
+}
+.btn:active{ transform:translateY(1px) }
+.btn:hover{ box-shadow: 0 14px 28px rgba(0,0,0,0.6) }
+
+/* FOOTER */
+footer{
+  max-width:var(--maxw);
+  margin:30px auto 80px;
+  color:var(--muted);
+  font-size:14px;
+  padding:0 6px;
 }
 
-footer{
-    text-align:center;
-    font-size:13px;
-    opacity:.7;
-    margin:40px 0;
+/* RESPONSIVE */
+@media (max-width:520px){
+  .hero-inner h1{ font-size:36px; }
+  .icon{ width:48px; height:48px; flex:0 0 48px; }
+  .btn{ padding:9px 14px; font-size:14px; }
+  body{ padding:28px 14px; }
 }
+
+/* SAFETY: force images not to overflow (fix huge instagram svg) */
+img{max-width:100%;height:auto;display:block}
