@@ -3,162 +3,141 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ride To Hell</title>
+  <title>Ride To Hell — Official</title>
+
+  <meta name="description" content="Ride to Hell (RTH) — Night POV | Street Stories | Silent Grind. Born to Survive." />
+  <meta property="og:title" content="Ride To Hell" />
+  <meta property="og:description" content="Night POV | Street Stories | Silent Grind." />
+  <meta property="og:image" content="file_00000003a487206942539694d1573ae.png" />
+
+  <meta name="theme-color" content="#000" />
+  <link rel="icon" href="file_00000003a487206942539694d1573ae.png" />
+
   <style>
-    :root{
-      --bg:#000;
-      --card:#0b0b0b;
-      --muted:rgba(255,255,255,0.75);
-      --white:#fff;
-      --gap:20px;
+    body {
+      margin: 0;
+      background: #000;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
     }
-    html,body{height:100%}
-    body{
-      margin:0;
-      padding:40px 28px;
-      background:var(--bg);
-      color:var(--white);
-      font-family: "Inter", "Arial", sans-serif;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-    }
-    main.wrap{
-      width:100%;
-      max-width:940px;
-    }
-
-    /* logo */
     .logo {
-      width:110px;
-      height:110px;
-      object-fit:cover;
-      border-radius:16px;
-      display:block;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.8), 0 0 40px rgba(255,255,255,0.02) inset;
-      margin-bottom:28px;
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 20px;
     }
-
-    h1{
-      font-size:48px;
-      line-height:1;
-      margin:0 0 18px 0;
-      font-weight:800;
-      letter-spacing:-1px;
+    h1 {
+      margin: 10px 0 20px;
+      font-size: 42px;
+      font-weight: 800;
     }
-
-    p.lead{
-      margin:0 0 28px 0;
-      font-size:18px;
-      line-height:1.6;
-      color:var(--muted);
-      max-width:820px;
-      opacity:0.95;
+    p.lead {
+      color: #bbbbbb;
+      font-size: 18px;
+      margin-bottom: 40px;
     }
-
-    .links{ display:flex; flex-direction:column; gap:18px; margin-top:12px; width:100%; max-width:760px; }
-
-    .btn{
-      display:flex;
-      align-items:center;
-      gap:16px;
-      padding:18px 20px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.2));
-      border-radius:12px;
-      text-decoration:none;
-      color:var(--white);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.7);
-      transition:transform .14s ease, box-shadow .14s ease;
+    .card {
+      background: #0f0f0f;
+      border-radius: 16px;
+      padding: 18px;
+      margin: 14px 0;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
     }
-    .btn:hover{ transform:translateY(-4px); box-shadow: 0 26px 60px rgba(0,0,0,0.75); }
-
-    .icon{
-      width:52px;
-      height:52px;
-      flex: 0 0 52px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      background:rgba(255,255,255,0.02);
-      border-radius:10px;
-      overflow:hidden;
+    .icon {
+      width: 48px;
+      height: 48px;
+      margin-right: 16px;
+      border-radius: 10px;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-    .icon img{ width:36px; height:36px; object-fit:contain; display:block; opacity:0.98; filter:brightness(1.05); }
-
-    .text{ display:flex; flex-direction:column; align-items:flex-start; gap:3px; }
-    .title{ font-weight:700; font-size:18px; }
-    .subtitle{ font-weight:400; color:var(--muted); font-size:14px; }
-
-    /* for right-side small label */
-    .btn .right{ margin-left:auto; color:var(--muted); font-size:13px; opacity:0.95; }
-
-    @media(min-width:900px){
-      body{ align-items:flex-start; padding:60px; }
-      .logo{ width:140px; height:140px; margin-bottom:36px; }
-      h1{ font-size:64px; }
-      p.lead{ font-size:20px; }
+    .icon img {
+      width: 32px;
+      height: 32px;
+    }
+    .text {
+      flex: 1;
+      text-align: left;
+    }
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: #bbb;
+      margin-top: 2px;
+    }
+    .right {
+      font-size: 14px;
+      color: #bbb;
     }
   </style>
 </head>
+
 <body>
-  <main class="wrap">
-    <!-- logo (project) -->
-    <img class="logo" src="file_000000003a487206942539694d1573ae.png" alt="Ride To Hell Logo">
+  <img class="logo" src="file_00000003a487206942539694d1573ae.png" alt="RTH Logo" />
 
-    <h1>Ride To Hell</h1>
-    <p class="lead">Website ini resmi milik gue. Perjalanan dimulai — kerja keras, jalan sendiri, tetap gas.</p>
+  <h1>Ride To Hell</h1>
 
-    <div class="links">
-      <!-- Instagram -->
-      <a class="btn" href="https://instagram.com/ridetohell.official" target="_blank" rel="noopener noreferrer">
-        <span class="icon">
-          <img src="file_0000000020807206a72845919b7e437f.png" alt="Instagram">
-        </span>
-        <span class="text">
-          <span class="title">@ridetohell.official</span>
-          <span class="subtitle">Buka Instagram</span>
-        </span>
-        <span class="right">Buka</span>
-      </a>
+  <p class="lead">
+    Website ini resmi milik gue. Perjalanan dimulai — kerja keras, jalan sendiri, tetap gas.
+  </p>
 
-      <!-- WhatsApp -->
-      <a class="btn" href="https://wa.me/6285882110680" target="_blank" rel="noopener noreferrer">
-        <span class="icon">
-          <img src="file_00000000c8147206912a5f584721674f.png" alt="WhatsApp">
-        </span>
-        <span class="text">
-          <span class="title">Chat via WhatsApp</span>
-          <span class="subtitle">+62 858-8211-0680</span>
-        </span>
-        <span class="right">Chat</span>
-      </a>
-
-      <!-- YouTube -->
-      <a class="btn" href="https://www.youtube.com/@RTHProject25" target="_blank" rel="noopener noreferrer">
-        <span class="icon">
-          <img src="file_000000005aa07209aded73ff041cc2b4.png" alt="YouTube">
-        </span>
-        <span class="text">
-          <span class="title">YouTube Channel</span>
-          <span class="subtitle">@RTHProject25</span>
-        </span>
-        <span class="right">Watch</span>
-      </a>
-
-      <!-- Facebook -->
-      <a class="btn" href="https://www.facebook.com/profile.php?id=61583910659117" target="_blank" rel="noopener noreferrer">
-        <span class="icon">
-          <img src="file_00000000a72c72099e492e55677a6ef7.png" alt="Facebook">
-        </span>
-        <span class="text">
-          <span class="title">Halaman Facebook</span>
-          <span class="subtitle">Ride To Hell</span>
-        </span>
-        <span class="right">Buka</span>
-      </a>
+  <!-- Instagram -->
+  <a class="card" href="https://instagram.com/ridetohell.official" target="_blank">
+    <div class="icon">
+      <img src="file_0000000020807206a72845919b7e437f.png">
     </div>
-  </main>
+    <div class="text">
+      <div class="title">@ridetohell.official</div>
+      <div class="subtitle">Buka Instagram</div>
+    </div>
+    <div class="right">Buka</div>
+  </a>
+
+  <!-- WhatsApp -->
+  <a class="card" href="https://wa.me/6285882110680" target="_blank">
+    <div class="icon">
+      <img src="file_0000000c8147206912a5f584721674f.png">
+    </div>
+    <div class="text">
+      <div class="title">Chat via WhatsApp</div>
+      <div class="subtitle">+62 858-8211-0680</div>
+    </div>
+    <div class="right">Chat</div>
+  </a>
+
+  <!-- YouTube -->
+  <a class="card" href="https://www.youtube.com/@RTHProject25" target="_blank">
+    <div class="icon">
+      <img src="file_00000005aa07209aded73ff041cc2b4.png">
+    </div>
+    <div class="text">
+      <div class="title">YouTube Channel</div>
+      <div class="subtitle">@RTHProject25</div>
+    </div>
+    <div class="right">Watch</div>
+  </a>
+
+  <!-- Facebook -->
+  <a class="card" href="https://www.facebook.com/profile.php?id=61583910659117" target="_blank">
+    <div class="icon">
+      <img src="file_0000000a72c72099e492e55677a6ef7.png">
+    </div>
+    <div class="text">
+      <div class="title">Halaman Facebook</div>
+      <div class="subtitle">Ride To Hell</div>
+    </div>
+    <div class="right">Buka</div>
+  </a>
+
 </body>
 </html>
