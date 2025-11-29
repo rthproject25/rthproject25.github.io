@@ -5,32 +5,44 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Ride To Hell — Street Dark Mindset</title>
   <meta name="description" content="Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian." />
+  <meta name="robots" content="index, follow" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="page-wrap">
-    <main class="panel">
+    <main class="panel" role="main" aria-labelledby="site-title">
       <header class="panel-head">
-        <div class="logo-block">
-          <img src="file_000000003a487206942539694d1573ae.png" alt="RTH" class="logo-img">
+        <div class="logo-block" aria-hidden>
+          <!-- small RTH badge: uses uploaded image if present, else shows text -->
+          <img src="file_000000003a487206942539694d1573ae.png" alt="RTH logo" class="logo-img" onerror="this.style.display='none'">
+          <div class="logo-fallback" aria-hidden>RTH</div>
         </div>
 
         <div class="hero-text">
-          <h1>RIDE TO HELL</h1>
+          <h1 id="site-title">RIDE TO HELL</h1>
           <p class="lead">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</p>
           <p class="muted"><strong>RTH bukan sekadar nama — ini cara gue bertahan.</strong></p>
         </div>
 
-        <div class="blood-toggle" aria-hidden> 
+        <div class="blood-toggle" aria-hidden>
           <span>BLOOD</span>
           <div class="toggle-dot"></div>
         </div>
       </header>
 
-      <section class="list-cards">
+      <section class="list-cards" aria-label="Links">
+        <!-- Instagram -->
         <article class="card">
           <div class="left">
-            <div class="icon-circle"><img src="file_0000000020807206a72845919b7e437f.png" alt="IG"></div>
+            <div class="icon-circle" aria-hidden>
+              <!-- Instagram SVG -->
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="24" height="24" rx="4" fill="rgba(0,0,0,0.6)"/>
+                <path d="M7 7h10v10H7z" stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="2.6" fill="white"/>
+                <circle cx="17.5" cy="6.5" r="0.9" fill="white"/>
+              </svg>
+            </div>
             <div class="meta">
               <div class="title">@ridetohhell.official</div>
               <div class="sub">Instagram Resmi</div>
@@ -39,9 +51,16 @@
           <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener">Masuk</a>
         </article>
 
+        <!-- WhatsApp -->
         <article class="card">
           <div class="left">
-            <div class="icon-circle"><img src="file_00000000c8147206912a5f584721674f.png" alt="WA"></div>
+            <div class="icon-circle" aria-hidden>
+              <!-- WhatsApp SVG -->
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="24" height="24" rx="4" fill="rgba(0,0,0,0.6)"/>
+                <path d="M17 7.5C16.6 7 15.9 6.7 15.2 6.7 14 6.7 12.9 7.6 12.5 8.7 12.2 9.5 12 10.2 11.6 10.6 11.1 11.1 10.2 11.3 9.5 11.4 8.2 11.6 7 10.9 6 10C5.6 9.6 5.3 9 5.4 8.4 5.7 6.9 6.9 5.9 8.3 5.7 9.7 5.4 11.1 5.7 12.2 6.5" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
             <div class="meta">
               <div class="title">Chat via WhatsApp</div>
               <div class="sub">+62 858-8211-0680</div>
@@ -50,9 +69,15 @@
           <a class="btn" href="https://wa.me/6285882110680" target="_blank" rel="noopener">Terhubung</a>
         </article>
 
+        <!-- YouTube (inline SVG: safe) -->
         <article class="card">
           <div class="left">
-            <div class="icon-circle"><img src="file_000000005aa07209aded73ff041cc2b4.png" alt="YT"></div>
+            <div class="icon-circle" aria-hidden>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="24" height="24" rx="4" fill="rgba(0,0,0,0.6)"/>
+                <path d="M9.75 8.5L16.25 12L9.75 15.5V8.5Z" fill="white"/>
+              </svg>
+            </div>
             <div class="meta">
               <div class="title">YouTube Channel</div>
               <div class="sub">@RTHProject25</div>
@@ -61,9 +86,15 @@
           <a class="btn" href="https://youtube.com/@RTHProject25" target="_blank" rel="noopener">Tonton</a>
         </article>
 
+        <!-- Facebook (inline SVG: safe) -->
         <article class="card">
           <div class="left">
-            <div class="icon-circle"><img src="file_00000000a72c72099e492e55677a6ef7.png" alt="FB"></div>
+            <div class="icon-circle" aria-hidden>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="24" height="24" rx="4" fill="rgba(0,0,0,0.6)"/>
+                <path d="M15.5 8H13.75C12.9 8 12.5 8.55 12.5 9.2V10.5H15.5L15 13H12.5V20H9.5V13H7.75V10.5H9.5V9.1C9.5 6.6 11.1 5 13.4 5H15.5V8Z" fill="white"/>
+              </svg>
+            </div>
             <div class="meta">
               <div class="title">Halaman Facebook</div>
               <div class="sub">Ride To Hell</div>
@@ -76,5 +107,17 @@
       <footer class="panel-foot">© 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.</footer>
     </main>
   </div>
+
+  <!-- small JS to hide fallback logo if image loads -->
+  <script>
+    (function(){
+      const logo = document.querySelector('.logo-img');
+      const fallback = document.querySelector('.logo-fallback');
+      if(logo && fallback){
+        logo.addEventListener('load', ()=> fallback.style.display='none');
+        logo.addEventListener('error', ()=> fallback.style.display='block');
+      }
+    })();
+  </script>
 </body>
 </html>
