@@ -1,147 +1,233 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ride To Hell</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ride To Hell — RTH</title>
+
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
-    body {
-        margin: 0;
-        background: #000;
-        color: #fff;
-        font-family: Arial, sans-serif;
-        text-align: center;
-    }
+  :root{
+    --bg:#050505;
+    --card:#0e0e0e;
+    --muted:#9aa0a6;
+    --white:#ffffff;
+    --accent-deep:#6b0f0f; /* dark red base */
+    --accent:#b83b3b; /* red */
+    --link:#2f78ff;
+  }
 
-    .logo-box {
-        margin-top: 60px;
-    }
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:linear-gradient(180deg, var(--bg) 0%, #060606 60%);
+    color:var(--white);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.3;
+  }
 
-    .logo-box img {
-        width: 150px;
-        border-radius: 25px;
-        box-shadow: 0 0 40px rgba(255,0,0,0.25);
-    }
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding:34px 20px 80px;
+  }
 
-    h1 {
-        margin-top: 25px;
-        font-size: 48px;
-        font-weight: 700;
-    }
+  /* Top logo circle */
+  .logo {
+    width:96px;
+    height:96px;
+    margin:0 auto 18px;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.35)), radial-gradient(circle at 30% 25%, rgba(255,255,255,0.06), transparent 25%), var(--card);
+    box-shadow:0 12px 40px rgba(0,0,0,0.9), 0 0 42px 8px rgba(184,59,59,0.08);
+    position:relative;
+  }
 
-    .tagline {
-        font-size: 18px;
-        line-height: 1.5;
-        margin-top: 10px;
-        opacity: 0.8;
-    }
+  .logo .circle {
+    width:74px;
+    height:74px;
+    border-radius:50%;
+    background: radial-gradient(circle at 30% 25%, #c64b4b 0%, var(--accent) 40%, var(--accent-deep) 100%);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow: 0 6px 18px rgba(183,40,40,0.25), inset 0 -6px 18px rgba(0,0,0,0.25);
+  }
+  .logo .circle span{
+    font-weight:800;
+    letter-spacing:2px;
+    color:var(--white);
+    font-size:26px;
+    font-family: Inter, system-ui;
+  }
 
-    .card {
-        width: 85%;
-        margin: 22px auto;
-        background: rgba(255,255,255,0.05);
-        border-radius: 18px;
-        padding: 18px 22px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        backdrop-filter: blur(8px);
-        box-shadow: 0 0 25px rgba(255,0,0,0.15);
-    }
+  h1{
+    font-size:44px;
+    text-align:center;
+    margin:6px 0 6px;
+    font-weight:800;
+    letter-spacing:0.6px;
+  }
 
-    .left {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        text-align: left;
-    }
+  p.lead{
+    text-align:center;
+    color:var(--muted);
+    max-width:760px;
+    margin:0 auto 26px;
+    font-size:16px;
+  }
 
-    .left img {
-        width: 36px;
-        height: 36px;
-    }
+  .list{
+    margin-top:14px;
+  }
 
-    .title {
-        font-size: 20px;
-        font-weight: 600;
-    }
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:18px;
+    padding:18px 16px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin:14px 0;
+    box-shadow:
+      0 10px 30px rgba(0,0,0,0.7),
+      0 2px 0 rgba(255,255,255,0.02) inset;
+    border:1px solid rgba(255,255,255,0.03);
+  }
 
-    .subtitle {
-        font-size: 14px;
-        opacity: 0.75;
-        margin-top: 4px;
-    }
+  .iconwrap{
+    width:56px;height:56px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.15));
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    flex:0 0 56px;
+  }
 
-    .right {
-        font-size: 18px;
-        color: #3a82ff;
-        font-weight: 600;
-    }
+  .meta{
+    flex:1;
+  }
+  .meta .title{
+    font-weight:700;
+    font-size:18px;
+    letter-spacing:0.2px;
+  }
+  .meta .sub{
+    color:var(--muted);
+    margin-top:4px;
+    font-size:13px;
+  }
+
+  .action{
+    margin-left:12px;
+    font-weight:700;
+    color:var(--link);
+    text-decoration:none;
+    font-size:15px;
+  }
+
+  /* small screens */
+  @media (max-width:420px){
+    h1{font-size:36px;}
+    .logo{width:84px;height:84px;}
+    .logo .circle{width:64px;height:64px;}
+    .card{padding:14px;border-radius:14px;}
+    .iconwrap{width:50px;height:50px;border-radius:10px;}
+  }
+
+  /* subtle bottom glow */
+  .bottom-glow{
+    position:fixed;
+    left:0;right:0;bottom:0;height:160px;
+    pointer-events:none;
+    background: radial-gradient(closest-side, rgba(184,59,59,0.08), transparent 40%), linear-gradient(180deg, transparent, rgba(0,0,0,0.6));
+    mix-blend-mode:screen;
+  }
 </style>
 </head>
 
 <body>
-
-<!-- LOGO YANG SUDAH ADA & MUNCUL -->
-<div class="logo-box">
-    <img src="https://rthproject25.github.io/logo-rth.png" alt="RTH Logo">
-</div>
-
-<h1>Ride To Hell</h1>
-
-<div class="tagline">
-    Teritori ini resmi milik gue. Jalan gelap, kerja keras,<br>
-    berdiri sendiri — RTH tetap melaju.
-</div>
-
-<!-- IG -->
-<div class="card">
-    <div class="left">
-        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
-        <div>
-            <div class="title">@ridetohell.official</div>
-            <div class="subtitle">Instagram Resmi</div>
-        </div>
+  <div class="wrap" role="main">
+    <div class="logo" aria-hidden="true">
+      <div class="circle" aria-hidden="true"><span>RTH</span></div>
     </div>
-    <div class="right">Buka</div>
-</div>
 
-<!-- WA -->
-<div class="card">
-    <div class="left">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
-        <div>
-            <div class="title">Chat via WhatsApp</div>
-            <div class="subtitle">+62 858-8211-0680</div>
+    <h1>Ride To Hell</h1>
+    <p class="lead">Teritori ini resmi milik gue. Jalan gelap, kerja keras, berdiri sendiri — RTH tetap melaju.</p>
+
+    <div class="list">
+
+      <!-- Instagram -->
+      <a class="card" href="https://instagram.com/ridetohell.official" target="_blank" rel="noopener noreferrer">
+        <div class="iconwrap" aria-hidden="true">
+          <!-- instagram svg -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-width="1.6" fill="none" opacity="0.95"/>
+            <circle cx="12" cy="12" r="3.2" stroke="white" stroke-width="1.6" fill="none" opacity="0.95"/>
+            <circle cx="17.5" cy="6.5" r="0.9" fill="white" />
+          </svg>
         </div>
-    </div>
-    <div class="right">Chat</div>
-</div>
-
-<!-- YT -->
-<div class="card">
-    <div class="left">
-        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
-        <div>
-            <div class="title">YouTube Channel</div>
-            <div class="subtitle">@RTHProject25</div>
+        <div class="meta">
+          <div class="title">@ridetohell.official</div>
+          <div class="sub">Instagram Resmi</div>
         </div>
-    </div>
-    <div class="right">Watch</div>
-</div>
+        <div class="action">Buka</div>
+      </a>
 
-<!-- FB -->
-<div class="card">
-    <div class="left">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png">
-        <div>
-            <div class="title">Halaman Facebook</div>
-            <div class="subtitle">Ride To Hell</div>
+      <!-- WhatsApp -->
+      <a class="card" href="https://wa.me/6285882110680" target="_blank" rel="noopener noreferrer">
+        <div class="iconwrap" aria-hidden="true">
+          <!-- whatsapp svg -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20.5 3.5C18 1.2 14.6 0 11 0 4.9 0 .3 4.9.3 11.1c0 1.9.5 3.7 1.4 5.3L0 24l7.9-2.1c1.6.9 3.4 1.4 5.2 1.4 6.1 0 11-4.9 11-11S21 4.5 20.5 3.5z" stroke="white" stroke-width="0.6" fill="none"/>
+            <path d="M6.8 13.9c-.4-1.2-.1-2.6.7-3.6.6-.7 1.3-1 2.1-1 .3 0 .6 0 .9.1.3.1.6.2.9.3.3.1.6.2.9.2.3 0 .6-.1.9-.3.6-.3 1.2-.5 1.9-.6.6-.1 1.2-.1 1.8.1 1.2.3 2.2 1 2.8 1.9.5.8.7 1.8.6 2.7-.1 1-.6 1.9-1.4 2.7-.9.9-2 1.6-3.2 1.9-.6.2-1.3.3-1.9.3-.6 0-1.2-.1-1.8-.3l-.8-.3-3 1 1-3.3z" fill="white"/>
+          </svg>
         </div>
-    </div>
-    <div class="right">Buka</div>
-</div>
+        <div class="meta">
+          <div class="title">Chat via WhatsApp</div>
+          <div class="sub">+62 858-8211-0680</div>
+        </div>
+        <div class="action">Chat</div>
+      </a>
 
+      <!-- YouTube -->
+      <a class="card" href="https://www.youtube.com/@RTHProject25" target="_blank" rel="noopener noreferrer">
+        <div class="iconwrap" aria-hidden="true">
+          <!-- youtube svg -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="2.5" y="5" width="19" height="13.5" rx="3.5" stroke="white" stroke-width="1.6" fill="none"/>
+            <path d="M10 9.5v5l4-2.5-4-2.5z" fill="white"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="title">YouTube Channel</div>
+          <div class="sub">@RTHProject25</div>
+        </div>
+        <div class="action">Watch</div>
+      </a>
+
+      <!-- Facebook -->
+      <a class="card" href="https://www.facebook.com/profile.php?id=61583910659117" target="_blank" rel="noopener noreferrer">
+        <div class="iconwrap" aria-hidden="true">
+          <!-- facebook svg -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15.5 3H12c-2.2 0-3.5 1.7-3.5 3.8V10H5v3.2h3.5V21h3.2v-7.8H17l.6-3.2h-3.1V7.3c0-.9.3-1.4 1.4-1.4H17V3z" fill="white"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="title">Halaman Facebook</div>
+          <div class="sub">Ride To Hell</div>
+        </div>
+        <div class="action">Buka</div>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="bottom-glow" aria-hidden="true"></div>
 </body>
 </html>
