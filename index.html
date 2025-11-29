@@ -2,131 +2,189 @@
 <html lang="id">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Ride To Hell</title>
-
+<meta name="description" content="Ride To Hell — streetwear, night POV, work hard." />
 <style>
-  body {
-    margin: 0;
-    background: #000;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 25px;
+  :root{
+    --bg:#000;
+    --card:#0f0f0f;
+    --muted:#bdbdbd;
+    --white:#fff;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--white);
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    display:flex;
+    justify-content:center;
+    padding:36px 18px;
+  }
+  .wrap{
+    width:100%;
+    max-width:720px;
   }
 
-  .logo img {
-    width: 110px;
-    margin-top: 10px;
+  /* header */
+  .logo-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom:10px;
+  }
+  .logo-svg{ width:110px; height:110px; display:block; }
+
+  h1{
+    text-align:center;
+    font-size:44px;
+    margin:6px 0 6px;
+    font-weight:800;
+    letter-spacing:-1px;
+  }
+  p.lead{
+    text-align:center;
+    color:var(--muted);
+    margin:0 auto 26px;
+    max-width:86%;
+    line-height:1.5;
+    font-size:16.5px;
   }
 
-  h1 {
-    font-size: 50px;
-    margin: 15px 0 5px;
-    font-weight: bold;
+  /* list */
+  .list{ display:block; margin-top:8px; }
+  .card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--card);
+    padding:14px 16px;
+    border-radius:var(--radius);
+    margin-bottom:14px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.7);
+    text-decoration:none;
+    color:inherit;
   }
-
-  p {
-    color: #aaa;
-    font-size: 18px;
-    margin-bottom: 35px;
-    line-height: 1.5;
+  .left{ display:flex; align-items:center; gap:12px; }
+  .icon-box{
+    width:46px; height:46px; min-width:46px;
+    border-radius:10px;
+    display:grid; place-items:center;
+    background:rgba(255,255,255,0.02);
   }
+  .meta{ text-align:left; }
+  .meta .title{ font-weight:700; font-size:17px; }
+  .meta .sub{ color:var(--muted); font-size:13px; margin-top:4px; }
+  .right{ margin-left:auto; color:var(--muted); font-weight:700; font-size:14px; }
 
-  .card {
-    background: #111;
-    border-radius: 18px;
-    padding: 18px;
-    margin: 15px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-decoration: none;
-    color: #fff;
-  }
-
-  .left {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-  }
-
-  .left img {
-    width: 45px;
-    height: 45px;
-    border-radius: 10px;
-  }
-
-  .txt-title {
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  .txt-sub {
-    font-size: 14px;
-    color: #aaa;
-    text-align: left;
+  @media(max-width:520px){
+    h1{ font-size:34px }
+    .logo-svg{ width:92px; height:92px }
+    .card{ padding:12px }
+    .icon-box{ width:44px; height:44px }
   }
 </style>
 </head>
-
 <body>
+  <main class="wrap">
 
-<div class="logo">
-  <img src="logo.png" alt="RTH Logo">
-</div>
-
-<h1>Ride To Hell</h1>
-
-<p>Website ini resmi milik gue. Perjalanan dimulai — kerja keras, jalan sendiri, tetap gas.</p>
-
-<!-- Instagram -->
-<a class="card" href="https://instagram.com/ridetohhell.official" target="_blank">
-  <div class="left">
-    <img src="instagram.png">
-    <div>
-      <div class="txt-title">@ridetohhell.official</div>
-      <div class="txt-sub">Buka Instagram</div>
+    <!-- INLINE SVG LOGO (no external file) -->
+    <div class="logo-wrap">
+      <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ride To Hell logo">
+        <defs>
+          <radialGradient id="rthGrad" cx="50%" cy="35%" r="80%">
+            <stop offset="0%" stop-color="#ff6b5f"/>
+            <stop offset="100%" stop-color="#9b1b17"/>
+          </radialGradient>
+        </defs>
+        <rect width="100" height="100" rx="16" fill="#000"/>
+        <circle cx="50" cy="48" r="36" fill="url(#rthGrad)"/>
+        <text x="50" y="62" text-anchor="middle" font-family="Arial" font-weight="800" font-size="28" fill="#fff">RTH</text>
+      </svg>
     </div>
-  </div>
-  <div>Buka</div>
-</a>
 
-<!-- WhatsApp -->
-<a class="card" href="https://wa.me/6285882110680" target="_blank">
-  <div class="left">
-    <img src="whatsapp.png">
-    <div>
-      <div class="txt-title">Chat via WhatsApp</div>
-      <div class="txt-sub">+62 858-8211-0680</div>
+    <h1>Ride To Hell</h1>
+    <p class="lead">Website ini resmi milik gue. Perjalanan dimulai — kerja keras, jalan sendiri, tetap gas.</p>
+
+    <div class="list">
+      <!-- Instagram -->
+      <a class="card" href="https://instagram.com/ridetohell.official" target="_blank" rel="noopener noreferrer">
+        <div class="left">
+          <div class="icon-box" aria-hidden="true">
+            <!-- IG inline SVG (white outline) -->
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5" stroke="#fff" stroke-width="1.4"/>
+              <circle cx="12" cy="12" r="3.4" stroke="#fff" stroke-width="1.4"/>
+              <circle cx="17.3" cy="7" r="1.1" fill="#fff"/>
+            </svg>
+          </div>
+          <div class="meta">
+            <div class="title">@ridetohell.official</div>
+            <div class="sub">Buka Instagram</div>
+          </div>
+        </div>
+        <div class="right">Buka</div>
+      </a>
+
+      <!-- WhatsApp -->
+      <a class="card" href="https://wa.me/6285882110680?text=Halo%2C%20saya%20tertarik%20dengan%20Ride%20To%20Hell" target="_blank" rel="noopener noreferrer">
+        <div class="left">
+          <div class="icon-box" aria-hidden="true">
+            <!-- WA inline SVG -->
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M20 14.5c-.4 1.1-1.2 2.1-2.2 2.9L18 21l-3.7-1.2c-.9.3-1.9.5-2.9.5-4.7 0-8.5-3.8-8.5-8.5S7.3 3 12 3s8.5 3.8 8.5 8.5c0 1-.2 2-.5 2.9z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16.5 13.3c-.2-.1-1.2-.6-1.4-.6-.2 0-.4 0-.6.2-.4.3-1 .6-1.4 1-.5.4-1.1.3-2.1 0-.7-.2-1.3-.4-2-1.2-.6-.7-.6-.9-.2-1.4.3-.4.7-1 .9-1.3.2-.3.1-.6 0-.8-.2-.3-1-2.2-1.4-3-.4-.8-.9-.7-1.3-.7-.4 0-.9 0-1.4 0-.5 0-1 .1-1.5.6-.5.5-.8 1-1 1.5-.3.5-.6 1.4 0 2.7.6 1.3 2.4 3.9 5.9 5.6 3.5 1.7 4.8 1.1 5.5 1 .6-.1 1.6-.7 1.8-1.4.2-.7.2-1.2.1-1.4-.1-.2-.4-.3-.6-.4z" fill="#fff"/>
+            </svg>
+          </div>
+          <div class="meta">
+            <div class="title">Chat via WhatsApp</div>
+            <div class="sub">+62 858-8211-0680</div>
+          </div>
+        </div>
+        <div class="right">Chat</div>
+      </a>
+
+      <!-- YouTube -->
+      <a class="card" href="https://www.youtube.com/@RTHProject25" target="_blank" rel="noopener noreferrer">
+        <div class="left">
+          <div class="icon-box" aria-hidden="true">
+            <!-- YT inline SVG -->
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="12" rx="4" stroke="#fff" stroke-width="1.4"/>
+              <polygon points="10,9 16,12 10,15" fill="#fff"/>
+            </svg>
+          </div>
+          <div class="meta">
+            <div class="title">YouTube Channel</div>
+            <div class="sub">@RTHProject25</div>
+          </div>
+        </div>
+        <div class="right">Watch</div>
+      </a>
+
+      <!-- Facebook -->
+      <a class="card" href="https://www.facebook.com/profile.php?id=61583910659117" target="_blank" rel="noopener noreferrer">
+        <div class="left">
+          <div class="icon-box" aria-hidden="true">
+            <!-- FB inline SVG -->
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="3.6" y="3.6" width="16.8" height="16.8" rx="3.6" stroke="#fff" stroke-width="1.4"/>
+              <path d="M13.1 20v-6h1.9l.3-2.1h-2.2V9.5c0-.6.2-1 1.1-1h1V6.2c-.2 0-.9-.1-1.9-.1-1.9 0-3.2 1.1-3.2 3.2V12H9.1V14h1.6v6" fill="#fff"/>
+            </svg>
+          </div>
+          <div class="meta">
+            <div class="title">Halaman Facebook</div>
+            <div class="sub">Ride To Hell</div>
+          </div>
+        </div>
+        <div class="right">Buka</div>
+      </a>
+
     </div>
-  </div>
-  <div>Chat</div>
-</a>
-
-<!-- YouTube -->
-<a class="card" href="https://youtube.com/@RTHProject25" target="_blank">
-  <div class="left">
-    <img src="youtube.png">
-    <div>
-      <div class="txt-title">YouTube Channel</div>
-      <div class="txt-sub">@RTHProject25</div>
-    </div>
-  </div>
-  <div>Watch</div>
-</a>
-
-<!-- Facebook -->
-<a class="card" href="https://www.facebook.com/profile.php?id=61583910659117" target="_blank">
-  <div class="left">
-    <img src="facebook.png">
-    <div>
-      <div class="txt-title">Halaman Facebook</div>
-      <div class="txt-sub">Ride To Hell</div>
-    </div>
-  </div>
-  <div>Buka</div>
-</a>
-
+  </main>
 </body>
 </html>
