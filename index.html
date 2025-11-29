@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Ride To Hell — RTH</title>
 <meta name="description" content="Ride To Hell — Teritori gelap ini rumah gue. Jalan gelap, kerja keras, berdiri sendiri. RTH tetap melaju." />
+<!-- favicon simple inline svg -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='18' width='100' height='100' fill='%234a0f0f'/><text x='50' y='58' font-size='40' font-family='Inter,Segoe UI,Roboto' fill='white' text-anchor='middle' font-weight='700'>RTH</text></svg>">
 
 <style>
@@ -45,7 +46,7 @@
   }
 
   /* preloader */
-  .preloader{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:var(--bg); z-index:99; transition:opacity .45s var(--ease), visibility .45s var(--ease);}
+  .preloader{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:var(--bg); z-index:999; transition:opacity .45s var(--ease), visibility .45s var(--ease);}
   .preloader.hide{opacity:0; visibility:hidden; pointer-events:none}
   .loader-logo{width:120px;height:120px;border-radius:22px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:36px;color:#fff;background:linear-gradient(145deg,var(--accent-2),#3b0a0a);box-shadow:var(--logo-shadow);}
 
@@ -59,11 +60,11 @@
   .toggle[data-state="blood"] .knob{ transform:translateX(24px); background:rgba(0,0,0,0.18); box-shadow:0 8px 20px rgba(0,0,0,0.35)}
 
   /* hero */
-  .hero{display:grid; grid-template-columns:96px 1fr; gap:20px; align-items:center}
+  .hero{display:grid; grid-template-columns:96px 1fr; gap:20px; align-items:center; position:relative; overflow:visible}
   .logo{ width:96px;height:96px;border-radius:18px;background:linear-gradient(160deg,var(--accent-2),var(--accent)); display:flex;align-items:center;justify-content:center;font-weight:900;font-size:30px;color:white; box-shadow:var(--logo-shadow); transition:transform .6s var(--ease), box-shadow .6s var(--ease); z-index:5; }
   .logo.small{ width:72px;height:72px;font-size:22px;border-radius:14px }
 
-  .title{text-align:left}
+  .title{text-align:left; z-index:6}
   h1{margin:0;font-size:34px; font-weight:800; letter-spacing:.6px}
   .subtitle{margin-top:10px;color:rgba(255,255,255,0.86);font-size:15px;line-height:1.45}
 
@@ -87,13 +88,34 @@
   .reveal-left { opacity:1; transform: translateX(-18px); transition: transform .48s var(--ease); will-change: transform; }
   .reveal-left.show { transform: translateX(0); }
 
+  /* --- BIG logo in background (non-interactive watermark) --- */
+  .logo-bg{
+    position:absolute;
+    left:50%;
+    top:28%;
+    transform:translate(-50%,-18%);
+    width:720px;
+    height:720px;
+    max-width:120vmin;
+    max-height:120vmin;
+    border-radius:50%;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000'><rect width='100%' height='100%' fill='black'/><circle cx='500' cy='500' r='430' fill='%23b23a3a'/><text x='50%' y='56%' font-size='420' font-family='Arial,Helvetica,sans-serif' font-weight='700' fill='white' text-anchor='middle'>RTH</text></svg>");
+    background-size:cover;
+    background-position:center;
+    opacity:0.10;
+    pointer-events:none;
+    z-index:2;
+    filter:grayscale(5%) contrast(95%);
+    transition:opacity .6s var(--ease), transform .8s var(--ease);
+  }
+  @media (max-width:420px){ .logo-bg{ width:420px; height:420px; top:30%; transform:translate(-50%,-8%); opacity:0.09 } }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal, .reveal-left { transition: none !important; transform: none !important; opacity:1 !important }
   }
 </style>
 </head>
 <body>
-  <!-- preloader -->
   <div class="preloader" id="preloader" aria-hidden="false">
     <div class="loader-logo" aria-hidden="true">RTH</div>
   </div>
@@ -103,7 +125,6 @@
   <main class="wrap">
     <div class="card" role="main" aria-labelledby="site-title" id="card">
 
-      <!-- topbar -->
       <div class="topbar" id="topbar">
         <div class="mode-label" id="modeLabel">DARK</div>
         <button id="modeToggle" class="toggle" data-state="dark" aria-pressed="false" aria-label="Ganti mode tema RTH">
@@ -111,8 +132,12 @@
         </button>
       </div>
 
-      <!-- hero -->
+      <!-- ===================== HERO (FINAL FIX) ===================== -->
       <div class="hero">
+        <!-- big bg logo (watermark, behind content) -->
+        <div class="logo-bg" aria-hidden="true"></div>
+
+        <!-- small visible logo left -->
         <div class="logo reveal-left" id="logo-el" aria-hidden="false">RTH</div>
 
         <div class="title">
@@ -123,12 +148,12 @@
           </p>
         </div>
       </div>
+      <!-- ============================================================ -->
 
       <div class="links stagger-children" id="links">
         <a class="link reveal" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener noreferrer" aria-label="Buka Instagram Ride To Hell" style="--reveal-delay:.12s">
           <div class="meta">
             <div class="icon-wrap" aria-hidden="true">
-              <!-- inline svg icon -->
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-opacity="0.9" stroke-width="1.3"/><circle cx="12" cy="12" r="3.1" stroke="white" stroke-opacity="0.95" stroke-width="1.3"/></svg>
             </div>
             <div class="text"><span class="line1">@ridetohhell.official</span><span class="line2">Instagram Resmi</span></div>
@@ -176,108 +201,86 @@
 <script>
   const q = s => document.querySelector(s);
 
-  // theme handling (robust)
+  // theme
   const setTheme = (theme) => {
     const t = theme === 'blood' ? 'blood' : 'dark';
     document.documentElement.setAttribute('data-theme', t);
-    const toggle = q('#modeToggle');
-    const label = q('#modeLabel');
+    const toggle = q('#modeToggle'); const label = q('#modeLabel');
     toggle.setAttribute('data-state', t === 'blood' ? 'blood' : 'dark');
     toggle.setAttribute('aria-pressed', t === 'blood' ? 'true' : 'false');
     label.textContent = t === 'blood' ? 'BLOOD' : 'DARK';
-    try { localStorage.setItem('rth_theme', t); } catch(e){}
+    try{ localStorage.setItem('rth_theme', t); }catch(e){}
   };
-
   (function initTheme(){
-    let saved = null;
-    try { saved = localStorage.getItem('rth_theme'); } catch(e){}
+    let saved=null; try{ saved=localStorage.getItem('rth_theme'); }catch(e){}
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const start = saved || (prefersDark ? 'dark' : 'dark'); // default dark
+    const start = saved || (prefersDark ? 'dark' : 'dark');
     setTheme(start);
   })();
-
-  q('#modeToggle').addEventListener('click', () => {
+  q('#modeToggle').addEventListener('click', ()=> {
     const current = document.documentElement.getAttribute('data-theme') === 'blood' ? 'blood' : 'dark';
     setTheme(current === 'blood' ? 'dark' : 'blood');
   });
-  q('#modeToggle').addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); q('#modeToggle').click(); } });
+  q('#modeToggle').addEventListener('keydown', (e)=> { if(e.key===' '||e.key==='Enter'){ e.preventDefault(); q('#modeToggle').click(); }});
 
   // year
   q('#year').textContent = (new Date()).getFullYear();
 
-  // preloader & initial reveal
+  // preloader + reveal
   window.addEventListener('load', () => {
-    // hide preloader quickly
-    setTimeout(() => {
-      const pre = q('#preloader'); if (pre) pre.classList.add('hide');
-      // reveal elements in order
+    setTimeout(()=> {
+      const pre = q('#preloader'); if(pre) pre.classList.add('hide');
       const seq = [q('#logo-el'), q('#site-title'), ...document.querySelectorAll('.links .link')];
-      seq.forEach((el, i) => {
-        if (!el) return;
-        setTimeout(() => el.classList && el.classList.add('show'), 120 + i * 80);
-      });
+      seq.forEach((el,i)=> { if(!el) return; setTimeout(()=> el.classList && el.classList.add('show'), 120 + i*80); });
     }, 420);
   });
 
-  // lightweight reveal/IO
+  // reveal observer
   (function scrollReveal(){
-    if ((window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) ) {
-      document.querySelectorAll('.reveal, .reveal-left').forEach(el => el.classList.add('show'));
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.querySelectorAll('.reveal, .reveal-left').forEach(el=>el.classList.add('show'));
       return;
     }
     const revealEls = Array.from(document.querySelectorAll('.reveal, .reveal-left'));
-    if (!('IntersectionObserver' in window) || revealEls.length === 0) {
-      revealEls.forEach(el => el.classList.add('show'));
-      return;
-    }
-
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
+    if(!('IntersectionObserver' in window) || revealEls.length===0){ revealEls.forEach(el=>el.classList.add('show')); return; }
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
           const el = entry.target;
           const baseDelay = parseFloat(getComputedStyle(el).getPropertyValue('--reveal-delay')) || 0;
           let extra = 0;
           const parent = el.closest('.stagger-children');
-          if (parent) {
+          if(parent){
             const children = Array.from(parent.querySelectorAll('.reveal, .reveal-left'));
-            extra = children.indexOf(el) * 0.08;
+            extra = children.indexOf(el)*0.08;
           }
           el.style.transitionDelay = `${(baseDelay + extra)}s`;
           el.classList.add('show');
           io.unobserve(el);
         }
       });
-    }, { root:null, rootMargin:'0px 0px -12% 0px', threshold:0.12 });
-
-    revealEls.forEach(el => {
+    }, {root:null, rootMargin:'0px 0px -12% 0px', threshold:0.12});
+    revealEls.forEach(el=>{
       const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.88) { el.classList.add('show'); } else { io.observe(el); }
+      if(rect.top < window.innerHeight * 0.88) el.classList.add('show'); else io.observe(el);
     });
   })();
 
-  // parallax (very light)
+  // parallax (light, respect reduced-motion)
   const logoEl = q('#logo-el'); const glow = q('.glow');
   function applyParallax(x,y){
     const cx = window.innerWidth/2, cy = window.innerHeight/2;
     const dx = (x - cx) / cx, dy = (y - cy) / cy;
     const tx = dx * 8, ty = dy * 6;
-    if (logoEl) logoEl.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
-    if (glow) { glow.style.right = `${40 - dx*30}px`; glow.style.bottom = `${40 - dy*30}px`; }
+    if(logoEl) logoEl.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+    if(glow){ glow.style.right = `${40 - dx*30}px`; glow.style.bottom = `${40 - dy*30}px`; }
   }
-  // only enable if not reduced-motion
-  if (! (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) ) {
+  if(!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)){
     window.addEventListener('mousemove', (ev)=> applyParallax(ev.clientX, ev.clientY), {passive:true});
   }
 
   // accessibility: tab reveal
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-      const focused = document.activeElement;
-      if (focused && (focused.classList.contains('link') || focused.classList.contains('reveal'))) {
-        focused.classList.add('show');
-      }
-    }
-  });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Tab'){ const f=document.activeElement; if(f && (f.classList.contains('link')||f.classList.contains('reveal'))) f.classList.add('show'); } });
 </script>
 </body>
 </html>
