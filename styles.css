@@ -1,0 +1,59 @@
+/* ===========================
+   RIDE TO HELL – DARK THEME
+   =========================== */
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #0d0d0d;
+  color: #e5e5e5;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Layout */
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Heading */
+h1, h2 {
+  color: #ffffff;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+/* Paragraph */
+p {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+/* Links */
+a {
+  color: #ff2e2e;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* List style */
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+/* Divider line */
+hr {
+  border: 0;
+  border-top: 1px solid #333;
+  margin: 20px 0;
+}
