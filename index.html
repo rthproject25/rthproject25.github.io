@@ -7,81 +7,80 @@
     <style>
         body {
             margin: 0;
-            padding: 0;
-            background: #000;
             font-family: Arial, sans-serif;
+            background: #000;
             color: white;
             text-align: center;
         }
 
         .container {
-            width: 90%;
+            max-width: 480px;
             margin: auto;
-            padding-top: 40px;
+            padding: 20px;
         }
 
-        .logo {
-            width: 140px;
-            height: 140px;
-            border-radius: 25px;
-            overflow: hidden;
-            margin: auto;
-            margin-bottom: 25px;
+        .logo-box {
+            margin-top: 40px;
+            margin-bottom: 15px;
         }
 
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        /* Logo SVG responsive */
+        .logo-box svg {
+            width: 120px;
+            height: 120px;
         }
 
         h1 {
-            font-size: 48px;
-            margin: 0;
-            font-weight: 700;
+            font-size: 42px;
+            margin-bottom: 10px;
+            font-weight: 800;
         }
 
-        p {
-            margin-top: 10px;
-            font-size: 18px;
+        p.sub {
+            font-size: 17px;
             line-height: 1.5;
-            opacity: 0.85;
+            opacity: 0.8;
+            margin-bottom: 35px;
         }
 
-        .card {
-            background: #111;
-            border-radius: 18px;
-            padding: 18px;
-            margin-top: 20px;
+        .btn {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
-        .card img {
-            width: 36px;
-            height: 36px;
-            margin-right: 15px;
-        }
-
-        .left {
+        .btn-left {
             display: flex;
             align-items: center;
+            gap: 14px;
         }
 
-        .title {
-            font-size: 20px;
-            font-weight: bold;
+        .icon {
+            width: 32px;
+            height: 32px;
         }
 
-        .subtitle {
-            font-size: 14px;
+        .label {
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .subtext {
+            font-size: 13px;
             opacity: 0.7;
+            margin-top: 3px;
         }
 
-        .right {
-            font-size: 16px;
-            opacity: 0.7;
+        .right-text {
+            font-size: 15px;
+            opacity: .8;
         }
     </style>
 </head>
@@ -89,63 +88,74 @@
 
 <div class="container">
 
-    <!-- LOGO FIX -->
-    <div class="logo">
-        <img src="file_000000003a487206942539694d1573ae.png" alt="RTH Logo">
+    <!-- LOGO PREMIUM -->
+    <div class="logo-box">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="bgRTH" cx="50%" cy="50%" r="65%">
+                    <stop offset="0%" stop-color="#c33a2c"/>
+                    <stop offset="100%" stop-color="#8a1e18"/>
+                </radialGradient>
+            </defs>
+            <circle cx="50" cy="50" r="45" fill="url(#bgRTH)"/>
+            <text x="50" y="58" fill="#fff" font-size="36" font-weight="800" text-anchor="middle" font-family="Arial">
+                RTH
+            </text>
+        </svg>
     </div>
 
     <h1>Ride To Hell</h1>
-    <p>
+    <p class="sub">
         Website ini resmi milik gue. Perjalanan dimulai — kerja keras, jalan sendiri, tetap gas.
     </p>
 
-    <!-- Instagram -->
-    <div class="card">
-        <div class="left">
-            <img src="file_0000000020807206a72845919b7e437f.png">
+    <!-- INSTAGRAM -->
+    <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank">
+        <div class="btn-left">
+            <img src="file_000000020807206a72845919b7e437f.png" class="icon">
             <div>
-                <div class="title">@ridetohhell.official</div>
-                <div class="subtitle">Buka Instagram</div>
+                <div class="label">@ridetohhell.official</div>
+                <div class="subtext">Buka Instagram</div>
             </div>
         </div>
-        <div class="right">Buka</div>
-    </div>
+        <div class="right-text">Buka</div>
+    </a>
 
-    <!-- WhatsApp -->
-    <div class="card">
-        <div class="left">
-            <img src="file_00000000c8147206912a5f584721674f.png">
+    <!-- WHATSAPP -->
+    <a class="btn" href="https://wa.me/6285882110680" target="_blank">
+        <div class="btn-left">
+            <img src="file_0000000c8147206912a5f584721674f.png" class="icon">
             <div>
-                <div class="title">Chat via WhatsApp</div>
-                <div class="subtitle">+62 858-8211-0680</div>
+                <div class="label">Chat via WhatsApp</div>
+                <div class="subtext">+62 858-8211-0680</div>
             </div>
         </div>
-        <div class="right">Chat</div>
-    </div>
+        <div class="right-text">Chat</div>
+    </a>
 
-    <!-- YouTube -->
-    <div class="card">
-        <div class="left">
-            <img src="file_000000005aa07209aded73ff041cc2b4.png">
+    <!-- YOUTUBE -->
+    <a class="btn" href="https://youtube.com/@RTHProject25" target="_blank">
+        <div class="btn-left">
+            <img src="file_000000005aa07209aded73ff041cc2b4.png" class="icon">
             <div>
-                <div class="title">YouTube Channel</div>
-                <div class="subtitle">@RTHProject25</div>
+                <div class="label">YouTube Channel</div>
+                <div class="subtext">@RTHProject25</div>
             </div>
         </div>
-        <div class="right">Watch</div>
-    </div>
+        <div class="right-text">Watch</div>
+    </a>
 
-    <!-- Facebook -->
-    <div class="card">
-        <div class="left">
-            <img src="file_00000000a72c72099e492e55677a6ef7.png">
+    <!-- FACEBOOK -->
+    <a class="btn" href="https://www.facebook.com/profile.php?id=61583910659117" target="_blank">
+        <div class="btn-left">
+            <img src="file_00000000a72c72099e492e55677a6ef7.png" class="icon">
             <div>
-                <div class="title">Halaman Facebook</div>
-                <div class="subtitle">Ride To Hell</div>
+                <div class="label">Halaman Facebook</div>
+                <div class="subtext">Ride To Hell</div>
             </div>
         </div>
-        <div class="right">Buka</div>
-    </div>
+        <div class="right-text">Buka</div>
+    </a>
 
 </div>
 
