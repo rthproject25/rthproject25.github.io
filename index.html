@@ -1,84 +1,91 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Ride To Hell</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ride To Hell</title>
 
-  <style>
-    body{
-      margin:0;
-      padding:30px 20px;
-      background:black;
-      color:white;
-      font-family: Arial, sans-serif;
-      display:flex;
-      justify-content:center;
-    }
-    .wrap{
-      max-width:900px;
-      width:100%;
-    }
-    .logo{
-      width:140px;
-      border-radius:12px;
-      margin-bottom:20px;
-      display:block;
-    }
-    h1{
-      font-size:42px;
-      font-weight:bold;
-      margin:0 0 10px 0;
-    }
-    p{
-      font-size:20px;
-      opacity:0.9;
-      line-height:28px;
-      margin-bottom:30px;
-      max-width:720px;
-    }
-    .btn{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding:14px 18px;
-      background:rgba(255,255,255,0.08);
-      border-radius:12px;
-      margin-bottom:14px;
-      text-decoration:none;
-      color:white;
-      font-size:18px;
-    }
-    .btn:hover{
-      background:rgba(255,255,255,0.15);
-    }
-    .icon{
-      font-size:22px;
-    }
-  </style>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            background-color: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo {
+            width: 180px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 25px rgba(255,255,255,0.1);
+        }
+
+        h1 {
+            font-size: clamp(32px, 6vw, 48px);
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: clamp(16px, 3vw, 20px);
+            max-width: 650px;
+            text-align: center;
+            line-height: 1.5;
+            opacity: 0.95;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            width: 90%;
+            max-width: 340px;
+            padding: 14px 20px;
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 14px;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            margin-bottom: 18px;
+            box-shadow: 0 0 22px rgba(255,255,255,0.08);
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #1c1c1c;
+            transform: scale(1.03);
+        }
+    </style>
 </head>
+
 <body>
-  <main class="wrap">
 
     <!-- LOGO -->
     <img class="logo" src="file_000000003a487206942539694d1573ae.png">
 
+    <!-- TITLE -->
     <h1>Ride To Hell</h1>
 
+    <!-- DESCRIPTION -->
     <p>Website ini resmi milik gue. Perjalanan dimulai — kerja keras, jalan sendiri, tetap gas.</p>
 
-    <!-- Instagram -->
+    <!-- IG BUTTON -->
     <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank">
-      <div class="icon">📸</div>
-      @ridetohhell.official
+        📸 @ridetohhell.official
     </a>
 
-    <!-- WhatsApp -->
+    <!-- WHATSAPP BUTTON -->
     <a class="btn" href="https://wa.me/6285882110680" target="_blank">
-      <div class="icon">💬</div>
-      Chat via WhatsApp
+        💬 Chat via WhatsApp
     </a>
 
-  </main>
 </body>
 </html>
