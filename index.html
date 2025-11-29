@@ -4,154 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ride To Hell</title>
+
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background: #000;
-            color: white;
+            color: #fff;
             text-align: center;
         }
-
         .container {
-            max-width: 480px;
+            max-width: 500px;
             margin: auto;
-            padding: 20px;
+            padding: 25px;
         }
 
-        .logo-box {
-            margin-top: 40px;
-            margin-bottom: 15px;
-        }
-
-        /* Logo Premium */
-        .logo-box svg {
-            width: 120px;
-            height: 120px;
-            border-radius: 22px;
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.25);
+        .logo {
+            width: 140px;
+            margin: 30px auto 10px auto;
+            display: block;
         }
 
         h1 {
-            font-size: 42px;
-            margin-bottom: 10px;
+            font-size: 40px;
             font-weight: 800;
+            margin-bottom: 10px;
         }
 
-        p.sub {
-            font-size: 17px;
+        p {
+            font-size: 16px;
+            opacity: .85;
             line-height: 1.5;
-            opacity: 0.8;
             margin-bottom: 35px;
         }
 
         .btn {
             background: rgba(255,255,255,0.05);
+            padding: 18px;
             border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 18px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             text-decoration: none;
             color: white;
-            border: 1px solid rgba(255,255,255,0.08);
         }
 
-        .btn-left {
+        .left {
             display: flex;
             align-items: center;
             gap: 14px;
         }
 
         .icon {
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
         }
 
-        .label {
-            font-size: 19px;
-            font-weight: 700;
-        }
-
-        .subtext {
-            font-size: 13px;
-            opacity: 0.7;
-            margin-top: 3px;
-        }
-
-        .right-text {
-            font-size: 15px;
-            opacity: .8;
-        }
+        .label { font-size: 18px; font-weight: 700; }
+        .subtext { font-size: 13px; opacity: .75; }
     </style>
 </head>
 <body>
 
 <div class="container">
 
-    <!-- LOGO PREMIUM TANPA FILE -->
-    <div class="logo-box">
-        <svg viewBox="0 0 120 120">
-            <rect width="120" height="120" rx="20" fill="black"/>
-            <circle cx="60" cy="60" r="48" fill="#c0392b"/>
-            <text x="60" y="78" fill="white" font-size="45" font-weight="900" text-anchor="middle" font-family="Arial">
-                RTH
-            </text>
-        </svg>
-    </div>
+    <img src="file_000000003a487206942539694d1573ae.png" class="logo">
 
     <h1>Ride To Hell</h1>
-    <p class="sub">
-        Website ini resmi milik gue. Perjalanan dimulai — kerja keras, jalan sendiri, tetap gas.
-    </p>
+    <p>Website ini resmi milik gue. Perjalanan dimulai — kerja keras, jalan sendiri, tetap gas.</p>
 
-    <!-- INSTAGRAM -->
+
+    <!-- IG -->
     <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank">
-        <div class="btn-left">
+        <div class="left">
             <img src="file_000000020807206a72845919b7e437f.png" class="icon">
             <div>
                 <div class="label">@ridetohhell.official</div>
                 <div class="subtext">Buka Instagram</div>
             </div>
         </div>
-        <div class="right-text">Buka</div>
+        <div>Buka</div>
     </a>
 
-    <!-- WHATSAPP -->
+    <!-- WA -->
     <a class="btn" href="https://wa.me/6285882110680" target="_blank">
-        <div class="btn-left">
+        <div class="left">
             <img src="file_0000000c8147206912a5f584721674f.png" class="icon">
             <div>
                 <div class="label">Chat via WhatsApp</div>
                 <div class="subtext">+62 858-8211-0680</div>
             </div>
         </div>
-        <div class="right-text">Chat</div>
+        <div>Chat</div>
     </a>
 
-    <!-- YOUTUBE -->
+    <!-- YT -->
     <a class="btn" href="https://youtube.com/@RTHProject25" target="_blank">
-        <div class="btn-left">
+        <div class="left">
             <img src="file_000000005aa07209aded73ff041cc2b4.png" class="icon">
             <div>
                 <div class="label">YouTube Channel</div>
                 <div class="subtext">@RTHProject25</div>
             </div>
         </div>
-        <div class="right-text">Watch</div>
+        <div>Watch</div>
     </a>
 
-    <!-- FACEBOOK -->
+    <!-- FB -->
     <a class="btn" href="https://www.facebook.com/profile.php?id=61583910659117" target="_blank">
-        <div class="btn-left">
+        <div class="left">
             <img src="file_00000000a72c72099e492e55677a6ef7.png" class="icon">
             <div>
                 <div class="label">Halaman Facebook</div>
                 <div class="subtext">Ride To Hell</div>
             </div>
         </div>
-        <div class="right-text">Buka</div>
+        <div>Buka</div>
     </a>
 
 </div>
