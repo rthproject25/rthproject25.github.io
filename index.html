@@ -1,46 +1,85 @@
 <!doctype html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ride To Hell</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ride To Hell</title>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 30px;
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
+  <!-- theme color for mobile (optional) -->
+  <meta name="theme-color" content="#000000">
 
-        .logo {
-            width: 160px;
-            margin-bottom: 25px;
-        }
+  <style>
+    :root{
+      --bg:#000;
+      --text:#fff;
+      --accent:#c73a34;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      padding:30px;
+      background-color:var(--bg);
+      color:var(--text);
+      font-family: "Inter", Arial, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
 
-        h1 {
-            font-size: 42px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+    .wrap{
+      max-width:900px;
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      align-items:flex-start;
+    }
 
-        p {
-            font-size: 20px;
-            margin-top: 0;
-            line-height: 28px;
-        }
-    </style>
+    /* logo */
+    .logo{
+      width:120px;
+      height:120px;
+      object-fit:contain;
+      border-radius:8px;
+      margin-bottom:8px;
+    }
+
+    /* heading & paragraph */
+    h1{
+      font-size:clamp(32px,8vw,64px);
+      line-height:1.02;
+      margin:0;
+      font-weight:800;
+      letter-spacing: -1px;
+    }
+    p{
+      margin:0;
+      font-size:clamp(16px,3.2vw,20px);
+      line-height:1.5;
+      opacity:0.95;
+      max-width:720px;
+    }
+
+    /* small screen center tweak */
+    @media(min-width:900px){
+      body{align-items:flex-start; padding:60px;}
+      .wrap{align-items:flex-start;}
+    }
+
+    /* helper: center content on very tall screens */
+    .spacer{height:20px;}
+  </style>
 </head>
-
 <body>
+  <main class="wrap">
+    <!-- GANTI NAMA FILE LOGO JIKA PERLU -->
+    <img class="logo" src="file_000000003a487206942539694d1573ae.png" alt="Ride To Hell Logo">
 
-    <!-- LOGO -->
-    <img src="file_000000003a487206942539694d1573ae.png" class="logo" alt="Ride To Hell Logo">
-
-    <!-- JUDUL & TEKS -->
     <h1>Ride To Hell</h1>
-    <p>Website ini resmi milik gue. Perjalanan dimulai.</p>
+    <p>Website ini resmi milik gue. Perjalanan dimulai — kerja keras, jalan sendiri, tetap gas.</p>
 
+    <div class="spacer"></div>
+  </main>
 </body>
 </html>
