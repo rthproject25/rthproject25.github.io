@@ -1,117 +1,88 @@
-/* ===========================
-   RIDE TO HELL — STYLING
-   Replace existing styles.css with this file
-   =========================== */
-
 :root{
-  --bg:#0b0b0b;
-  --panel:#0f0f0f;
-  --muted:#a8a8a8;
-  --accent:#b92c2c;
-  --white:#efefef;
-  --glass: rgba(255,255,255,0.03);
-  --card-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  --card-inner: 0 6px 18px rgba(0,0,0,0.5);
-  --radius:18px;
+    --bg:#000;
+    --panel:#111;
+    --text:#e8e8e8;
+    --accent:#b21d19;
 }
 
-/* Reset & base */
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;background:var(--bg);color:var(--white);font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
-a{color:var(--accent);text-decoration:none}
-.container{max-width:980px;margin:0 auto;padding:48px 20px 80px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
 
-/* Ensure all images never overflow */
-img{max-width:100%;height:auto;display:block;}
-
-/* Logo (hero) */
-.logo{
-  display:block;
-  margin:0 auto 18px;
-  width:100%;
-  max-width:520px;   /* desktop max */
-  border-radius:8px;
-  box-shadow: 0 18px 40px rgba(0,0,0,0.7);
-  background:linear-gradient(180deg, rgba(0,0,0,0.2), transparent);
+body{
+    background:var(--bg);
+    color:var(--text);
 }
 
-/* Headline & lead */
-h1{
-  font-size:40px;
-  letter-spacing:2px;
-  margin:18px 0 12px;
-  font-weight:800;
-  color:var(--white);
+.container{
+    width:92%;
+    max-width:900px;
+    margin:auto;
 }
-p{color:rgba(230,230,230,0.88);line-height:1.6;margin:8px 0}
 
-/* Cards list */
+/* HERO */
+.hero{
+    background-image:url('file_0000000079707207be1a2821720f5b52.png');
+    background-size:cover;
+    background-position:center;
+    padding:100px 0;
+    margin-bottom:20px;
+}
+
+.hero-inner{
+    background:rgba(0,0,0,0.55);
+    padding:25px;
+    border-radius:12px;
+}
+
+h1{font-size:42px;font-weight:800;margin-bottom:10px;}
+.lead{font-size:18px;margin-bottom:6px;}
+.muted{opacity:.85;margin-bottom:10px;}
+
+/* CARD */
 .card{
-  display:flex;
-  align-items:center;
-  gap:16px;
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  padding:14px;
-  margin:20px 0;
-  border-radius:14px;
-  box-shadow: var(--card-shadow);
-  overflow:hidden;
+    background:var(--panel);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px;
+    border-radius:16px;
+    margin-bottom:16px;
 }
 
-/* icon container (left) */
-.card .icon{
-  width:56px;
-  height:56px;
-  border-radius:12px;
-  flex:0 0 56px;
-  object-fit:cover;
-  background:#00000055;
-  display:block;
-  box-shadow: var(--card-inner);
+.left{
+    display:flex;
+    align-items:center;
+    gap:15px;
 }
 
-/* main text */
-.card .text{
-  flex:1;
-  color:var(--white);
-  font-weight:700;
-  font-size:16px;
+.icon{
+    width:45px;
+    height:45px;
 }
-.card .text small{display:block;font-weight:400;color:var(--muted);font-size:13px;margin-top:4px}
 
-/* button */
+.title{
+    font-size:17px;
+    font-weight:700;
+}
+
+.subtitle{
+    font-size:13px;
+    opacity:.7;
+}
+
+/* BTN */
 .btn{
-  display:inline-block;
-  background:var(--accent);
-  color:var(--white);
-  padding:10px 16px;
-  border-radius:12px;
-  text-align:center;
-  font-weight:700;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.45);
-  flex:0 0 auto;
-  margin-left:12px;
+    background:var(--accent);
+    padding:10px 18px;
+    color:white;
+    text-decoration:none;
+    font-size:15px;
+    border-radius:10px;
+    font-weight:bold;
 }
 
-/* Footer */
-footer{margin-top:36px;color:var(--muted);font-size:14px}
-
-/* Small screens adjustments */
-@media (max-width:720px){
-  .container{padding:28px 18px 60px}
-  h1{font-size:34px}
-  .card{padding:12px;gap:12px;border-radius:12px}
-  .card .icon{width:48px;height:48px;flex:0 0 48px}
-  .btn{padding:8px 12px;border-radius:10px}
-  .logo{max-width:420px}
+footer{
+    text-align:center;
+    font-size:13px;
+    opacity:.7;
+    margin:40px 0;
 }
-
-/* Very small screens - make layout compact */
-@media (max-width:420px){
-  h1{font-size:30px}
-  .text{font-size:15px}
-  .card{flex-wrap:nowrap}
-}
-
-/* Accessibility: focus outlines */
-a:focus, .btn:focus{outline:3px solid rgba(255,46,46,0.18);outline-offset:3px}
