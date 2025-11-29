@@ -3,150 +3,191 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Ride To Hell</title>
-
+<title>Ride To Hell — Premium</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#000;
-    --card:#0f0f10;
+    --panel:#0b0b0b;
     --muted:rgba(255,255,255,0.65);
+    --white: #ffffff;
+    --rth-red: #b23a34;
+    --rth-red-2: #7e1f1b;
     --accent:#2f6bff;
-    --radius:18px;
-  }
-  html,body{
-    margin:0;padding:0;
-    background:var(--bg);color:#fff;
-    font-family:Inter,system-ui,Arial;
-  }
-  .wrap{
-    display:flex;flex-direction:column;
-    align-items:center;padding:32px 18px 60px;
+    --card-glow: 0 30px 60px rgba(178,58,52,0.12);
+    --radius:20px;
+    --glass: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.25));
   }
 
-  /* Logo */
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:var(--bg);font-family:'Inter',system-ui,Arial;color:var(--white);-webkit-font-smoothing:antialiased}
+  .page{
+    min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:48px 20px;
+    background: radial-gradient(circle at 50% 5%, rgba(178,58,52,0.06), transparent 180px);
+  }
+
+  .container{width:100%;max-width:920px}
+
+  /* Logo + header */
+  .top{
+    display:flex;flex-direction:column;align-items:center;gap:18px;margin-bottom:22px;
+    transform:translateY(0);animation:fadeIn .45s ease both;
+  }
+
   .logo{
-    width:120px;height:120px;border-radius:28px;
-    display:flex;align-items:center;justify-content:center;
-    margin-top:14px;
-    background:linear-gradient(180deg,#4f120f,#8b2f2a);
-    box-shadow:0 20px 50px rgba(0,0,0,0.6),
-                0 0 60px rgba(140,20,20,0.15);
-    border:1px solid rgba(255,255,255,0.04);
+    width:132px;height:132px;border-radius:26px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(180deg,var(--rth-red),var(--rth-red-2));
+    box-shadow: 0 40px 90px rgba(0,0,0,0.7), 0 20px 60px rgba(178,58,52,0.15) inset;
+    position:relative;
   }
-  .logo span{font-weight:800;font-size:36px;letter-spacing:2px}
-
-  h1{font-size:44px;margin:22px 0 8px}
-  p.sub{
-    color:var(--muted);max-width:820px;
-    text-align:center;font-size:16px;line-height:1.6;
+  .logo::after{
+    content:'';position:absolute;inset:-18px;border-radius:30px;
+    background: radial-gradient(circle at 50% 50%, rgba(178,58,52,0.16), transparent 40%);
+    filter:blur(30px);opacity:.9;
   }
+  .logo-text{font-weight:900;font-size:44px;letter-spacing:2px;color:#fff;pointer-events:none}
 
-  /* Card */
+  h1{font-size:52px;margin:0;font-weight:900;text-align:center;line-height:1; color:var(--white); text-shadow: 0 6px 30px rgba(0,0,0,0.6)}
+  p.lead{max-width:860px;text-align:center;color:var(--muted);margin:0 0 18px;font-size:16px;line-height:1.6}
+
+  /* list of links */
+  .list{display:flex;flex-direction:column;gap:18px;margin-top:8px}
+
   .card{
-    width:100%;max-width:880px;
-    background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.15));
-    border-radius:var(--radius);
-    padding:16px 20px;margin:14px 0;
-    display:flex;align-items:center;justify-content:space-between;
-    box-shadow:0 10px 30px rgba(0,0,0,0.6);
+    display:flex;align-items:center;justify-content:space-between;padding:16px;border-radius:16px;
+    background:var(--glass);backdrop-filter: blur(6px);
+    box-shadow: var(--card-glow);border:1px solid rgba(255,255,255,0.03);
+    transition:transform .18s ease, box-shadow .18s ease;
   }
-
+  .card:hover{transform:translateY(-6px);box-shadow:0 40px 90px rgba(0,0,0,0.65), 0 30px 80px rgba(178,58,52,0.12)}
   .left{display:flex;align-items:center;gap:14px}
-
-  .icon-wrap{
-    width:46px;height:46px;border-radius:12px;
-    background:rgba(255,255,255,0.05);
-    display:flex;align-items:center;justify-content:center;
+  .icon{
+    width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,0.03);flex:0 0 56px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
   }
 
-  .title{font-weight:700;font-size:18px}
-  .meta{color:var(--muted);font-size:13px;margin-top:4px}
-  .action{color:var(--accent);font-weight:700;text-decoration:none}
+  .title{font-weight:800;font-size:18px}
+  .meta{font-size:13px;color:var(--muted);margin-top:4px}
+
+  .action{color:var(--accent);font-weight:800;text-decoration:none;margin-left:18px}
+  .action.button{
+    padding:8px 12px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);
+    color:var(--white);font-weight:700;transition:all .15s ease;
+  }
+  .action.button:hover{background:rgba(255,255,255,0.03);transform:translateY(-2px)}
+
+  /* colored CTA on right */
+  .cta{color:rgba(70,150,255,0.96);font-weight:800;text-decoration:none;padding:6px 10px;border-radius:8px}
+
+  /* responsive */
+  @media (max-width:520px){
+    h1{font-size:40px}
+    .logo{width:110px;height:110px}
+    .card{padding:14px}
+    .icon{width:48px;height:48px}
+  }
+
+  /* small animation */
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 </style>
 </head>
-
 <body>
-<div class="wrap">
+  <div class="page">
+    <div class="container">
 
-  <!-- LOGO -->
-  <div class="logo"><span>RTH</span></div>
+      <div class="top">
+        <!-- custom RTH premium logo (vector text) -->
+        <div class="logo" aria-hidden="true">
+          <div class="logo-text">RTH</div>
+        </div>
 
-  <h1>Ride To Hell</h1>
-  <p class="sub">Teritori ini resmi milik gue. Jalan gelap, kerja keras, berdiri sendiri — RTH tetap melaju.</p>
+        <h1>Ride To Hell</h1>
+        <p class="lead">Teritori ini resmi milik gue. Jalan gelap, kerja keras, berdiri sendiri — RTH tetap melaju.</p>
+      </div>
 
-  <!-- INSTAGRAM -->
-  <div class="card">
-    <div class="left">
-      <div class="icon-wrap">
-        <!-- IG -->
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
-          <rect x="3" y="3" width="18" height="18" rx="5"/>
-          <circle cx="12" cy="12" r="3.2"/>
-          <circle cx="17.5" cy="6.5" r="0.8" fill="#fff" stroke="none"/>
-        </svg>
-      </div>
-      <div>
-        <div class="title">@ridetohhell.official</div>
-        <div class="meta">Instagram Resmi</div>
-      </div>
-    </div>
-    <a class="action" href="https://instagram.com/ridetohhell.official" target="_blank">Buka</a>
-  </div>
+      <div class="list">
+        <!-- INSTAGRAM -->
+        <div class="card">
+          <div class="left">
+            <div class="icon" aria-hidden="true">
+              <!-- colored IG logo SVG -->
+              <svg width="26" height="26" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="g1" x1="0" x2="1">
+                    <stop offset="0" stop-color="#feda75"/>
+                    <stop offset="0.35" stop-color="#fa7e1e"/>
+                    <stop offset="0.6" stop-color="#d62976"/>
+                    <stop offset="1" stop-color="#962fbf"/>
+                  </linearGradient>
+                </defs>
+                <rect x="48" y="48" width="416" height="416" rx="96" fill="url(#g1)"/>
+                <circle cx="256" cy="256" r="96" fill="#fff"/>
+                <circle cx="256" cy="256" r="64" fill="url(#g1)"/>
+                <circle cx="392" cy="120" r="16" fill="#fff"/>
+              </svg>
+            </div>
+            <div>
+              <div class="title">@ridetohhell.official</div>
+              <div class="meta">Instagram Resmi</div>
+            </div>
+          </div>
+          <a class="action cta" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener">Buka</a>
+        </div>
 
-  <!-- WHATSAPP -->
-  <div class="card">
-    <div class="left">
-      <div class="icon-wrap">
-        <!-- WA -->
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
-          <path d="M20.5 3.5C18.8 1.8 16.6 1 14.1 1 9.6 1 6 4.6 6 9.1c0 1.2.3 2.5.9 3.6L4 20.5l7.9-2.2c1.1.6 2.3.9 3.6.9 4.5 0 8.1-3.6 8.1-8.1 0-2.6-.9-4.8-2.9-6.2z"/>
-          <path d="M8.2 11.6c.5 1.1 1.6 2.1 3.1 2.6" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div>
-        <div class="title">Chat via WhatsApp</div>
-        <div class="meta">+62 858-8211-0680</div>
-      </div>
-    </div>
-    <a class="action" href="https://wa.me/6285882110680" target="_blank">Chat</a>
-  </div>
+        <!-- WHATSAPP -->
+        <div class="card">
+          <div class="left">
+            <div class="icon" aria-hidden="true" style="background:linear-gradient(180deg,#185A37,#0e3b23)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21.7 2.3C19.8.4 17.1 0 14.4 0 8.1 0 3 5.1 3 11.4c0 2.1.5 4.1 1.6 5.9L0 24l7-4.2c1.7 1 3.7 1.5 5.7 1.5 6.3 0 11.4-5.1 11.4-11.4 0-2.7-.4-5.4-1.7-7.6zM12 19.2c-1.7 0-3.3-.5-4.7-1.4l-.3-.2-4.1 2.4 1.3-3.9-.2-.3C3.1 14.1 2.6 12 2.6 11.4 2.6 6.2 6.8 2 12 2c1.9 0 3.6.6 5 1.9 1.3 1.3 2 3 2 4.9 0 6.1-5 11.4-11 11.4z"/>
+                <path d="M17.2 13.1c-.3-.2-1.8-.9-2-.9-.2 0-.4-.1-.6.1-.2.2-.8.9-1 .9-.2 0-.5-.1-.8-.5-.4-.5-1-.6-1.4-.7-.3 0-.6 0-.9.1-.3.1-.8.3-1.2.6-.4.3-.7.9-.9 1.4-.2.5-.1.9.2 1.2.3.3.7.8 1.5 1.4.9.7 1.8.9 2.3 1.1.5.2 1 .2 1.3.1.3-.1 1-.5 1.1-1 .1-.6.2-1.1.1-1.2-.1-.2-.2-.2-.5-.4z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="title">Chat via WhatsApp</div>
+              <div class="meta">+62 858-8211-0680</div>
+            </div>
+          </div>
+          <a class="action cta" href="https://wa.me/6285882110680" target="_blank" rel="noopener">Chat</a>
+        </div>
 
-  <!-- YOUTUBE -->
-  <div class="card">
-    <div class="left">
-      <div class="icon-wrap">
-        <!-- YT -->
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff">
-          <rect x="2.5" y="6.5" width="19" height="11" rx="3" fill="none" stroke="#fff" stroke-width="1.4"/>
-          <path d="M10 9.5l5 2.5-5 2.5z"/>
-        </svg>
-      </div>
-      <div>
-        <div class="title">YouTube Channel</div>
-        <div class="meta">@RTHProject25</div>
-      </div>
-    </div>
-    <a class="action" href="https://youtube.com/@RTHProject25" target="_blank">Watch</a>
-  </div>
+        <!-- YOUTUBE -->
+        <div class="card">
+          <div class="left">
+            <div class="icon" aria-hidden="true" style="background:linear-gradient(180deg,#e52d27,#b31217);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+                <path d="M23.5 6.2c-.3-1-1.2-1.8-2.2-2-2-0.4-10.8-0.4-10.8-0.4s-8.8 0-10.8 0.4c-1 0.2-1.9 1-2.2 2C-0.1 8.2-0.1 12-0.1 12s0 3.8 0.4 5.8c.3 1 1.2 1.8 2.2 2 2 0.4 10.8 0.4 10.8 0.4s8.8 0 10.8-0.4c1-.2 1.9-1 2.2-2 0.4-2 .4-5.8.4-5.8s0-3.8-.4-5.8z"/>
+                <path d="M9.9 15.6V8.4l6.2 3.6-6.2 3.6z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="title">YouTube Channel</div>
+              <div class="meta">@RTHProject25</div>
+            </div>
+          </div>
+          <a class="action cta" href="https://youtube.com/@RTHProject25" target="_blank" rel="noopener">Watch</a>
+        </div>
 
-  <!-- FACEBOOK -->
-  <div class="card">
-    <div class="left">
-      <div class="icon-wrap">
-        <!-- FB -->
-        <svg width="22" height="22" viewBox="0 0 24 24" stroke="#fff" fill="none">
-          <rect x="2.5" y="2.5" width="19" height="19" rx="3" stroke-width="1.4"/>
-          <path d="M14.2 8.2h-1.2c-.5 0-.8.3-.8.8v1h2l-.3 2h-1.7v5h-2v-5h-1v-2h1v-1.2c0-1 .6-1.8 1.8-1.8h1.4v2z" fill="#fff" stroke="none"/>
-        </svg>
-      </div>
-      <div>
-        <div class="title">Halaman Facebook</div>
-        <div class="meta">Ride To Hell</div>
-      </div>
-    </div>
-    <a class="action" href="https://facebook.com/RideToHell" target="_blank">Buka</a>
-  </div>
+        <!-- FACEBOOK -->
+        <div class="card">
+          <div class="left">
+            <div class="icon" aria-hidden="true" style="background:linear-gradient(180deg,#3b5998,#2a4373)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.12 8.5h-1.62c-.4 0-.9.2-.9.9v1.3h2.5l-.4 2.3h-2.1V22H10v-8.1H8.1v-2.3H10V9.4c0-2.2 1.4-3.4 3.3-3.4.9 0 1.8.1 2.2.1v2.4z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="title">Halaman Facebook</div>
+              <div class="meta">Ride To Hell</div>
+            </div>
+          </div>
+          <a class="action cta" href="https://facebook.com/RideToHell" target="_blank" rel="noopener">Buka</a>
+        </div>
 
-</div>
+      </div><!-- list -->
+    </div><!-- container -->
+  </div><!-- page -->
 </body>
 </html>
