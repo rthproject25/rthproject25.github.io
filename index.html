@@ -1,126 +1,150 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Ride To Hell</title>
-<style>
-  :root { --bg:#000; --card:#0f0f0f; --soft:#fff; --muted:rgba(255,255,255,0.78); }
-  html,body { height:100%; }
-  body {
-    margin:0;
-    padding:40px 20px;
-    background:var(--bg);
-    color:var(--soft);
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ride To Hell (RTH)</title>
 
-  main {
-    max-width:740px;
-    margin:0 auto;
-  }
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+        }
 
-  .logo {
-    width:130px;
-    height:130px;
-    object-fit:contain;
-    display:block;
-    margin-bottom:28px;
-  }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 40px 20px;
+        }
 
-  h1 {
-    font-size:46px;
-    margin:0 0 18px 0;
-    font-weight:800;
-    letter-spacing:-1px;
-  }
+        img.logo {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 25px;
+            border-radius: 20px;
+        }
 
-  .lead {
-    font-size:18px;
-    line-height:1.6;
-    color:var(--muted);
-    margin-bottom:28px;
-    max-width:760px;
-  }
+        h1 {
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-  .btn {
-    display:flex;
-    align-items:center;
-    gap:16px;
-    background:var(--card);
-    padding:14px;
-    border-radius:14px;
-    margin-bottom:18px;
-    text-decoration:none;
-    color:var(--soft);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 40px rgba(255,255,255,0.03) inset;
-  }
+        p.lead {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 45px;
+            color: #ddd;
+        }
 
-  .btn .icon-wrap{
-    width:52px;
-    height:52px;
-    min-width:52px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:rgba(255,255,255,0.02);
-    overflow:hidden;
-  }
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
 
-  .btn img.icon {
-    width:36px;
-    height:36px;
-    object-fit:contain;
-    display:block;
-  }
+        .btn {
+            display: flex;
+            align-items: center;
+            background: #111;
+            padding: 15px 18px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: white;
+            transition: 0.2s;
+        }
 
-  .texts { display:flex; flex-direction:column; }
-  .title { font-weight:700; font-size:17px; margin:0; }
-  .subtitle { margin:4px 0 0 0; font-size:13px; color:var(--muted); }
+        .btn:hover {
+            background: #222;
+        }
 
-  /* responsive */
-  @media (max-width:420px){
-    h1 { font-size:36px; }
-    .logo{width:100px;height:100px;}
-    .btn{padding:12px;border-radius:12px;}
-    .btn .icon-wrap{width:46px;height:46px;min-width:46px;}
-  }
-</style>
+        .icon img {
+            width: 32px;
+            height: 32px;
+            margin-right: 15px;
+        }
+
+        .text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+    </style>
 </head>
+
 <body>
-<main>
-  <!-- GANTI NAMA FILE DI BAWAH JIKA PERLU (harus sama persis dgn file di repo) -->
-  <img class="logo" src="file_000000003a487206942539694d1573ae.png" alt="Ride To Hell Logo">
+    <div class="container">
 
-  <h1>Ride To Hell</h1>
+        <!-- Logo -->
+        <img src="file_00000003a487206942539694d1573ae.png" class="logo" />
 
-  <p class="lead">Website ini resmi milik gue. Perjalanan dimulai — kerja keras, jalan sendiri, tetap gas.</p>
+        <h1>Ride To Hell</h1>
+        <p class="lead">
+            Website ini resmi milik gue. Perjalanan dimulai — kerja keras, jalan sendiri, tetap gas.
+        </p>
 
-  <div class="links">
-    <!-- Instagram -->
-    <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener">
-      <span class="icon-wrap">
-        <img class="icon" src="file_0000000020807206a72845919b7e437f.png" alt="Instagram">
-      </span>
-      <div class="texts">
-        <div class="title">@ridetohhell.official</div>
-        <div class="subtitle">Buka Instagram</div>
-      </div>
-    </a>
+        <div class="links">
 
-    <!-- WhatsApp -->
-    <a class="btn" href="https://wa.me/6285882110680" target="_blank" rel="noopener">
-      <span class="icon-wrap">
-        <img class="icon" src="file_00000000c8147206912a5f584721674f.png" alt="WhatsApp">
-      </span>
-      <div class="texts">
-        <div class="title">Chat via WhatsApp</div>
-        <div class="subtitle">+62 858-8211-0680</div>
-      </div>
-    </a>
-  </div>
-</main>
+            <!-- Instagram -->
+            <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank">
+                <span class="icon">
+                    <img src="file_0000000020807206a72845919b7e437f.png" />
+                </span>
+                <span class="text">
+                    <span class="title">@ridetohhell.official</span>
+                    <span class="subtitle">Buka Instagram</span>
+                </span>
+            </a>
+
+            <!-- WhatsApp -->
+            <a class="btn" href="https://wa.me/6285882110680" target="_blank">
+                <span class="icon">
+                    <img src="file_00000000c8147206912a5f584721674f.png" />
+                </span>
+                <span class="text">
+                    <span class="title">Chat via WhatsApp</span>
+                    <span class="subtitle">+62 858-8211-0680</span>
+                </span>
+            </a>
+
+            <!-- YouTube -->
+            <a class="btn" href="https://www.youtube.com/@RTHProject25" target="_blank">
+                <span class="icon">
+                    <img src="file_000000005aa07209ade.png" />
+                </span>
+                <span class="text">
+                    <span class="title">YouTube Channel</span>
+                    <span class="subtitle">@RTHProject25</span>
+                </span>
+            </a>
+
+            <!-- Facebook -->
+            <a class="btn" href="https://www.facebook.com/profile.php?id=61583910659117" target="_blank">
+                <span class="icon">
+                    <img src="file_00000000a72c72099e4.png" />
+                </span>
+                <span class="text">
+                    <span class="title">Halaman Facebook</span>
+                    <span class="subtitle">Ride To Hell</span>
+                </span>
+            </a>
+
+        </div>
+
+    </div>
 </body>
 </html>
