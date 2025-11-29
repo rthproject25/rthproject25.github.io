@@ -1,166 +1,25 @@
-:root{
-  --bg:#080808;
-  --panel-bg: rgba(6,6,6,0.6);
-  --card-bg: rgba(10,8,8,0.55);
-  --muted: #cfcfcf;
-  --accent1: #b83b34;
-  --accent2: #7a1f1a;
-  --white: #efefef;
-  --card-radius:20px;
-  --maxw:680px;
-}
+/* ========== Minor polish: hero spacing ========== */
+/* paste this at the end of styles.css */
 
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  background:
-    radial-gradient(1200px 600px at 10% 8%, rgba(184,59,52,0.06), transparent 8%),
-    linear-gradient(180deg,#030303 0%, #070707 50%, #020202 100%);
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  color:var(--white);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  padding:18px;
-}
-
-/* Page center */
-.page-wrap{ display:flex; align-items:flex-start; justify-content:center; padding-top:18px; }
-
-/* Main panel */
-.panel{
-  width:94%;
-  max-width:var(--maxw);
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.3));
-  border-radius:28px;
-  padding:28px;
-  box-shadow:
-    0 30px 80px rgba(0,0,0,0.7),
-    0 2px 0 rgba(255,255,255,0.02) inset;
-  border:1px solid rgba(184,59,52,0.06);
-  position:relative;
-  overflow:hidden;
-}
-
-/* subtle texture behind panel using provided background image */
-.panel::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-image: url('file_0000000079707207be1a2821720f5b52.png');
-  background-size: cover;
-  background-position: center;
-  opacity:0.12;
-  mix-blend-mode: multiply;
-  filter: blur(18px) saturate(60%);
-  pointer-events:none;
-}
-
-/* Header */
-.panel-head{
-  display:flex;
-  gap:18px;
-  align-items:flex-start;
-  position:relative;
-  padding-bottom:18px;
-}
-
-/* small top-right BLOOD switch */
-.blood-toggle{
-  position:absolute;
-  right:18px;
-  top:18px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  color:rgba(255,255,255,0.85);
-  font-weight:800;
-  letter-spacing:1px;
-  opacity:0.85;
-}
-.blood-toggle .toggle-dot{
-  width:40px;height:24px;border-radius:14px;
-  background: linear-gradient(180deg,#6f1512,#a82724);
-  box-shadow: 0 6px 18px rgba(168,50,46,0.28), inset 0 -3px 6px rgba(0,0,0,0.35);
-}
-
-/* logo block */
-.logo-block{ flex:0 0 68px; display:flex; align-items:center; justify-content:center; }
-.logo-img{ width:68px; height:68px; border-radius:14px; object-fit:cover; box-shadow: 0 12px 28px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02); }
-
-/* hero text */
-.hero-text{ flex:1; }
 .hero-text h1{
-  font-size:44px;
-  margin:0 0 10px 0;
-  font-weight:900;
-  letter-spacing:2px;
-  color:var(--white);
-  text-shadow: 0 6px 20px rgba(0,0,0,0.8), 0 0 12px rgba(184,59,52,0.14);
-}
-.lead{ font-size:16px; color:rgba(255,255,255,0.9); margin-bottom:10px; line-height:1.6;}
-.muted{ color:var(--muted); font-weight:800; margin-top:6px; }
-
-/* list of cards */
-.list-cards{ margin-top:6px; display:flex; flex-direction:column; gap:18px; }
-
-/* each card */
-.card{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:18px;
-  border-radius:18px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18));
-  border:1px solid rgba(255,255,255,0.02);
-  box-shadow:
-    0 18px 40px rgba(0,0,0,0.6),
-    inset 0 1px 0 rgba(255,255,255,0.02),
-    0 8px 28px rgba(184,59,52,0.06);
+  line-height:1.02;            /* sedikit rapat tapi tetap jelas */
+  margin-bottom:8px;          /* space antara judul & lead */
+  letter-spacing:1.6px;
 }
 
-/* left cluster */
-.card .left{ display:flex; gap:14px; align-items:center; min-width:0; flex:1; }
-
-/* icon circle */
-.icon-circle{
-  width:56px;height:56px;border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(255,255,255,0.02));
-  border:1px solid rgba(255,255,255,0.02);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.6) inset;
-  flex:0 0 56px;
+/* longgarkan jarak antar paragraf di hero */
+.hero-text .lead,
+.hero-text .muted{
+  margin-bottom:14px;
+  letter-spacing:0.2px;
 }
-.icon-circle img{ width:26px; height:26px; filter:brightness(0) invert(1); opacity:0.95; }
 
-/* meta text */
-.meta .title{ font-weight:900; font-size:16px; color:var(--white); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.meta .sub{ font-size:13px; color:rgba(235,235,235,0.7); margin-top:4px; }
-
-/* CTA pill */
-.btn{
-  background: linear-gradient(180deg,var(--accent1), var(--accent2));
-  color: #fff;
-  padding:10px 18px;
-  border-radius:20px;
-  text-decoration:none;
-  font-weight:900;
-  box-shadow: 0 12px 30px rgba(184,59,52,0.28), inset 0 -4px 8px rgba(0,0,0,0.25);
-  border: none;
-  transition: transform .12s ease, opacity .12s ease;
-  flex-shrink:0;
-}
-.btn:active{ transform:translateY(1px); }
-.btn:hover{ opacity:0.98; transform:translateY(-1px); }
-
-/* panel footer */
-.panel-foot{ margin-top:22px; text-align:center; color:rgba(255,255,255,0.7); font-size:14px; }
-
-/* responsive */
-@media (max-width:520px){
-  .hero-text h1{ font-size:34px; }
-  .logo-img{ width:58px;height:58px; }
-  .icon-circle{ width:48px;height:48px; flex:0 0 48px; }
-  .btn{ padding:8px 14px; font-size:14px; border-radius:18px; }
-  .panel{ padding:20px; border-radius:22px; }
+/* mobile tweak: jangan pecah baris judul terlalu awal */
+@media (max-width:420px){
+  .hero-text h1{
+    font-size:36px;
+    line-height:1.04;
+    margin-bottom:10px;
+  }
+  .panel{ padding-left:22px; padding-right:22px; } /* sedikit napas di pinggir */
 }
