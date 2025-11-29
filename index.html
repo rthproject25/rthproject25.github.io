@@ -8,11 +8,13 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='18' width='100' height='100' fill='%234a0f0f'/><text x='50' y='58' font-size='40' font-family='Inter,Segoe UI,Roboto' fill='white' text-anchor='middle' font-weight='700'>RTH</text></svg>">
 
 <style>
-  /* Base */
+  /* ------------------------
+     THEME + BASE
+     ------------------------ */
   :root{
     --bg: #000;
     --card: #0e0e0e;
-    --accent: #6f1b1b;        /* deep blood red (default blood) */
+    --accent: #6f1b1b;
     --accent-2: #9a2b2b;
     --muted: rgba(255,255,255,0.12);
     --glass: rgba(255,255,255,0.03);
@@ -26,20 +28,6 @@
     --logo-shadow: 0 8px 30px rgba(111,27,27,0.28);
     --preloader-bg: linear-gradient(145deg,var(--accent-2),#3b0a0a);
   }
-
-  /* Dark mode variables (default) */
-  :root[data-theme="dark"]{
-    --bg: #000;
-    --card: #0e0e0e;
-    --accent: #6f1b1b;
-    --accent-2: #9a2b2b;
-    --btn-accent-start: var(--accent-2);
-    --btn-accent-end: var(--accent);
-    --logo-shadow: 0 8px 30px rgba(111,27,27,0.28);
-    --preloader-bg: linear-gradient(145deg,var(--accent-2),#3b0a0a);
-  }
-
-  /* Blood-red mode variables */
   :root[data-theme="blood"]{
     --bg: linear-gradient(180deg,#080000 0%, #0b0505 100%);
     --card: rgba(20,6,6,0.55);
@@ -79,13 +67,12 @@
     transition: box-shadow .45s var(--ease), background .45s var(--ease);
   }
 
-  /* top bar with mode switch */
-  .topbar{
-    position:absolute; right:18px; top:18px; display:flex; gap:12px; align-items:center; z-index:6;
-  }
+  /* ------------------------
+     TOPBAR: MODE SWITCH
+     ------------------------ */
+  .topbar{ position:absolute; right:18px; top:18px; display:flex; gap:12px; align-items:center; z-index:6; }
   .mode-label{ font-size:12px; opacity:0.75; font-weight:700; letter-spacing:0.6px; }
 
-  /* custom toggle */
   .toggle {
     --w:54px; --h:30px; position:relative; width:var(--w); height:var(--h); border-radius:999px; background: rgba(255,255,255,0.04); display:inline-flex; align-items:center; padding:4px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
     transition: background .3s var(--ease), box-shadow .3s var(--ease);
@@ -96,16 +83,19 @@
   .toggle[data-state="dark"]{ background: rgba(255,255,255,0.04); }
   .toggle:focus{ outline: 3px solid rgba(255,255,255,0.035); outline-offset:4px; }
 
-  /* preloader */
+  /* ------------------------
+     PRELOADER
+     ------------------------ */
   .preloader { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:var(--bg); z-index:99; transition:opacity .6s var(--ease), visibility .6s var(--ease); }
   .preloader.hide{opacity:0; visibility:hidden; pointer-events:none}
   .loader-logo{ width:120px; height:120px; border-radius:22px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:36px; color:#fff; background:var(--preloader-bg); box-shadow:var(--logo-shadow); transform-origin:center; animation:loaderpop .7s cubic-bezier(.16,.84,.24,1) 1; }
   @keyframes loaderpop{0%{transform:scale(.7)}60%{transform:scale(1.05)}100%{transform:scale(1)}}
 
+  /* ------------------------
+     HERO & LINKS
+     ------------------------ */
   .hero{ display:grid; grid-template-columns:96px 1fr; gap:20px; align-items:center; }
   .logo { width:96px; height:96px; border-radius:18px; background:linear-gradient(160deg,var(--accent-2),var(--accent)); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:30px; color:white; box-shadow: var(--logo-shadow); transform:translateY(0); transition:transform .6s var(--ease), box-shadow .6s var(--ease); }
-  .logo.small{ width:72px; height:72px; border-radius:14px; font-size:22px }
-
   .title { text-align:left; }
   h1{ margin:0; font-size:34px; letter-spacing:0.6px; line-height:1; font-weight:800; }
   .subtitle{ margin-top:10px; color:rgba(255,255,255,0.86); font-size:15px; line-height:1.45; opacity:0.95; }
@@ -113,10 +103,10 @@
   .links{ margin-top:26px; display:grid; gap:14px; }
   .link { display:flex; align-items:center; justify-content:space-between; gap:12px; background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01)); border-radius:14px; padding:14px 16px; text-decoration:none; color:var(--text); box-shadow: 0 6px 18px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.03); transition:transform .28s var(--ease), box-shadow .28s var(--ease), background .28s var(--ease); will-change:transform; }
   .link:hover{ transform:translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.55); }
-  .link .meta{ display:flex; gap:12px; align-items:center; }
+  .meta{ display:flex; gap:12px; align-items:center; }
   .icon-wrap{ width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:var(--glass); flex-shrink:0; box-shadow: inset 0 1px 0 rgba(255,255,255,0.02); }
-  .link .text .line1{ display:block; font-weight:700; font-size:16px; }
-  .link .text .line2{ display:block; font-size:13px; opacity:0.7; margin-top:2px }
+  .line1{ display:block; font-weight:700; font-size:16px; }
+  .line2{ display:block; font-size:13px; opacity:0.7; margin-top:2px }
   .cta{ font-weight:800; font-size:14px; color:var(--btn-cta-color); padding:6px 12px; border-radius:10px; background: var(--link-cta-bg); box-shadow: 0 6px 22px rgba(111,27,27,0.28); border:1px solid rgba(255,255,255,0.05); }
 
   .glow { position:absolute; inset:auto 40px 40px auto; width:160px; height:160px; border-radius:50%; background: radial-gradient(circle at 30% 30%, rgba(154,43,43,0.12), rgba(111,27,27,0.06) 30%, transparent 40%); filter:blur(30px); pointer-events:none; z-index:0; transition: right .3s var(--ease), bottom .3s var(--ease); }
@@ -131,19 +121,42 @@
     .topbar{ right:12px; top:12px }
   }
 
-  .card { opacity:0; transform: translateY(18px); transition:opacity .7s var(--ease), transform .7s var(--ease); }
-  .card.visible { opacity:1; transform: translateY(0) }
-  .link { opacity:0; transform: translateY(8px); transition:opacity .5s var(--ease), transform .5s var(--ease) }
-  .link.show { opacity:1; transform: translateY(0) }
+  /* ------------------------
+     REVEAL ANIMATIONS (SCROLL)
+     ------------------------ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .62s var(--ease), transform .62s var(--ease);
+    will-change: opacity, transform;
+  }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-18px);
+    transition: opacity .62s var(--ease), transform .62s var(--ease);
+  }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(18px);
+    transition: opacity .62s var(--ease), transform .62s var(--ease);
+  }
+  .reveal.show {
+    opacity:1;
+    transform: none;
+  }
 
-  /* reduced motion */
+  /* Stagger control for group reveals */
+  .stagger-children .reveal { transition-delay: 0s; }
+  .stagger-children .reveal.show { transition-delay: var(--reveal-delay, 0s); }
+
+  /* reduced motion override */
   @media (prefers-reduced-motion: reduce){
-    .card, .link, .preloader, .logo { transition: none !important; animation: none !important; }
+    .reveal, .reveal-left, .reveal-right { transition: none !important; transform: none !important; opacity: 1 !important; }
   }
 </style>
 </head>
 <body>
-  <!-- Preloader -->
+  <!-- PRELOADER -->
   <div class="preloader" id="preloader" aria-hidden="false">
     <div class="loader-logo" aria-hidden="true">RTH</div>
   </div>
@@ -161,21 +174,26 @@
         </button>
       </div>
 
+      <!-- HERO -->
       <div class="hero">
-        <div class="logo" id="logo-el" aria-hidden="false">RTH</div>
+        <!-- logo revealed from left -->
+        <div class="logo reveal-left" id="logo-el" aria-hidden="false">RTH</div>
 
         <div class="title">
-          <h1 id="site-title">RIDE TO HELL</h1>
-          <p class="subtitle">
+          <!-- headline revealed -->
+          <h1 id="site-title" class="reveal">RIDE TO HELL</h1>
+          <!-- subtitle revealed with small delay -->
+          <p class="subtitle reveal" style="--reveal-delay: .08s;">
             Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.
             <br><strong>RTH bukan sekadar nama — ini cara gue bertahan.</strong>
           </p>
         </div>
       </div>
 
-      <div class="links" id="links">
+      <!-- LINKS: wrap with stagger so children animate sequentially -->
+      <div class="links stagger-children" id="links">
         <!-- Instagram -->
-        <a class="link" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener noreferrer" aria-label="Buka Instagram Ride To Hell">
+        <a class="link reveal" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener noreferrer" aria-label="Buka Instagram Ride To Hell" style="--reveal-delay:.12s">
           <div class="meta">
             <div class="icon-wrap" aria-hidden="true">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-opacity="0.9" stroke-width="1.3"/><circle cx="12" cy="12" r="3.1" stroke="white" stroke-opacity="0.95" stroke-width="1.3"/><circle cx="17.5" cy="6.5" r="0.8" fill="white"/></svg>
@@ -189,7 +207,7 @@
         </a>
 
         <!-- WhatsApp -->
-        <a class="link" href="https://wa.me/6285882110680" target="_blank" rel="noopener noreferrer" aria-label="Chat WhatsApp Ride To Hell">
+        <a class="link reveal" href="https://wa.me/6285882110680" target="_blank" rel="noopener noreferrer" aria-label="Chat WhatsApp Ride To Hell" style="--reveal-delay:.18s">
           <div class="meta">
             <div class="icon-wrap" aria-hidden="true">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20.5 3.5L3.5 20.5V24l3.5-0.9L22.5 6.5z" fill="rgba(255,255,255,0.03)"/><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.149-.672.15-.198.297-.768.967-.942 1.164-.173.198-.346.223-.644.074-1.759-.868-2.908-1.54-4.075-3.52-.309-.53.309-.49.888-1.63.099-.198.05-.371-.025-.52-.074-.149-.672-1.613-.923-2.206-.243-.579-.49-.5-.672-.51-.173-.01-.371-.01-.57-.01-.198 0-.52.074-.792.37-.273.297-1.04 1.016-1.04 2.48 0 1.464 1.064 2.88 1.213 3.08.149.198 2.095 3.2 5.077 4.487 0.71.306 1.263.49 1.694.628 0.712.227 1.36.195 1.872.118.571-.085 1.758-.718 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z" stroke="white" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -203,7 +221,7 @@
         </a>
 
         <!-- YouTube -->
-        <a class="link" href="https://youtube.com/@RTHProject25" target="_blank" rel="noopener noreferrer" aria-label="Tonton YouTube Ride To Hell">
+        <a class="link reveal" href="https://youtube.com/@RTHProject25" target="_blank" rel="noopener noreferrer" aria-label="Tonton YouTube Ride To Hell" style="--reveal-delay:.24s">
           <div class="meta">
             <div class="icon-wrap" aria-hidden="true">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 7.25s-.2-1.45-.82-2.09C20.3 4.2 19.38 4.13 18.9 4.06 16.5 3.75 12 3.75 12 3.75s-4.5 0-6.9.31c-.48.07-1.4.14-1.28 1.1C3.2 5.8 3 7.25 3 7.25S2.8 9 2.8 10.7v2.6C2.8 15 3 16.75 3 16.75s.2 1.45.82 2.09c.6.65 1.4.59 1.78.66 1.28.18 5.26.31 7.4.31 2.14 0 6.12-.13 7.4-.31.38-.07 1.18-.01 1.78-.66.62-.64.82-2.09.82-2.09s.2-1.75.2-3.45v-2.6C22.2 9 22 7.25 22 7.25z" stroke="white" stroke-opacity="0.95" stroke-width="0.5" fill="rgba(255,255,255,0.02)"/><path d="M10 9.75l5 2.5-5 2.5v-5z" fill="white"/></svg>
@@ -217,7 +235,7 @@
         </a>
 
         <!-- Facebook -->
-        <a class="link" href="https://facebook.com/RideToHell" target="_blank" rel="noopener noreferrer" aria-label="Buka Facebook Ride To Hell">
+        <a class="link reveal" href="https://facebook.com/RideToHell" target="_blank" rel="noopener noreferrer" aria-label="Buka Facebook Ride To Hell" style="--reveal-delay:.30s">
           <div class="meta">
             <div class="icon-wrap" aria-hidden="true">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M13 22v-8h2.7l.4-3H13V9.3c0-.9.3-1.7 1.8-1.7H16V5.1c-.4 0-1.7-.2-3.2-.2-3.2 0-5.4 1.9-5.4 5.4V11h-3v3h3v8h3z" fill="white" opacity="0.95"/></svg>
@@ -240,87 +258,156 @@
   </main>
 
 <script>
-  // utils
-  const q = (s) => document.querySelector(s);
+  /* ------------------------
+     HELPERS & THEME
+     ------------------------ */
+  const q = s => document.querySelector(s);
+
   const setTheme = (theme) => {
     document.documentElement.setAttribute('data-theme', theme);
-    // update UI elements
     const toggle = q('#modeToggle');
     const label = q('#modeLabel');
     toggle.setAttribute('data-state', theme === 'blood' ? 'blood' : 'dark');
     toggle.setAttribute('aria-pressed', theme === 'blood' ? 'true' : 'false');
     label.textContent = theme === 'blood' ? 'BLOOD' : 'DARK';
-    // store
     try { localStorage.setItem('rth_theme', theme); } catch(e){}
   };
 
-  // initialize theme (respect stored preference)
   (function initTheme(){
     let saved = null;
     try { saved = localStorage.getItem('rth_theme'); } catch(e){}
-    // default to dark
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     const start = saved || (prefersDark ? 'dark' : 'dark');
     document.documentElement.setAttribute('data-theme', start);
-    // reflect UI
-    const toggle = q('#modeToggle');
-    const label = q('#modeLabel');
+    const toggle = q('#modeToggle'); const label = q('#modeLabel');
     toggle.setAttribute('data-state', start === 'blood' ? 'blood' : 'dark');
     toggle.setAttribute('aria-pressed', start === 'blood' ? 'true' : 'false');
     label.textContent = start === 'blood' ? 'BLOOD' : 'DARK';
   })();
 
-  // handle toggle click/keyboard
   q('#modeToggle').addEventListener('click', () => {
     const current = document.documentElement.getAttribute('data-theme') === 'blood' ? 'blood' : 'dark';
     const next = current === 'blood' ? 'dark' : 'blood';
     setTheme(next);
   });
-  // keyboard support: space/enter
   q('#modeToggle').addEventListener('keydown', (e) => {
-    if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
-      q('#modeToggle').click();
-    }
+    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); q('#modeToggle').click(); }
   });
 
-  // show year
   q('#year').textContent = (new Date()).getFullYear();
 
-  // Preloader: reveal content
+  /* ------------------------
+     PRELOADER & INITIAL LOAD
+     ------------------------ */
   window.addEventListener('load', () => {
     setTimeout(() => {
       q('#preloader').classList.add('hide');
       q('#card').classList.add('visible');
-      const links = [...document.querySelectorAll('.link')];
-      links.forEach((el,i) => setTimeout(()=> el.classList.add('show'), 160 + i*120));
-      const logo = q('#logo-el');
-      if (logo && logo.animate) {
-        logo.animate([{transform:'translateY(6px)'},{transform:'translateY(0)'}], {duration:900, easing:'cubic-bezier(.16,.84,.24,1)'});
-      }
+
+      // initial reveal: headline & logo fast
+      const initial = [q('#site-title'), q('#logo-el'), ...document.querySelectorAll('.links .link')];
+      initial.forEach((el, i) => {
+        if (!el) return;
+        // small initial stagger
+        setTimeout(() => {
+          el.classList && el.classList.add('show');
+        }, 140 + i * 90);
+      });
+
+      // BUT we still want scroll-based reveals to work; observer will set later for those not yet shown
     }, 700);
   });
 
-  // parallax
+  /* ------------------------
+     SCROLL REVEAL: IntersectionObserver
+     - Reveals elements with .reveal, .reveal-left, .reveal-right
+     - Staggers children inside .stagger-children using inline --reveal-delay
+     ------------------------ */
+  (function scrollReveal(){
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // respect reduced motion: show everything immediately
+      document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => el.classList.add('show'));
+      return;
+    }
+
+    const revealEls = Array.from(document.querySelectorAll('.reveal, .reveal-left, .reveal-right'));
+    if (!('IntersectionObserver' in window) || revealEls.length === 0) {
+      // fallback: show all
+      revealEls.forEach(el => el.classList.add('show'));
+      return;
+    }
+
+    // observe with a bit of bottom margin so element reveals slightly before fully visible
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const el = entry.target;
+        if (entry.isIntersecting) {
+          // compute delay: prefer inline --reveal-delay for custom staggering
+          const baseDelay = parseFloat(getComputedStyle(el).getPropertyValue('--reveal-delay')) || 0;
+          // If inside a stagger group, compute incremental delay based on child index
+          const parent = el.closest('.stagger-children');
+          let extra = 0;
+          if (parent) {
+            const children = Array.from(parent.querySelectorAll('.reveal, .reveal-left, .reveal-right'));
+            const idx = children.indexOf(el);
+            extra = idx * 0.08; // 80ms step
+          }
+          // apply final delay
+          const totalDelay = Math.max(0, baseDelay + extra);
+          el.style.transitionDelay = `${totalDelay}s`;
+          el.classList.add('show');
+          // once shown, unobserve to improve perf
+          io.unobserve(el);
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: '0px 0px -12% 0px',
+      threshold: 0.12
+    });
+
+    revealEls.forEach(el => {
+      // if element already visible (e.g., on load), show immediately
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.88) {
+        el.classList.add('show');
+      } else {
+        io.observe(el);
+      }
+    });
+  })();
+
+  /* ------------------------
+     PARALLAX + MICRO-INTERACTIONS
+     ------------------------ */
   const logoEl = q('#logo-el');
   const glow = q('.glow');
   function applyParallax(x,y){
-    const cx = window.innerWidth/2;
-    const cy = window.innerHeight/2;
-    const dx = (x - cx) / cx;
-    const dy = (y - cy) / cy;
-    const tx = dx * 8;
-    const ty = dy * 6;
+    const cx = window.innerWidth/2, cy = window.innerHeight/2;
+    const dx = (x - cx) / cx, dy = (y - cy) / cy;
+    const tx = dx * 8, ty = dy * 6;
     if (logoEl) logoEl.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
     if (glow) { glow.style.right = `${40 - dx*30}px`; glow.style.bottom = `${40 - dy*30}px`; }
   }
   window.addEventListener('mousemove', (ev)=> applyParallax(ev.clientX, ev.clientY), {passive:true});
 
-  // respect reduced-motion
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.documentElement.style.scrollBehavior = 'auto';
     document.querySelectorAll('.link, .card, .preloader').forEach(n => n.style.transition = 'none');
   }
+
+  /* ------------------------
+     Accessibility: keyboard focus reveal
+     ------------------------ */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      // when user starts tabbing, ensure focused elements are visible
+      const focused = document.activeElement;
+      if (focused && (focused.classList.contains('link') || focused.classList.contains('reveal'))) {
+        focused.classList.add('show');
+      }
+    }
+  });
 </script>
 </body>
 </html>
