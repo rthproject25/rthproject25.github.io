@@ -1,59 +1,64 @@
 /* ===========================
-   RIDE TO HELL – DARK THEME
+   RIDE TO HELL — DARK THEME
+   Upgraded full: navbar, hero, cards, footer, responsive
    =========================== */
 
-body {
-  margin: 0;
-  padding: 0;
-  background: #0d0d0d;
-  color: #e5e5e5;
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
+:root{
+  --bg:#080808;
+  --panel:#0f0f0f;
+  --muted:#a8a8a8;
+  --accent:#ff2e2e;
+  --white:#efefef;
+  --glass: rgba(255,255,255,0.03);
 }
 
-/* Layout */
-body {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--white);font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial}
+.container{max-width:980px;margin:0 auto;padding:28px}
+
+/* NAVBAR */
+.navwrap{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(0,0,0,0.5),transparent);backdrop-filter: blur(6px);border-bottom:1px solid rgba(255,255,255,0.02)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+.brand{font-weight:800;letter-spacing:1px}
+.menu a{color:var(--muted);margin-left:18px;text-decoration:none;font-weight:600}
+.menu a:hover{color:var(--white);opacity:0.95}
+
+/* HERO */
+.hero{padding:80px 0;background:
+  radial-gradient(800px 400px at 10% 20%, rgba(255,46,46,0.06), transparent 8%),
+  linear-gradient(180deg, rgba(15,5,5,0.12), rgba(0,0,0,0));
+  border-bottom: 1px solid rgba(255,255,255,0.02);
+}
+.hero-inner{padding:18px 16px}
+.hero h1{font-size:44px;margin:0 0 12px;letter-spacing:2px}
+.lead{color:var(--muted);font-size:16px;margin-bottom:12px}
+.strong{color:var(--white);font-weight:700}
+
+/* CTA */
+.cta-row{margin-top:18px;display:flex;gap:12px}
+.btn{background:var(--accent);color:#fff;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:700;box-shadow:0 8px 24px rgba(255,46,46,0.08)}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+
+/* SECTIONS */
+.section{padding:42px 0}
+.section.dark{background:linear-gradient(180deg, rgba(255,0,0,0.02), transparent)}
+
+/* GRID CARDS */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:18px}
+.card{background:var(--panel);padding:18px;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.02)}
+.card h3{margin:0 0 8px;font-size:18px}
+.card p{color:var(--muted);font-size:14px;margin:0}
+
+/* FOOTER */
+.footer{padding:28px 0;border-top:1px solid rgba(255,255,255,0.02);color:var(--muted);font-size:13px;text-align:center}
+
+/* RESPONSIVE */
+@media (max-width:720px){
+  .hero h1{font-size:28px}
+  .menu{display:none}
+  .container{padding:16px}
+  .cta-row{flex-direction:column}
 }
 
-/* Heading */
-h1, h2 {
-  color: #ffffff;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-}
-
-/* Paragraph */
-p {
-  margin-bottom: 12px;
-  font-size: 16px;
-}
-
-/* Links */
-a {
-  color: #ff2e2e;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* List style */
-ul {
-  padding-left: 20px;
-}
-
-li {
-  margin-bottom: 8px;
-}
-
-/* Divider line */
-hr {
-  border: 0;
-  border-top: 1px solid #333;
-  margin: 20px 0;
-}
+/* small helpers */
+a{color:var(--accent)}
