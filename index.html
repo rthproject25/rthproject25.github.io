@@ -1,241 +1,192 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Ride To Hell — Premium</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ride To Hell</title>
 
-<style>
-  @keyframes fadeIn {
-    from {opacity:0; transform:translateY(20px);}
-    to {opacity:1; transform:translateY(0);}
-  }
-  @keyframes glowPulse {
-    0% {box-shadow:0 0 35px rgba(196,30,30,0.12);}
-    50% {box-shadow:0 0 55px rgba(196,30,30,0.25);}
-    100% {box-shadow:0 0 35px rgba(196,30,30,0.12);}
-  }
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+    }
 
-  :root{
-    --bg:#000;
-    --card:#0d0d0d;
-    --muted:#888;
-    --white:#fff;
-    --accent:#b12a24; 
-    --border:rgba(255,255,255,0.06);
-    --shadow:0 20px 40px rgba(0,0,0,0.6);
-  }
+    .container {
+      width: 90%;
+      max-width: 480px;
+      margin: auto;
+      padding-top: 50px;
+    }
 
-  body{
-    margin:0;
-    background:var(--bg);
-    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto;
-    color:var(--white);
-  }
+    .logo-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
 
-  .wrap{
-    max-width:800px;
-    margin:0 auto;
-    padding:40px 20px 120px;
-    text-align:center;
-    animation:fadeIn .7s ease forwards;
-  }
+    .logo {
+      width: 130px;
+      height: 130px;
+      border-radius: 25px;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
 
-  .logo-box{
-    width:120px;
-    height:120px;
-    margin:0 auto 30px;
-    border-radius:28px;
-    background:#141414;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    animation:glowPulse 3.8s infinite ease-in-out;
-  }
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-  .logo-box img{
-    width:88px;
-    height:88px;
-    object-fit:cover;
-    border-radius:50%;
-  }
+    h1 {
+      font-size: 38px;
+      margin: 0;
+      font-weight: 800;
+    }
 
-  h1{
-    font-size:52px;
-    margin:0 0 14px;
-    letter-spacing:-1px;
-    text-shadow:0 0 20px rgba(255,255,255,0.15);
-  }
+    .subtitle {
+      margin-top: 12px;
+      font-size: 17px;
+      line-height: 1.4;
+      opacity: 0.85;
+    }
 
-  .subtitle{
-    color:var(--muted);
-    font-size:17px;
-    line-height:1.6;
-    max-width:600px;
-    margin:0 auto 38px;
-  }
+    .card {
+      background: #111;
+      padding: 18px;
+      margin-top: 23px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-  .section-title{
-    font-size:20px;
-    font-weight:700;
-    margin:40px 0 14px;
-    color:var(--white);
-    letter-spacing:0.5px;
-    text-align:left;
-  }
+    .card-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-  .list{
-    margin-top:0;
-  }
+    .icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #222;
+      overflow: hidden;
+    }
 
-  .btn{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 22px;
-    border-radius:20px;
-    margin:16px 0;
-    background:linear-gradient(180deg,#141414,#0c0c0c);
-    border:1px solid var(--border);
-    box-shadow:var(--shadow);
-    text-decoration:none;
-    color:var(--white);
-    animation:fadeIn .75s ease forwards;
-    transition:.2s ease;
-  }
+    .icon img {
+      width: 65%;
+      height: 65%;
+      object-fit: contain;
+    }
 
-  .btn:hover{
-    transform:scale(1.02);
-    border-color:rgba(255,255,255,0.12);
-  }
+    .label {
+      text-align: left;
+    }
 
-  .left{
-    display:flex;
-    align-items:center;
-    gap:16px;
-    text-align:left;
-  }
+    .label .title {
+      font-size: 18px;
+      font-weight: 700;
+    }
 
-  .icon-box{
-    width:50px;
-    height:50px;
-    border-radius:14px;
-    background:rgba(255,255,255,0.04);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
+    .label .subtitle {
+      margin-top: 2px;
+      font-size: 14px;
+      opacity: 0.7;
+    }
 
-  .label{
-    font-size:19px;
-    font-weight:700;
-  }
+    .action {
+      font-size: 17px;
+      font-weight: 700;
+      opacity: 0.85;
+    }
+  </style>
 
-  .small{
-    font-size:13px;
-    color:var(--muted);
-    margin-top:4px;
-  }
-
-  .action{
-    color:var(--muted);
-    font-weight:700;
-    font-size:14px;
-  }
-
-  @media(max-width:460px){
-    h1{font-size:38px;}
-    .logo-box{width:100px;height:100px;}
-    .btn{padding:16px;}
-  }
-</style>
 </head>
-
 <body>
-<div class="wrap">
 
-  <!-- LOGO -->
-  <div class="logo-box">
-    <img src="logo.png" alt="RTH Logo">
-  </div>
+  <div class="container">
 
-  <!-- TITLE -->
-  <h1>Ride To Hell</h1>
-  <div class="subtitle">
-    Teritori ini resmi milik gue.  
-    Jalan gelap, kerja keras, berdiri sendiri — RTH tetap melaju.
-  </div>
+    <!-- LOGO -->
+    <div class="logo-wrapper">
+      <div class="logo">
+        <img src="https://i.imgur.com/CKQ8pF7.png" />
+      </div>
+    </div>
 
-  <!-- LIST -->
-  <div class="list">
+    <h1>Ride To Hell</h1>
+
+    <div class="subtitle">
+      Teritori ini resmi milik gue. Jalan gelap, kerja keras, berdiri sendiri — RTH tetap melaju.
+    </div>
 
     <!-- INSTAGRAM -->
-    <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank">
-      <div class="left">
-        <div class="icon-box">
-          <svg width="26" height="26" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24">
-            <rect x="3" y="3" width="18" height="18" rx="5"/>
-            <circle cx="12" cy="12" r="3.5"/>
-            <circle cx="17" cy="7" r="1"/>
-          </svg>
+    <div class="card">
+      <div class="card-left">
+        <div class="icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
         </div>
-        <div>
-          <div class="label">@ridetohhell.official</div>
-          <div class="small">Instagram Resmi</div>
+        <div class="label">
+          <div class="title">@ridetohell.official</div>
+          <div class="subtitle">Instagram Resmi</div>
         </div>
       </div>
-      <div class="action">Buka</div>
-    </a>
+      <a class="action" href="https://instagram.com/ridetohell.official" target="_blank">Buka</a>
+    </div>
 
     <!-- WHATSAPP -->
-    <a class="btn" href="https://wa.me/6285882110680" target="_blank">
-      <div class="left">
-        <div class="icon-box">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
-            <path d="M12 1a11 11 0 0 0-9.5 16.5L1 23l5.8-1.5A11 11 0 1 0 12 1zm0 2a9 9 0 0 1 0 18 8.9 8.9 0 0 1-4.7-1.3l-.4-.2-3.4.9.9-3.3-.2-.4A9 9 0 0 1 12 3zm4.8 11.6c-.2-.4-.8-.6-1.7-1.1-.9-.5-1.4-.5-1.6.1-.2.5-.6.6-1 .6s-.8-.1-1.7-.9c-.9-.8-1.4-1.7-1.6-2-.2-.4 0-.7.2-.9.2-.2.4-.5.5-.7.2-.2.1-.5 0-.9l-.4-1c-.1-.4-.6-.9-1-1h-.9c-.3 0-.7.2-1.1.6-.4.4-1.4 1.3-1.4 3.2 0 1.8 1.3 3.5 1.5 3.7.2.2 2.5 4 6.3 5.4 3.9 1.3 4.7.8 5.5.7.8-.1 2.7-1.1 3.1-2.2.4-1.2.4-2.2.3-2.3z"/>
-          </svg>
+    <div class="card">
+      <div class="card-left">
+        <div class="icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
         </div>
-        <div>
-          <div class="label">Chat via WhatsApp</div>
-          <div class="small">+62 858-8211-0680</div>
+        <div class="label">
+          <div class="title">Chat via WhatsApp</div>
+          <div class="subtitle">+62 858-8211-0680</div>
         </div>
       </div>
-      <div class="action">Chat</div>
-    </a>
+      <a class="action" href="https://wa.me/6285882110680" target="_blank">Chat</a>
+    </div>
 
     <!-- YOUTUBE -->
-    <a class="btn" href="https://youtube.com/@RTHProject25" target="_blank">
-      <div class="left">
-        <div class="icon-box">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
-            <path d="M21.8 8.2a3 3 0 0 0-2.1-2.1C17.7 5.5 12 5.5 12 5.5s-5.7 0-7.7.6a3 3 0 0 0-2.1 2.1A31 31 0 0 0 2 12a31 31 0 0 0 .2 3.8 3 3 0 0 0 2.1 2.1c2 .6 7.7.6 7.7.6s5.7 0 7.7-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 22 12a31 31 0 0 0-.2-3.8zM10 14.7V9.3l4.9 2.7-4.9 2.7z"/>
-          </svg>
+    <div class="card">
+      <div class="card-left">
+        <div class="icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
         </div>
-        <div>
-          <div class="label">YouTube Channel</div>
-          <div class="small">@RTHProject25</div>
+        <div class="label">
+          <div class="title">YouTube Channel</div>
+          <div class="subtitle">@RTHProject25</div>
         </div>
       </div>
-      <div class="action">Watch</div>
-    </a>
+      <a class="action" href="https://youtube.com/@RTHProject25" target="_blank">Watch</a>
+    </div>
 
     <!-- FACEBOOK -->
-    <a class="btn" href="https://www.facebook.com/profile.php?id=61583910659117" target="_blank">
-      <div class="left">
-        <div class="icon-box">
-          <svg width="26" height="26" fill="white" viewBox="0 0 24 24">
-            <path d="M15 2h-3a5 5 0 0 0-5 5v3H5v4h2v8h4v-8h3.2l.8-4H11V7a1 1 0 0 1 1-1h3V2z"/>
-          </svg>
+    <div class="card">
+      <div class="card-left">
+        <div class="icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png">
         </div>
-        <div>
-          <div class="label">Halaman Facebook</div>
-          <div class="small">Ride To Hell</div>
+        <div class="label">
+          <div class="title">Halaman Facebook</div>
+          <div class="subtitle">Ride To Hell</div>
         </div>
       </div>
-      <div class="action">Buka</div>
-    </a>
+      <a class="action" href="https://facebook.com" target="_blank">Buka</a>
+    </div>
 
   </div>
-</div>
+
 </body>
 </html>
