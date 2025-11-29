@@ -1,397 +1,146 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Ride To Hell — RTH</title>
-<meta name="description" content="Ride To Hell — Teritori gelap ini rumah gue. Jalan gelap, kerja keras, berdiri sendiri. RTH tetap melaju." />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='18' width='100' height='100' fill='%234a0f0f'/><text x='50' y='58' font-size='40' font-family='Inter,Segoe UI,Roboto' fill='white' text-anchor='middle' font-weight='700'>RTH</text></svg>">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ride To Hell</title>
 
 <style>
-  :root{
-    --bg:#000; --card:#0e0e0e; --accent:#6f1b1b; --accent-2:#9a2b2b;
-    --muted:rgba(255,255,255,0.12); --glass:rgba(255,255,255,0.03);
-    --text:#fff; --ease:cubic-bezier(.16,.84,.24,1);
-    --btn-accent-start:var(--accent-2); --btn-accent-end:var(--accent);
-    --logo-shadow:0 8px 30px rgba(111,27,27,0.28);
-  }
-  :root[data-theme="blood"]{
-    --bg: linear-gradient(180deg,#080000 0%, #0b0505 100%);
-    --card: rgba(20,6,6,0.55);
-    --accent:#8b1f1f; --accent-2:#b33a3a;
-    --btn-accent-start:#b33a3a; --btn-accent-end:#8b1f1f;
-    --logo-shadow:0 10px 40px rgba(179,58,58,0.28);
-  }
+body {
+  margin: 0;
+  background: #000;
+  font-family: Arial, sans-serif;
+  color: #fff;
+}
 
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; font-family:Inter,system-ui,Roboto,Arial; background:var(--bg);
-    color:var(--text); -webkit-font-smoothing:antialiased; overflow-x:hidden;
-    transition: background .45s var(--ease), color .45s var(--ease);
-  }
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-  /* noise overlay */
-  .noise{pointer-events:none; position:fixed; inset:0; mix-blend-mode:overlay; z-index:1;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><filter id="n"><feTurbulence baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect filter="url(%23n)" width="100%" height="100%" opacity="0.03" fill="%23000"/></svg>');
-  }
+.hero {
+  position: relative;
+  padding: 40px 20px;
+  text-align: left;
+  background: rgba(0,0,0,0.5);
+  border-radius: 22px;
+}
 
-  .wrap{position:relative; z-index:3; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:36px 20px;}
+.hero-logo-bg {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 380px;
+  opacity: 0.08;
+  z-index: 1;
+}
 
-  .card{width:100%; max-width:720px; border-radius:28px; padding:36px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-    backdrop-filter: blur(6px) saturate(120%); position:relative; overflow:visible;
-    transition: box-shadow .45s var(--ease), background .45s var(--ease);
-    z-index:6; /* above bg video */
-  }
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
 
-  /* preloader */
-  .preloader{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:var(--bg); z-index:99; transition:opacity .6s var(--ease), visibility .6s var(--ease);}
-  .preloader.hide{opacity:0; visibility:hidden; pointer-events:none}
-  .loader-logo{width:120px;height:120px;border-radius:22px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:36px;color:#fff;background:linear-gradient(145deg,var(--accent-2),#3b0a0a);box-shadow:var(--logo-shadow);}
+h1 {
+  font-size: 38px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
 
-  /* topbar toggle */
-  .topbar{position:absolute; right:18px; top:18px; display:flex; gap:12px; align-items:center; z-index:8;}
-  .mode-label{font-size:12px; opacity:.75; font-weight:700}
+p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-top: 10px;
+}
 
-  .toggle{--w:54px;--h:30px; position:relative; width:var(--w); height:var(--h); border-radius:999px; background: rgba(255,255,255,0.04); display:inline-flex; align-items:center; padding:4px}
-  .toggle .knob{width:22px;height:22px;border-radius:50%; background:transparent; transform:translateX(0); transition:transform .32s var(--ease), background .32s var(--ease); border:1px solid rgba(255,255,255,0.06)}
-  .toggle[data-state="blood"]{ background: linear-gradient(90deg,var(--btn-accent-start),var(--btn-accent-end));}
-  .toggle[data-state="blood"] .knob{ transform:translateX(24px); background:rgba(0,0,0,0.18); box-shadow:0 8px 20px rgba(0,0,0,0.35)}
+.card {
+  background: #0a0a0a;
+  padding: 18px;
+  border-radius: 14px;
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  /* hero & links */
-  .hero{display:grid; grid-template-columns:96px 1fr; gap:20px; align-items:center}
-  .logo{ width:96px;height:96px;border-radius:18px;background:linear-gradient(160deg,var(--accent-2),var(--accent)); display:flex;align-items:center;justify-content:center;font-weight:900;font-size:30px;color:white; box-shadow:var(--logo-shadow); transition:transform .6s var(--ease), box-shadow .6s var(--ease); z-index:7; }
-  .logo.small{ width:72px;height:72px;font-size:22px;border-radius:14px }
+.card img {
+  width: 32px;
+  opacity: 0.85;
+}
 
-  .title{text-align:left}
-  h1{margin:0;font-size:34px; font-weight:800; letter-spacing:.6px}
-  .subtitle{margin-top:10px;color:rgba(255,255,255,0.86);font-size:15px;line-height:1.45}
+.btn {
+  background: #8A1E1E;
+  padding: 8px 20px;
+  color: #fff;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+}
 
-  .links{margin-top:26px; display:grid; gap:14px}
-  .link{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); box-shadow:0 6px 18px rgba(0,0,0,0.5); text-decoration:none; color:var(--text)}
-  .meta{display:flex;gap:12px;align-items:center}
-  .icon-wrap{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--glass)}
-  .line1{font-weight:700}
-  .line2{font-size:13px;opacity:0.7;margin-top:2px}
-  .cta{font-weight:800;padding:6px 12px;border-radius:10px;background:linear-gradient(90deg,var(--btn-accent-start),var(--btn-accent-end)); color:#fff}
-
-  .glow{position:absolute; inset:auto 40px 40px auto; width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(154,43,43,0.12), rgba(111,27,27,0.06) 30%, transparent 40%); filter:blur(30px); pointer-events:none; z-index:4; transition: right .3s var(--ease), bottom .3s var(--ease); }
-
-  .footer{margin-top:20px;text-align:center;font-size:12px;opacity:0.6}
-
-  @media (max-width:640px){ .hero{grid-template-columns:72px 1fr} h1{font-size:28px} .card{padding:22px} .topbar{right:12px;top:12px} }
-
-  /* ---- reveal / scroll animations ---- */
-  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .62s var(--ease), transform .62s var(--ease); will-change: opacity, transform; }
-  .reveal.show { opacity:1; transform:none; }
-
-  /* logo: keep visible (opacity:1) but slide from left */
-  .reveal-left { opacity: 1; transform: translateX(-20px); transition: transform .52s var(--ease), opacity .48s var(--ease); will-change: transform; }
-  .reveal-left.show { transform: translateX(0); opacity:1; }
-
-  .reveal-right { opacity:0; transform: translateX(18px); transition: opacity .62s var(--ease), transform .62s var(--ease); }
-  .reveal-right.show { opacity:1; transform:none; }
-
-  .stagger-children .reveal { transition-delay: 0s; }
-  .stagger-children .reveal.show { transition-delay: var(--reveal-delay, 0s); }
-
-  @media (prefers-reduced-motion: reduce){ .reveal, .reveal-left, .reveal-right { transition:none !important; transform:none !important; opacity:1 !important; } }
-
-  /* ===== trailer video styles ===== */
-  #bg-video-wrap{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; display:block; }
-  .bg-video{ position:absolute; top:50%; left:50%; width:120vw; height:120vh; transform:translate(-50%,-50%); object-fit:cover; opacity:0.18; filter:grayscale(6%) contrast(.9) brightness(.6); will-change:opacity, transform; transition: opacity .45s cubic-bezier(.16,.84,.24,1); }
-  .bg-video-overlay{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.6)); }
-  .video-toggle{ position:fixed; left:14px; bottom:16px; z-index:15; background: rgba(0,0,0,0.45); color:#fff; border:1px solid rgba(255,255,255,0.04); padding:8px 10px; border-radius:999px; font-weight:700; font-size:12px; cursor:pointer; pointer-events:auto; backdrop-filter: blur(6px); }
-  .video-toggle[aria-pressed="false"]{ opacity:0.7 }
-
-  /* ensure video behind but toggle clickable */
-  @media (max-width:420px){ .bg-video{ opacity:0.14 } .video-toggle{ left:10px; bottom:10px; padding:7px 9px; font-size:11px } }
+.footer {
+  text-align: center;
+  opacity: 0.5;
+  margin-top: 25px;
+  font-size: 13px;
+}
 </style>
 </head>
 <body>
-  <!-- PRELOADER -->
-  <div class="preloader" id="preloader" aria-hidden="false">
-    <div class="loader-logo" aria-hidden="true">RTH</div>
-  </div>
 
-  <!-- ===== Trailer background (LOCAL file mode) ===== -->
-  <div id="bg-video-wrap" aria-hidden="true">
-    <video id="bg-video" class="bg-video" playsinline muted loop preload="metadata" poster="" tabindex="-1" aria-hidden="true">
-      <source data-src-local="/assets/rth_trailer.mp4" data-src-remote="" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <div class="bg-video-overlay" aria-hidden="true"></div>
-    <button id="bg-video-toggle" class="video-toggle" aria-pressed="true" title="Toggle Trailer">
-      <span id="bg-video-toggle-label">Trailer ON</span>
-    </button>
-  </div>
+<div class="container">
 
-  <div class="noise" aria-hidden="true"></div>
+  <div class="hero">
+    <img src="file_000000003a487206942539694d1573ae.png" class="hero-logo-bg">
 
-  <main class="wrap">
-    <div class="card" role="main" aria-labelledby="site-title" id="card">
-
-      <!-- TOPBAR: Mode switch -->
-      <div class="topbar" id="topbar">
-        <div class="mode-label" id="modeLabel">DARK</div>
-        <button id="modeToggle" class="toggle" data-state="dark" aria-pressed="false" aria-label="Ganti mode tema RTH">
-          <div class="knob" aria-hidden="true"></div>
-        </button>
-      </div>
-
-      <!-- HERO -->
-      <div class="hero">
-        <!-- logo: visible but slides from left -->
-        <div class="logo reveal-left" id="logo-el" aria-hidden="false">RTH</div>
-
-        <div class="title">
-          <h1 id="site-title" class="reveal">RIDE TO HELL</h1>
-          <p class="subtitle reveal" style="--reveal-delay:.08s;">
-            Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.
-            <br><strong>RTH bukan sekadar nama — ini cara gue bertahan.</strong>
-          </p>
-        </div>
-      </div>
-
-      <div class="links stagger-children" id="links">
-        <a class="link reveal" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener noreferrer" aria-label="Buka Instagram Ride To Hell" style="--reveal-delay:.12s">
-          <div class="meta">
-            <div class="icon-wrap" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-opacity="0.9" stroke-width="1.3"/><circle cx="12" cy="12" r="3.1" stroke="white" stroke-opacity="0.95" stroke-width="1.3"/><circle cx="17.5" cy="6.5" r="0.8" fill="white"/></svg>
-            </div>
-            <div class="text"><span class="line1">@ridetohhell.official</span><span class="line2">Instagram Resmi</span></div>
-          </div>
-          <div class="cta">Masuk</div>
-        </a>
-
-        <a class="link reveal" href="https://wa.me/6285882110680" target="_blank" rel="noopener noreferrer" aria-label="Chat WhatsApp Ride To Hell" style="--reveal-delay:.18s">
-          <div class="meta">
-            <div class="icon-wrap" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 3.5L3.5 20.5V24l3.5-0.9L22.5 6.5z" fill="rgba(255,255,255,0.03)"/><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.149-.672.15-.198.297-.768.967-.942 1.164-.173.198-.346.223-.644.074-1.759-.868-2.908-1.54-4.075-3.52-.309-.53.309-.49.888-1.63.099-.198.05-.371-.025-.52-.074-.149-.672-1.613-.923-2.206-.243-.579-.49-.5-.672-.51-.173-.01-.371-.01-.57-.01-.198 0-.52.074-.792.37-.273.297-1.04 1.016-1.04 2.48 0 1.464 1.064 2.88 1.213 3.08.149.198 2.095 3.2 5.077 4.487 0.71.306 1.263.49 1.694.628 0.712.227 1.36.195 1.872.118.571-.085 1.758-.718 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z" stroke="white" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div class="text"><span class="line1">Chat via WhatsApp</span><span class="line2">+62 858-8211-0680</span></div>
-          </div>
-          <div class="cta">Terhubung</div>
-        </a>
-
-        <a class="link reveal" href="https://youtube.com/@RTHProject25" target="_blank" rel="noopener noreferrer" aria-label="Tonton YouTube Ride To Hell" style="--reveal-delay:.24s">
-          <div class="meta">
-            <div class="icon-wrap" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 7.25s-.2-1.45-.82-2.09C20.3 4.2 19.38 4.13 18.9 4.06 16.5 3.75 12 3.75 12 3.75s-4.5 0-6.9.31c-.48.07-1.4.14-1.28 1.1C3.2 5.8 3 7.25 3 7.25S2.8 9 2.8 10.7v2.6C2.8 15 3 16.75 3 16.75s.2 1.45.82 2.09c.6.65 1.4.59 1.78.66 1.28.18 5.26.31 7.4.31 2.14 0 6.12-.13 7.4-.31.38-.07 1.18-.01 1.78-.66.62-.64.82-2.09.82-2.09s.2-1.75.2-3.45v-2.6C22.2 9 22 7.25 22 7.25z" stroke="white" stroke-opacity="0.95" stroke-width="0.5" fill="rgba(255,255,255,0.02)"/><path d="M10 9.75l5 2.5-5 2.5v-5z" fill="white"/></svg>
-            </div>
-            <div class="text"><span class="line1">YouTube Channel</span><span class="line2">@RTHProject25</span></div>
-          </div>
-          <div class="cta">Tonton</div>
-        </a>
-
-        <a class="link reveal" href="https://facebook.com/RideToHell" target="_blank" rel="noopener noreferrer" aria-label="Buka Facebook Ride To Hell" style="--reveal-delay:.30s">
-          <div class="meta">
-            <div class="icon-wrap" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 22v-8h2.7l.4-3H13V9.3c0-.9.3-1.7 1.8-1.7H16V5.1c-.4 0-1.7-.2-3.2-.2-3.2 0-5.4 1.9-5.4 5.4V11h-3v3h3v8h3z" fill="white" opacity="0.95"/></svg>
-            </div>
-            <div class="text"><span class="line1">Halaman Facebook</span><span class="line2">Ride To Hell</span></div>
-          </div>
-          <div class="cta">Buka</div>
-        </a>
-      </div>
-
-      <div class="footer" role="contentinfo">© <span id="year"></span> Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.</div>
-
-      <div class="glow" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1>RIDE TO HELL</h1>
+      <p>
+        Teritori gelap ini rumah gue.<br>
+        Tempat gue jatuh, bangkit, dan ngegas sendirian.<br>
+        <b>RTH bukan sekadar nama — ini cara gue bertahan.</b>
+      </p>
     </div>
-  </main>
+  </div>
 
-<script>
-  /* ---------- utilities ---------- */
-  const q = s => document.querySelector(s);
+  <div class="card">
+    <div>
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384031.png">
+      <span>@ridetohhell.official<br>Instagram Resmi</span>
+    </div>
+    <a class="btn" href="https://instagram.com/ridetohhell.official">Masuk</a>
+  </div>
 
-  /* ---------- THEME TOGGLE (dark / blood) ---------- */
-  const setTheme = (theme) => {
-    document.documentElement.setAttribute('data-theme', theme);
-    const toggle = q('#modeToggle');
-    const label = q('#modeLabel');
-    toggle.setAttribute('data-state', theme === 'blood' ? 'blood' : 'dark');
-    toggle.setAttribute('aria-pressed', theme === 'blood' ? 'true' : 'false');
-    label.textContent = theme === 'blood' ? 'BLOOD' : 'DARK';
-    try { localStorage.setItem('rth_theme', theme); } catch(e){}
-  };
+  <div class="card">
+    <div>
+      <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png">
+      <span>Chat via WhatsApp<br>+62 858-8211-0680</span>
+    </div>
+    <a class="btn" href="https://wa.me/6285882110680">Terhubung</a>
+  </div>
 
-  (function initTheme(){
-    let saved = null;
-    try { saved = localStorage.getItem('rth_theme'); } catch(e){}
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const start = saved || (prefersDark ? 'dark' : 'dark');
-    document.documentElement.setAttribute('data-theme', start);
-    const toggle = q('#modeToggle');
-    toggle.setAttribute('data-state', start === 'blood' ? 'blood' : 'dark');
-    toggle.setAttribute('aria-pressed', start === 'blood' ? 'true' : 'false');
-    q('#modeLabel').textContent = start === 'blood' ? 'BLOOD' : 'DARK';
-  })();
+  <div class="card">
+    <div>
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
+      <span>YouTube Channel<br>@RTHProject25</span>
+    </div>
+    <a class="btn" href="https://youtube.com/@RTHProject25">Tonton</a>
+  </div>
 
-  q('#modeToggle').addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme') === 'blood' ? 'blood' : 'dark';
-    const next = current === 'blood' ? 'dark' : 'blood';
-    setTheme(next);
-  });
-  q('#modeToggle').addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); q('#modeToggle').click(); } });
+  <div class="card">
+    <div>
+      <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png">
+      <span>Halaman Facebook<br>Ride To Hell</span>
+    </div>
+    <a class="btn" href="#">Buka</a>
+  </div>
 
-  /* ---------- Year ---------- */
-  q('#year').textContent = (new Date()).getFullYear();
+  <div class="footer">
+    © 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.
+  </div>
 
-  /* ---------- PRELOADER & INITIAL SEQUENCE ---------- */
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      q('#preloader').classList.add('hide');
-      q('#card').classList.add('visible');
+</div>
 
-      // initial reveal sequence (logo included so it slides but never fully invisible)
-      const initial = [q('#logo-el'), q('#site-title'), ...document.querySelectorAll('.links .link')];
-      initial.forEach((el, i) => {
-        if (!el) return;
-        setTimeout(() => { el.classList && el.classList.add('show'); }, 120 + i * 80);
-      });
-    }, 600);
-  });
-
-  /* ---------- SCROLL REVEAL (IntersectionObserver) ---------- */
-  (function scrollReveal(){
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => el.classList.add('show'));
-      return;
-    }
-    const revealEls = Array.from(document.querySelectorAll('.reveal, .reveal-left, .reveal-right'));
-    if (!('IntersectionObserver' in window) || revealEls.length === 0) { revealEls.forEach(el => el.classList.add('show')); return; }
-
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const el = entry.target;
-        if (entry.isIntersecting) {
-          const baseDelay = parseFloat(getComputedStyle(el).getPropertyValue('--reveal-delay')) || 0;
-          const parent = el.closest('.stagger-children');
-          let extra = 0;
-          if (parent) {
-            const children = Array.from(parent.querySelectorAll('.reveal, .reveal-left, .reveal-right'));
-            const idx = children.indexOf(el);
-            extra = idx * 0.08;
-          }
-          const totalDelay = Math.max(0, baseDelay + extra);
-          el.style.transitionDelay = `${totalDelay}s`;
-          el.classList.add('show');
-          io.unobserve(el);
-        }
-      });
-    }, { root:null, rootMargin:'0px 0px -12% 0px', threshold:0.12 });
-
-    revealEls.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.88) { el.classList.add('show'); } else { io.observe(el); }
-    });
-  })();
-
-  /* ---------- PARALLAX ---------- */
-  const logoEl = q('#logo-el'); const glow = q('.glow');
-  function applyParallax(x,y){
-    const cx = window.innerWidth/2, cy = window.innerHeight/2;
-    const dx = (x - cx) / cx, dy = (y - cy) / cy;
-    const tx = dx * 8, ty = dy * 6;
-    if (logoEl) logoEl.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
-    if (glow) { glow.style.right = `${40 - dx*30}px`; glow.style.bottom = `${40 - dy*30}px`; }
-  }
-  window.addEventListener('mousemove', (ev)=> applyParallax(ev.clientX, ev.clientY), {passive:true});
-
-  /* ---------- RESPECT REDUCED MOTION ---------- */
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.documentElement.style.scrollBehavior = 'auto';
-    document.querySelectorAll('.link, .card, .preloader').forEach(n => n.style.transition = 'none');
-  }
-
-  /* ---------- TRAILER VIDEO LOADER & TOGGLE ---------- */
-  (function initBgTrailer(){
-    const videoWrap = document.getElementById('bg-video-wrap');
-    const videoEl = document.getElementById('bg-video');
-    const toggleBtn = document.getElementById('bg-video-toggle');
-    const toggleLabel = document.getElementById('bg-video-toggle-label');
-    const KEY = 'rth_trailer_on';
-    const defaultOn = true;
-
-    function setVideoSrc(mode='local'){
-      const sourceEl = videoEl.querySelector('source');
-      if (videoEl.getAttribute('data-src-set') === '1') return;
-      const local = sourceEl.getAttribute('data-src-local') || '';
-      const remote = sourceEl.getAttribute('data-src-remote') || '';
-      if (mode === 'remote' && remote) {
-        sourceEl.src = remote;
-      } else if (local) {
-        sourceEl.src = local;
-      } else if (remote) {
-        sourceEl.src = remote;
-      } else {
-        return;
-      }
-      videoEl.setAttribute('data-src-set', '1');
-      videoEl.load();
-      const playPromise = videoEl.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(()=>{/* autoplay prevented */});
-      }
-    }
-
-    let saved = null;
-    try { saved = localStorage.getItem(KEY); } catch(e){}
-    const enabled = (saved === null) ? defaultOn : (saved === '1');
-
-    toggleBtn.setAttribute('aria-pressed', enabled ? 'true' : 'false');
-    toggleLabel.textContent = enabled ? 'Trailer ON' : 'Trailer OFF';
-
-    if (enabled) setVideoSrc('local');
-
-    toggleBtn.addEventListener('click', () => {
-      const isOn = toggleBtn.getAttribute('aria-pressed') === 'true';
-      const next = !isOn;
-      toggleBtn.setAttribute('aria-pressed', next ? 'true' : 'false');
-      toggleLabel.textContent = next ? 'Trailer ON' : 'Trailer OFF';
-      try { localStorage.setItem(KEY, next ? '1' : '0'); } catch(e){}
-      if (next) {
-        setVideoSrc('local');
-        videoEl.muted = true;
-        const p = videoEl.play();
-        if (p && p.catch) p.catch(()=>{});
-      } else {
-        videoEl.pause();
-        const srcEl = videoEl.querySelector('source');
-        if (srcEl) { srcEl.removeAttribute('src'); videoEl.removeAttribute('data-src-set'); videoEl.load(); }
-      }
-    });
-
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      videoEl.style.opacity = 0.06;
-      videoEl.pause();
-    }
-
-    let loaded = !!(videoEl.getAttribute('data-src-set') === '1');
-    function userTouchLoad(){
-      if (!loaded && toggleBtn.getAttribute('aria-pressed') === 'true') {
-        setVideoSrc('local');
-        loaded = true;
-        window.removeEventListener('scroll', userTouchLoad);
-        window.removeEventListener('pointerdown', userTouchLoad);
-      }
-    }
-    window.addEventListener('scroll', userTouchLoad, {passive:true});
-    window.addEventListener('pointerdown', userTouchLoad, {passive:true});
-  })();
-
-  /* ---------- keyboard focus reveal ---------- */
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-      const focused = document.activeElement;
-      if (focused && (focused.classList.contains('link') || focused.classList.contains('reveal'))) {
-        focused.classList.add('show');
-      }
-    }
-  });
-</script>
 </body>
 </html>
