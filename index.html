@@ -1,137 +1,157 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ride To Hell</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ride To Hell</title>
+<style>
+  :root{
+    --bg:#000;
+    --card:#0f0f0f;
+    --muted:#9b9b9b;
+    --white:#fff;
+  }
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--white);
+    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:28px 20px;
+  }
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #000;
-            color: #fff;
-            text-align: center;
-        }
+  .wrap{
+    width:100%;
+    max-width:760px;
+  }
 
-        .container {
-            max-width: 500px;
-            margin: auto;
-            padding: 20px;
-        }
+  /* logo + header */
+  .logo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:6px;
+  }
+  .logo img{
+    width:108px;
+    height:108px;
+    object-fit:cover;
+    border-radius:20px;
+    box-shadow:0 18px 40px rgba(255,0,0,0.06), 0 6px 12px rgba(0,0,0,0.6);
+    background:#111;
+  }
 
-        .logo {
-            width: 140px;
-            margin: 40px auto 20px auto;
-            display: block;
-        }
+  h1{
+    text-align:center;
+    font-size:48px;
+    margin:18px 0 6px;
+    letter-spacing:-1px;
+    font-weight:800;
+  }
+  p.lead{
+    text-align:center;
+    color:var(--muted);
+    max-width:820px;
+    margin:0 auto 28px;
+    line-height:1.6;
+    font-size:18px;
+  }
 
-        h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
-            font-weight: 800;
-        }
+  /* list */
+  .list{
+    display:block;
+    margin-top:10px;
+  }
+  .item{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.14));
+    padding:18px;
+    border-radius:16px;
+    margin-bottom:18px;
+    box-shadow:0 18px 30px rgba(0,0,0,0.7), inset 0 -10px 30px rgba(255,255,255,0.02);
+  }
+  .icon{
+    width:56px;
+    height:56px;
+    min-width:56px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,0.03);
+  }
+  .icon img{ width:36px; height:36px; object-fit:contain; filter:brightness(1) invert(1) }
+  .meta{flex:1}
+  .meta .title{ font-weight:700; font-size:18px; letter-spacing:-0.2px }
+  .meta .sub{ color:var(--muted); margin-top:6px; font-size:14px }
+  .action{ color:var(--muted); font-weight:700; font-size:14px }
+  .item a{ color:inherit; text-decoration:none; display:flex; width:100%; }
 
-        p {
-            font-size: 18px;
-            color: #ccc;
-            line-height: 1.5;
-            margin-bottom: 30px;
-        }
-
-        .link-card {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #111;
-            padding: 18px;
-            border-radius: 15px;
-            margin-bottom: 16px;
-        }
-
-        .icon {
-            width: 35px;
-            height: 35px;
-            margin-right: 12px;
-        }
-
-        .link-info {
-            text-align: left;
-            flex: 1;
-        }
-
-        .title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .subtitle {
-            font-size: 14px;
-            color: #aaa;
-        }
-
-        .action {
-            color: #bbb;
-            font-size: 16px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-    </style>
+  /* responsive */
+  @media (max-width:420px){
+    h1{font-size:42px}
+    .logo img{width:88px;height:88px}
+    .icon{width:52px;height:52px}
+  }
+</style>
 </head>
-
 <body>
-    <div class="container">
-
-        <img src="icons/rthlogo.png" class="logo">
-
-        <h1>Ride To Hell</h1>
-
-        <p>
-            Website ini resmi milik gue. Perjalanan dimulai —<br>
-            kerja keras, jalan sendiri, tetap gas.
-        </p>
-
-        <!-- INSTAGRAM -->
-        <div class="link-card">
-            <img src="icons/ig.png" class="icon">
-            <div class="link-info">
-                <div class="title">@ridetohell.official</div>
-                <div class="subtitle">Buka Instagram</div>
-            </div>
-            <a class="action" href="https://instagram.com/ridetohell.official" target="_blank">Buka</a>
-        </div>
-
-        <!-- WHATSAPP -->
-        <div class="link-card">
-            <img src="icons/wa.png" class="icon">
-            <div class="link-info">
-                <div class="title">Chat via WhatsApp</div>
-                <div class="subtitle">+62 858-8211-0680</div>
-            </div>
-            <a class="action" href="https://wa.me/6285882110680" target="_blank">Chat</a>
-        </div>
-
-        <!-- YOUTUBE -->
-        <div class="link-card">
-            <img src="icons/yt.png" class="icon">
-            <div class="link-info">
-                <div class="title">YouTube Channel</div>
-                <div class="subtitle">@RTHProject25</div>
-            </div>
-            <a class="action" href="https://youtube.com/@RTHProject25" target="_blank">Watch</a>
-        </div>
-
-        <!-- FACEBOOK -->
-        <div class="link-card">
-            <img src="icons/fb.png" class="icon">
-            <div class="link-info">
-                <div class="title">Halaman Facebook</div>
-                <div class="subtitle">Ride To Hell</div>
-            </div>
-            <a class="action" href="https://www.facebook.com/profile.php?id=61583910659117" target="_blank">Buka</a>
-        </div>
-
+  <main class="wrap">
+    <div class="logo">
+      <img src="logo.png" alt="RTH Logo" id="logo">
     </div>
+
+    <h1>Ride To Hell</h1>
+    <p class="lead">Website ini resmi milik gue. Perjalanan dimulai — kerja keras, jalan sendiri, tetap gas.</p>
+
+    <div class="list">
+      <!-- Instagram -->
+      <a class="item" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener noreferrer">
+        <div class="icon"><img src="icon-ig.png" alt="IG"></div>
+        <div class="meta">
+          <div class="title">@ridetohhell.official</div>
+          <div class="sub">Buka Instagram</div>
+        </div>
+        <div class="action">Buka</div>
+      </a>
+
+      <!-- WhatsApp -->
+      <a class="item" href="https://wa.me/6285882110680" target="_blank" rel="noopener noreferrer">
+        <div class="icon"><img src="icon-wa.png" alt="WA"></div>
+        <div class="meta">
+          <div class="title">Chat via WhatsApp</div>
+          <div class="sub">+62 858-8211-0680</div>
+        </div>
+        <div class="action">Chat</div>
+      </a>
+
+      <!-- YouTube -->
+      <a class="item" href="https://www.youtube.com/@RTHProject25" target="_blank" rel="noopener noreferrer">
+        <div class="icon"><img src="icon-yt.png" alt="YT"></div>
+        <div class="meta">
+          <div class="title">YouTube Channel</div>
+          <div class="sub">@RTHProject25</div>
+        </div>
+        <div class="action">Watch</div>
+      </a>
+
+      <!-- Facebook -->
+      <a class="item" href="https://www.facebook.com/profile.php?id=61583910659117" target="_blank" rel="noopener noreferrer">
+        <div class="icon"><img src="icon-fb.png" alt="FB"></div>
+        <div class="meta">
+          <div class="title">Halaman Facebook</div>
+          <div class="sub">Ride To Hell</div>
+        </div>
+        <div class="action">Buka</div>
+      </a>
+    </div>
+  </main>
 </body>
 </html>
