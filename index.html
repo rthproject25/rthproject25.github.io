@@ -20,38 +20,28 @@ body {
 }
 
 .hero {
-  position: relative;
-  padding: 40px 20px;
-  text-align: left;
-  background: rgba(0,0,0,0.5);
-  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 30px 15px 20px 15px;
 }
 
-.hero-logo-bg {
-  position: absolute;
-  top: 52%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 380px;
-  opacity: 0.08;
-  z-index: 1;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
+.hero-logo {
+  width: 110px;
+  height: 110px;
+  border-radius: 16px;
 }
 
 h1 {
-  font-size: 38px;
+  font-size: 36px;
   font-weight: 900;
-  margin-bottom: 10px;
+  margin: 0;
 }
 
 p {
+  margin-top: 8px;
   font-size: 16px;
-  line-height: 1.5;
-  margin-top: 10px;
+  line-height: 1.45;
 }
 
 .card {
@@ -64,11 +54,6 @@ p {
   justify-content: space-between;
 }
 
-.card img {
-  width: 32px;
-  opacity: 0.85;
-}
-
 .btn {
   background: #8A1E1E;
   padding: 8px 20px;
@@ -76,25 +61,18 @@ p {
   border-radius: 12px;
   text-decoration: none;
   font-weight: bold;
-  font-size: 15px;
-}
-
-.footer {
-  text-align: center;
-  opacity: 0.5;
-  margin-top: 25px;
-  font-size: 13px;
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
+  <!-- HERO -->
   <div class="hero">
-    <img src="file_000000003a487206942539694d1573ae.png" class="hero-logo-bg">
-
-    <div class="hero-content">
+    <img src="file_000000003a487206942539694d1573ae.png" class="hero-logo">
+    <div>
       <h1>RIDE TO HELL</h1>
       <p>
         Teritori gelap ini rumah gue.<br>
@@ -104,40 +82,28 @@ p {
     </div>
   </div>
 
+  <!-- INSTAGRAM -->
   <div class="card">
-    <div>
-      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384031.png">
-      <span>@ridetohhell.official<br>Instagram Resmi</span>
-    </div>
-    <a class="btn" href="https://instagram.com/ridetohhell.official">Masuk</a>
+    <span>@ridetohhell.official<br>Instagram Resmi</span>
+    <a class="btn" href="#">Masuk</a>
   </div>
 
+  <!-- WHATSAPP -->
   <div class="card">
-    <div>
-      <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png">
-      <span>Chat via WhatsApp<br>+62 858-8211-0680</span>
-    </div>
-    <a class="btn" href="https://wa.me/6285882110680">Terhubung</a>
+    <span>Chat via WhatsApp<br>+62 858-8211-0680</span>
+    <a class="btn" href="#">Terhubung</a>
   </div>
 
+  <!-- YOUTUBE -->
   <div class="card">
-    <div>
-      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
-      <span>YouTube Channel<br>@RTHProject25</span>
-    </div>
-    <a class="btn" href="https://youtube.com/@RTHProject25">Tonton</a>
+    <span>YouTube Channel<br>@RTHProject25</span>
+    <a class="btn" href="#">Tonton</a>
   </div>
 
+  <!-- FACEBOOK -->
   <div class="card">
-    <div>
-      <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png">
-      <span>Halaman Facebook<br>Ride To Hell</span>
-    </div>
+    <span>Halaman Facebook<br>Ride To Hell</span>
     <a class="btn" href="#">Buka</a>
-  </div>
-
-  <div class="footer">
-    © 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.
   </div>
 
 </div>
