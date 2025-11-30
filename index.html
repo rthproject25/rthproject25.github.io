@@ -8,19 +8,17 @@
 <style>
   :root{
     --bg:#000;
-    --card:#0b0b0b;
     --muted:#bfbfbf;
     --accent:#c85b52;
     --accent-dark:#7a3d37;
-    --btn-dark:#1a1a1a;
+    --btn-dark:#0f0f0f;
     --glass: rgba(255,255,255,0.03);
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
   html,body{
     height:100%;
-    /* ALLOW SCROLL so mobile pull-to-refresh works */
-    overflow:auto;
+    overflow:auto; /* allow scroll & pull-to-refresh */
     background:var(--bg);
     font-family:Inter,system-ui,Roboto,Arial;
     color:#fff;
@@ -38,8 +36,7 @@
 
   .card{
     width:94%;
-    /* dynamic height so nothing gets cut and page can scroll */
-    padding:20px 18px;
+    padding:20px 18px 28px;
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -47,48 +44,50 @@
     position:relative;
     border-radius:18px;
     background:transparent;
+    min-height:100vh; /* keep header centered and avoid logo cut on some screens */
   }
 
-  /* animated blood background overlay */
+  /* background overlay (animated when active) */
   .card::before{
     content:"";
     position:absolute;
     inset:0;
     z-index:0;
     pointer-events:none;
-    transition:opacity .5s ease;
+    transition:opacity .45s ease;
     opacity:0;
+    background-position:center;
+    background-size:cover;
+    filter: saturate(0.95) contrast(1.02) blur(0.2px);
   }
   .card.blood-active::before{
     opacity:1;
     background-image:
-      url('Blood.png'),
-      radial-gradient(circle at 25% 30%, rgba(200,40,40,0.14), transparent 8%),
-      radial-gradient(circle at 75% 75%, rgba(140,30,30,0.09), transparent 12%);
-    background-size: cover, auto, auto;
-    background-position:center;
+      url('Blood.png');
+    animation: bg-move 14s linear infinite;
     background-blend-mode:overlay;
-    filter: saturate(1.05) contrast(1.05);
-    animation: bg-move 12s linear infinite;
   }
   @keyframes bg-move{
     0%{ transform:translateY(0) scale(1); }
-    50%{ transform:translateY(-8px) scale(1.02); }
+    50%{ transform:translateY(-6px) scale(1.02); }
     100%{ transform:translateY(0) scale(1); }
   }
 
   .card > *{position:relative;z-index:1;}
 
   .avatar{
-    width:96px;
-    height:96px;
-    border-radius:18px;
+    width:92px;
+    height:92px;
+    border-radius:16px;
     overflow:hidden;
-    margin-top:4px;
+    margin-top:6px;
     margin-bottom:6px;
     background:rgba(255,255,255,0.02);
+    display:flex;
+    align-items:center;
+    justify-content:center;
   }
-  .avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+  .avatar img{width:96%;height:96%;object-fit:cover;display:block;border-radius:12px;}
 
   h1{
     font-size:34px;
@@ -105,29 +104,29 @@
     line-height:1.45;
     margin-bottom:6px;
   }
-  strong.highlight{display:block;color:#fff;margin-top:8px;font-size:15px;}
+  strong.highlight{display:block;color:#fff;margin-top:8px;font-size:15px;text-align:center;}
 
   .note{color:var(--muted);margin-top:6px;margin-bottom:10px;font-size:13px;}
 
   .blood-block{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:4px;}
 
-  /* letters */
+  /* letters: STATIC (no translate) */
   .blood-letters{
     display:flex;
     gap:20px;
     letter-spacing:8px;
     font-weight:700;
-    transition:transform .45s cubic-bezier(.2,.9,.2,1),opacity .35s;
+    transition:opacity .35s ease;
     color:#fff;
+    user-select:none;
   }
 
-  /* when active, letters slide up and semi-fade but still visible */
+  /* subtle fade when active, STILL VISIBLE */
   .card.blood-active .blood-letters{
-    transform:translateY(-18px) scale(.98);
-    opacity:0.28; /* still readable (user requested not fully gone) */
+    opacity:0.36;
   }
 
-  /* switch */
+  /* switch control */
   .switch{
     --w:110px; --h:48px;
     width:var(--w);
@@ -156,13 +155,12 @@
     transform:translateX(58px);
   }
 
-  /* links area: allow normal page scroll; keep per-item look */
   .links{
     width:100%;
-    margin-top:12px;
+    margin-top:14px;
     display:flex;
     flex-direction:column;
-    gap:14px;
+    gap:12px;
     padding-bottom:6px;
   }
 
@@ -174,28 +172,33 @@
     align-items:center;
     padding:12px 14px;
     gap:12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
     transition:background .25s, transform .12s;
   }
-  .link .left{display:flex;gap:12px;align-items:center;}
-  .ico{
-    width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.03);
-    display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--muted);
-  }
-  .meta .title{font-weight:800;font-size:15px;}
-  .meta .sub{font-size:12px;color:var(--muted);margin-top:3px;}
 
-  /* button default (blood OFF) = dark */
+  .link .left{display:flex;gap:12px;align-items:center;min-width:0;flex:1;}
+  .ico{
+    width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,0.03);
+    display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--muted);
+    flex-shrink:0;
+  }
+  .meta{min-width:0;}
+  .meta .title{font-weight:800;font-size:15px;white-space:normal;line-height:1.12;}
+  .meta .sub{font-size:12px;color:var(--muted);margin-top:6px;}
+
+  /* buttons:
+     - default (off) = dark rounded button (looks like black)
+     - on (blood-active) = red gradient
+  */
   .btn{
-    border:none;padding:10px 14px;border-radius:10px;font-weight:800;
+    border:none;padding:10px 14px;border-radius:12px;font-weight:800;
     background:var(--btn-dark);
     color: #fff;
     box-shadow: 0 8px 18px rgba(0,0,0,0.5);
-    transition:background .28s, transform .12s;
+    transition:background .28s, transform .12s, color .28s;
+    min-width:84px;
   }
   .btn:active{transform:translateY(1px);}
 
-  /* when blood active, buttons red */
   .card.blood-active .btn{
     background:linear-gradient(180deg,var(--accent),var(--accent-dark));
     color:#fff;
@@ -212,7 +215,8 @@
     h1{font-size:28px;}
     .switch{--w:92px;--h:44px;}
     .blood-letters{gap:12px;letter-spacing:6px;}
-    .ico{width:40px;height:40px;}
+    .ico{width:42px;height:42px;}
+    .avatar{width:84px;height:84px;}
   }
 </style>
 </head>
@@ -239,7 +243,7 @@
         </div>
       </div>
 
-      <div class="links">
+      <div class="links" id="linksRoot">
         <div class="link">
           <div class="left">
             <div class="ico">IG</div>
@@ -294,7 +298,7 @@
 (function(){
   const card=document.getElementById('cardRoot');
   const sw=document.getElementById('bloodSwitch');
-  const letters=document.getElementById('bloodLetters');
+  const links = document.getElementById('linksRoot');
   let active = localStorage.getItem('rth_blood') === '1';
 
   function apply(){
@@ -322,10 +326,13 @@
     if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); sw.click(); }
   });
 
-  // links
+  // open link helper
   window.openLink = function(u){
     window.open(u, '_blank');
   };
+
+  // minor: keep header visible if viewport short -> ensure scrollability
+  // nothing else required here; page scroll/pull-to-refresh remains functional
 })();
 </script>
 </body>
