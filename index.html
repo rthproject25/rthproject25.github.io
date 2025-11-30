@@ -5,15 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Ride To Hell</title>
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     font-family: Arial, sans-serif;
-    background: #000;
+    background: #000 !important; /* PURE BLACK */
     color: #fff;
     text-align: center;
     transition: background 0.4s ease;
@@ -21,7 +17,7 @@
 
   /* BLOOD MODE background */
   body.blood-on {
-    background: linear-gradient(180deg, #1a0000, #300000);
+    background: linear-gradient(180deg, #1a0000, #300000) !important;
   }
 
   .container {
@@ -30,7 +26,7 @@
     padding: 30px 20px 80px;
   }
 
-  /* LOGO (pakai file upload logo.png) */
+  /* LOGO */
   .logo {
     width: 110px;
     height: 110px;
@@ -42,11 +38,7 @@
     box-shadow: 0 0 18px rgba(0,0,0,0.6);
   }
 
-  h1 {
-    font-size: 32px;
-    letter-spacing: 6px;
-    margin-bottom: 14px;
-  }
+  h1 { font-size: 32px; letter-spacing: 6px; margin-bottom: 14px; }
 
   .subtitle {
     font-size: 15px;
@@ -55,21 +47,11 @@
     margin-bottom: 14px;
   }
 
-  .bold {
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-
-  .note {
-    margin-bottom: 18px;
-    opacity: 0.7;
-  }
+  .bold { font-weight: 700; margin-bottom: 10px; }
+  .note { margin-bottom: 18px; opacity: 0.7; }
 
   /* SWITCH */
-  .switch-area {
-    margin-top: 18px;
-    margin-bottom: 28px;
-  }
+  .switch-area { margin-top: 18px; margin-bottom: 28px; }
 
   .blood-text {
     letter-spacing: 14px;
@@ -81,7 +63,7 @@
   .switch {
     width: 120px;
     height: 48px;
-    background: #463333;
+    background: #463333; /* OFF MODE: NO RED */
     border-radius: 40px;
     margin: 0 auto;
     position: relative;
@@ -101,16 +83,16 @@
   }
 
   body.blood-on .switch {
-    background: #a24a4a;
+    background: #a24a4a; /* RED MODE */
   }
 
   body.blood-on .knob {
     left: 76px;
   }
 
-  /* Contact Cards */
+  /* CARDS */
   .card {
-    background: #111;
+    background: #0d0d0d; /* FULL BLACK CARD */
     border-radius: 16px;
     padding: 14px 16px;
     margin-bottom: 14px;
@@ -123,7 +105,7 @@
     width: 48px;
     height: 48px;
     border-radius: 14px;
-    background: #333;
+    background: #222; /* hitam pekat */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -131,25 +113,14 @@
     font-size: 17px;
   }
 
-  .text-group {
-    flex: 1;
-    text-align: left;
-  }
+  .text-group { flex: 1; text-align: left; }
 
-  .top {
-    font-size: 16px;
-    font-weight: 700;
-  }
-
-  .sub {
-    font-size: 13px;
-    opacity: 0.8;
-    margin-top: 4px;
-  }
+  .top { font-size: 16px; font-weight: 700; }
+  .sub { font-size: 13px; opacity: 0.8; margin-top: 4px; }
 
   .btn {
     padding: 10px 14px;
-    background: #a35b5b;
+    background: #a35b5b; /* tetap merah untuk kontras */
     border: none;
     border-radius: 12px;
     color: white;
@@ -157,11 +128,11 @@
     cursor: pointer;
   }
 
-  /* Screensaver */
+  /* SCREENSAVER */
   #screensaver {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0,0,0,0.85); /* PURE BLACK */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -171,7 +142,7 @@
   }
 
   body.blood-on #screensaver {
-    background: rgba(60,10,10,0.85);
+    background: rgba(60,10,10,0.85); /* RED MODE */
   }
 
   #screensaver.show {
@@ -191,7 +162,6 @@
     letter-spacing: 4px;
     margin-bottom: 8px;
   }
-
 </style>
 </head>
 <body>
