@@ -15,7 +15,7 @@
   --accent:#b85d56;
   --accent-dark:#8b3c37;
   --card: rgba(0,0,0,0.56);
-  --radius:18px;
+  --radius:16px;
   --glass-blur:6px;
 }
 
@@ -47,8 +47,6 @@ body{
   50%{background-position:50% 60%}
   100%{background-position:50% 40%}
 }
-
-/* subtle vignette plus moving overlay for depth */
 .bg::after{
   content:"";
   position:absolute; inset:0;
@@ -56,7 +54,7 @@ body{
   pointer-events:none;
 }
 
-/* lightweight particle layer (canvas handled by JS) */
+/* particles */
 .particles{ position:fixed; inset:0; z-index:-2; pointer-events:none; }
 
 /* wrapper */
@@ -76,8 +74,8 @@ body{
 }
 .avatar img{ width:100%; height:100%; object-fit:cover; display:block }
 
-/* title */
-.title{
+/* main site title (separate from card meta titles) */
+.site-title{
   margin-top:18px;
   font-weight:800;
   letter-spacing:6px;
@@ -97,24 +95,26 @@ body{
 .headline{ margin-top:18px; font-weight:700; text-align:center; font-size:18px }
 .muted{ margin-top:12px; color:var(--muted); text-align:center }
 
-/* BLOOD letters row */
+/* BLOOD letters row - only for these letters */
 .blood-row{
-  display:flex; gap:28px; justify-content:center;
-  margin:22px 0 10px; letter-spacing:16px;
-  color:rgba(255,255,255,0.9); font-weight:700;
-  transform:translateY(0);
-  transition:transform .35s ease;
+  display:flex; gap:20px; justify-content:center;
+  margin:18px 0 6px;
+  color:rgba(255,255,255,0.95);
+  font-weight:700;
+  letter-spacing:6px;
   pointer-events:none;
 }
+.blood-row > div{ display:inline-block; font-size:16px; transform:translateY(0); transition:transform .28s ease }
 
 /* Toggle */
-.toggle-wrap{ display:flex; justify-content:center; margin:18px 0 6px }
+.toggle-wrap{ display:flex; justify-content:center; margin:12px 0 10px }
 .toggle{
-  --w:168px; --h:68px;
+  --w:150px; --h:64px;
   width:var(--w); height:var(--h); border-radius:44px;
   background:linear-gradient(180deg,#1b1b1b,#151515);
   box-shadow: 0 12px 34px rgba(0,0,0,.6), inset 0 -4px 14px rgba(0,0,0,.5);
   position:relative; cursor:pointer; transition:all .28s ease;
+  display:block;
 }
 .knob{
   position:absolute; left:10px; top:10px; width:calc(var(--h) - 20px); height:calc(var(--h) - 20px);
@@ -148,11 +148,12 @@ body{
   background:rgba(255,255,255,0.03); color:var(--muted); font-weight:700;
   flex:0 0 56px;
 }
-.meta{ flex:1; }
-.meta .title{ font-weight:800; font-size:18px }
-.meta .sub{ color:var(--muted); margin-top:6px; font-size:13px }
+.meta{ flex:1; text-align:left; min-width:0; } /* min-width:0 allows proper wrapping */
+.meta .meta-title{ font-weight:800; font-size:18px; color:var(--white); line-height:1.15 }
+.meta .meta-sub{ color:var(--muted); margin-top:6px; font-size:13px; line-height:1.2; }
 
-/* CTA button */
+/* CTA button aligned right */
+.actions{ flex:0 0 auto; margin-left:12px; display:flex; align-items:center; }
 .btn{
   border:none; padding:10px 18px; border-radius:12px; font-weight:800; cursor:pointer;
   box-shadow: 0 8px 26px rgba(0,0,0,.45); color:var(--white); background:#4a4a4a;
@@ -165,11 +166,12 @@ body{
 
 /* responsiveness */
 @media (max-width:420px){
-  .title{font-size:34px}
+  .site-title{font-size:34px}
   .avatar{width:80px;height:80px}
-  .blood-row{gap:18px}
-  .toggle{--w:150px; --h:60px}
+  .blood-row{gap:14px; letter-spacing:3px}
+  .toggle{--w:140px; --h:58px}
   .ico{min-width:48px; min-height:48px}
+  .meta .meta-title{font-size:16px}
 }
 
 /* Accessibility focus */
@@ -186,7 +188,7 @@ body{
       <img src="avatar.png" alt="RTH logo">
     </div>
 
-    <div class="title">RIDE TO HELL</div>
+    <div class="site-title">RIDE TO HELL</div>
 
     <p class="lead">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</p>
     <div class="headline">RTH bukan sekadar nama — ini cara gue bertahan.</div>
@@ -206,37 +208,45 @@ body{
       <div class="card">
         <div class="ico">IG</div>
         <div class="meta">
-          <div class="title">@ridetohhell.official</div>
-          <div class="sub">Instagram Resmi</div>
+          <div class="meta-title">@ridetohhell.official</div>
+          <div class="meta-sub">Instagram Resmi</div>
         </div>
-        <a id="ig" class="btn" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener">Masuk</a>
+        <div class="actions">
+          <a id="ig" class="btn" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener">Masuk</a>
+        </div>
       </div>
 
       <div class="card">
         <div class="ico">WA</div>
         <div class="meta">
-          <div class="title">Chat via WhatsApp — +62 858-8211-0680</div>
-          <div class="sub">Fast contact</div>
+          <div class="meta-title">Chat via WhatsApp — +62 858-8211-0680</div>
+          <div class="meta-sub">Fast contact</div>
         </div>
-        <a id="wa" class="btn" href="https://wa.me/6285882110680" target="_blank" rel="noopener">Terhubung</a>
+        <div class="actions">
+          <a id="wa" class="btn" href="https://wa.me/6285882110680" target="_blank" rel="noopener">Terhubung</a>
+        </div>
       </div>
 
       <div class="card">
         <div class="ico">YT</div>
         <div class="meta">
-          <div class="title">YouTube Channel</div>
-          <div class="sub">@RTHProject25</div>
+          <div class="meta-title">YouTube Channel</div>
+          <div class="meta-sub">@RTHProject25</div>
         </div>
-        <a id="yt" class="btn" href="https://youtube.com" target="_blank" rel="noopener">Tonton</a>
+        <div class="actions">
+          <a id="yt" class="btn" href="https://youtube.com" target="_blank" rel="noopener">Tonton</a>
+        </div>
       </div>
 
       <div class="card">
         <div class="ico">f</div>
         <div class="meta">
-          <div class="title">Halaman Facebook</div>
-          <div class="sub">Ride To Hell</div>
+          <div class="meta-title">Halaman Facebook</div>
+          <div class="meta-sub">Ride To Hell</div>
         </div>
-        <a id="fb" class="btn" href="https://facebook.com" target="_blank" rel="noopener">Buka</a>
+        <div class="actions">
+          <a id="fb" class="btn" href="https://facebook.com" target="_blank" rel="noopener">Buka</a>
+        </div>
       </div>
     </div>
 
@@ -247,11 +257,9 @@ body{
 /* ====== toggle premium ====== */
 const body = document.body;
 const toggle = document.getElementById('toggle');
-const knob = toggle.querySelector('.knob');
 const BLOOD = document.getElementById('bloodRow');
 
 let premium = false;
-
 function applyPremium(on){
   premium = !!on;
   if(premium){
@@ -263,18 +271,14 @@ function applyPremium(on){
     body.classList.remove('premium-on');
     body.classList.add('premium-off');
     toggle.setAttribute('aria-pressed','false');
-    BLOOD.style.opacity = '0.9';
+    BLOOD.style.opacity = '0.95';
   }
-  // save
-  try{ localStorage.setItem('rth_premium', premium ? '1' : '0') } catch(e){}
+  try{ localStorage.setItem('rth_premium', premium ? '1' : '0') }catch(e){}
 }
-
 toggle.addEventListener('click', ()=> applyPremium(!premium));
 toggle.addEventListener('keydown', (e)=>{
   if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); applyPremium(!premium) }
 });
-
-// restore
 try{
   if(localStorage.getItem('rth_premium') === '1') applyPremium(true);
   else applyPremium(false);
@@ -288,20 +292,17 @@ try{
   let w = canvas.width = innerWidth;
   let h = canvas.height = innerHeight;
   let particles = [];
-  const count = Math.max(18, Math.floor((w*h)/120000)); // scale with screen
-
+  const count = Math.max(14, Math.floor((w*h)/160000));
   function rand(min,max){return Math.random()*(max-min)+min}
-
   function init(){
     particles = [];
     for(let i=0;i<count;i++){
       particles.push({
         x: rand(0,w),
         y: rand(0,h),
-        r: rand(0.6,2.2),
-        a: rand(0.02,0.09),
-        vx: rand(-0.05,0.05),
-        vy: rand(-0.05,0.05),
+        r: rand(0.5,1.8),
+        vx: rand(-0.03,0.03),
+        vy: rand(-0.02,0.02),
       });
     }
   }
@@ -309,9 +310,7 @@ try{
     ctx.clearRect(0,0,w,h);
     particles.forEach(p=>{
       ctx.beginPath();
-      ctx.fillStyle = "rgba(0,0,0,0.0)";
-      // subtle red glow behind particle
-      ctx.shadowBlur = 18;
+      ctx.shadowBlur = 12;
       ctx.shadowColor = "rgba(184,93,86,0.06)";
       ctx.fillStyle = "rgba(255,255,255,0.02)";
       ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
@@ -321,39 +320,26 @@ try{
   }
   function update(){
     particles.forEach(p=>{
-      p.x += p.vx;
-      p.y += p.vy;
+      p.x += p.vx; p.y += p.vy;
       if(p.x < -20) p.x = w+20;
       if(p.x > w+20) p.x = -20;
       if(p.y < -20) p.y = h+20;
       if(p.y > h+20) p.y = -20;
     });
   }
-  let raf;
-  function loop(){
-    draw(); update();
-    raf = requestAnimationFrame(loop);
-  }
-  function resize(){
-    w = canvas.width = innerWidth;
-    h = canvas.height = innerHeight;
-    init();
-  }
+  function loop(){ draw(); update(); requestAnimationFrame(loop); }
+  function resize(){ w = canvas.width = innerWidth; h = canvas.height = innerHeight; init(); }
   window.addEventListener('resize', resize);
   init(); loop();
 })();
 
-/* ====== ensure pull-to-refresh works (no passive blocking) ====== */
-/* No event.preventDefault on touchstart/scroll so browser native pull-to-refresh should function. */
-
-/* ====== small UX: when user scrolls up a bit, Blood letters do pull-up effect ====== */
+/* ====== Pull effect for BLOOD letters ====== */
 let lastY = 0;
 window.addEventListener('scroll', ()=>{
   const y = window.scrollY || window.pageYOffset;
   const el = document.getElementById('bloodRow');
-  // when user pulls down near top, move letters slightly up to create pull effect
-  if(y < 60 && lastY > y){ // pulling down
-    const amount = Math.min(18, (60 - y)/3);
+  if(y < 60 && lastY > y){
+    const amount = Math.min(16, (60 - y)/4);
     el.style.transform = `translateY(-${amount}px)`;
   } else {
     el.style.transform = 'translateY(0)';
@@ -361,8 +347,7 @@ window.addEventListener('scroll', ()=>{
   lastY = y;
 });
 
-/* accessibility: ensure large B capital is used in file name notice (dev reminder) */
-console.log("Check: use 'Blood.jpg' (capital B) and 'avatar.png' in same folder.");
+console.log("Reminder: Use file named 'Blood.jpg' (capital B) and 'avatar.png' next to index.html");
 </script>
 </body>
 </html>
