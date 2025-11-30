@@ -1,198 +1,178 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Ride To Hell</title>
 <style>
-  /* ===== RESET ===== */
+  /* RESET */
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
-
-  /* ===== BACKGROUND CONTAINER (contains canvas animation) ===== */
-  #bg-anim {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -9999;
-    overflow: hidden;
-    background: #000; /* base black */
-  }
-
-  /* Canvas will fill container */
-  #bg-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
-
-  /* subtle vignette layer (still present) */
-  .bg-vignette {
-    position:absolute;inset:0;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 38%, rgba(0,0,0,0.6) 100%);
-    pointer-events:none;
-    z-index: -9998;
-    opacity: 1;
-  }
-
-  /* When blood mode is ON, we tint overlay via a subtle overlay element */
-  #bg-anim .tint { position:absolute; inset:0; pointer-events:none; z-index:-9997; opacity:0; transition:opacity .4s ease; background: linear-gradient(180deg, rgba(50,12,12,0.35), rgba(10,0,0,0.45)); }
-  body.blood #bg-anim .tint { opacity:1; }
-
-  /* ===== PAGE BASE ===== */
   body{
     font-family: "Inter", Arial, Helvetica, sans-serif;
     -webkit-font-smoothing:antialiased;
+    background:#000;
     color:#fff;
     line-height:1.4;
     min-height:100vh;
     -webkit-text-size-adjust:100%;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    -webkit-user-select: none;
-    user-select: none;
-    overscroll-behavior-y: contain;
-    background: transparent;
   }
 
-  /* ===== LAYOUT (locked & stable) ===== */
+  /* CONTAINER */
   .wrap{
     width:100%;
     max-width:820px;
     margin:0 auto;
-    padding:28px 18px 80px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    z-index: 1;
-    position: relative;
+    padding:22px 18px 80px;
   }
 
-  .header {
-    width:100%;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    min-height:260px;
-    padding-top:4px;
-    padding-bottom:6px;
-  }
-
+  /* LOGO */
   .logo{
-    width:96px;height:96px;margin:6px auto 8px;border-radius:20px;
-    background-image:url('logo.png');background-size:cover;background-position:center;
+    width:96px;
+    height:96px;
+    margin: 4px auto 10px;
+    border-radius:20px;
+    background-image:url('logo.png');
+    background-size:cover;
+    background-position:center;
     box-shadow:0 14px 40px rgba(0,0,0,0.7);
     transform:translateZ(0);
-    flex-shrink:0;
   }
 
+  /* TITLE */
   h1{
-    font-weight:800;text-align:center;letter-spacing:10px;margin-top:8px;margin-bottom:8px;font-size:30px;
-    margin-left:6px;margin-right:6px;
+    font-weight:800;
+    text-align:center;
+    letter-spacing:10px;
+    margin-top:8px;
+    margin-bottom:8px;
+    font-size:30px;
   }
 
-  .subtitle{max-width:760px;margin:8px auto 6px;font-size:14.5px;opacity:0.95;text-align:center}
-  .bold-line{font-weight:800;margin-top:10px;margin-bottom:8px;text-align:center;font-size:15px}
-  .note{text-align:center;margin-bottom:10px;opacity:0.7;font-size:13px}
+  .subtitle{
+    max-width:760px;
+    margin:8px auto 8px;
+    font-size:14.5px;
+    opacity:0.95;
+    text-align:center;
+  }
 
-  .blood-row{display:flex;justify-content:center;gap:18px;margin:8px 0 12px;opacity:0.45;letter-spacing:9px;font-size:14px}
+  .bold-line{
+    font-weight:800;
+    margin-top:10px;
+    margin-bottom:8px;
+    text-align:center;
+    font-size:15px;
+  }
 
-  /* ===== SWITCH (premium small elegant) ===== */
-  .switch-wrap{display:flex;justify-content:center;margin-bottom:20px;width:100%}
+  .note{
+    text-align:center;
+    margin-bottom:10px;
+    opacity:0.7;
+    font-size:13px;
+  }
+
+  /* BLOOD letters row */
+  .blood-row{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin:8px 0 12px;
+    opacity:0.45;
+    letter-spacing:9px;
+    font-size:14px;
+  }
+
+  /* SWITCH (20% smaller than previous) */
+  .switch-wrap{display:flex;justify-content:center;margin-bottom:20px}
   .switch{
-    width:128px;height:56px;border-radius:36px;background:linear-gradient(180deg,#0f0f0f,#070707 60%);
-    position:relative;cursor:pointer;box-shadow:inset 0 6px 18px rgba(255,255,255,0.02), 0 10px 26px rgba(0,0,0,0.6);
+    width:128px;           /* reduced from 160 → 128 (20%) */
+    height:56px;           /* reduced from 70 → 56 (20%) */
+    border-radius:36px;
+    background:linear-gradient(180deg,#0f0f0f,#070707 60%);
+    position:relative;
+    cursor:pointer;
+    box-shadow:inset 0 6px 18px rgba(255,255,255,0.02), 0 10px 26px rgba(0,0,0,0.6);
     transition:background .28s ease, box-shadow .28s ease;
-    display:inline-block;
-    flex-shrink:0;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
   }
-
-  .switch-hit {
-    position:absolute; inset:-8px; border-radius:44px; /* larger hit area for mobile */
-    background:transparent;
-  }
-
   .knob{
-    width:50px;height:50px;border-radius:50%;background:#fff;position:absolute;top:3px;left:8px;
-    transform: translateZ(0);
-    transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .18s;
+    width:50px;            /* reduced from 62 → 50 (~20%) */
+    height:50px;
+    border-radius:50%;
+    background:#fff;
+    position:absolute;
+    top:3px;
+    left:8px;              /* adjusted smaller offset */
+    transition:left .28s cubic-bezier(.2,.9,.2,1);
     box-shadow:0 12px 30px rgba(0,0,0,0.6);
-    will-change: transform;
   }
-
-  /* ensure movement is effective & consistent */
-  .switch[data-state="off"] .knob { transform: translateX(0); }
-  .switch[data-state="on"]  .knob { transform: translateX(70px); }
-
   body.blood .switch{
     background:linear-gradient(180deg,#6f2f2f,#401616 60%);
     box-shadow:inset 0 6px 20px rgba(120,20,20,0.06), 0 12px 36px rgba(120,20,20,0.2);
   }
+  body.blood .knob{ left:70px; } /* moved on-position for reduced width */
 
-  /* ===== CONTACT CARDS ===== */
-  .list{margin-top:6px;display:flex;flex-direction:column;gap:16px;padding-bottom:18px;width:100%}
+  /* CONTACT CARDS */
+  .list{margin-top:6px;display:flex;flex-direction:column;gap:16px;padding-bottom:18px}
   .card{
-    display:flex;align-items:center;gap:16px;padding:18px;border-radius:18px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:18px;
+    border-radius:18px;
     background:linear-gradient(160deg,#141414 0%, #0d0d0d 60%, #060606 100%);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.02),0 20px 40px rgba(0,0,0,0.7);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.02),
+      0 20px 40px rgba(0,0,0,0.7);
     border:1px solid rgba(255,255,255,0.02);
-    width:100%;
   }
 
   .icon{
-    min-width:64px;height:64px;border-radius:14px;background:linear-gradient(145deg,#1b1b1b,#080808);
-    display:flex;justify-content:center;align-items:center;font-weight:900;font-size:18px;box-shadow: inset 0 2px 6px rgba(255,255,255,0.02);
+    min-width:64px;
+    height:64px;
+    border-radius:14px;
+    background:linear-gradient(145deg,#1b1b1b,#080808);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:900;
+    font-size:18px;
+    box-shadow: inset 0 2px 6px rgba(255,255,255,0.02);
   }
 
-  .text{flex:1;min-width:0}
+  .text{
+    flex:1; min-width:0;
+  }
+
   .top-title{ font-size:18px; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .sub{ font-size:13px; opacity:0.75; margin-top:6px; }
 
+  /* CTA button — slightly lighter but still dark */
   .cta{
-    padding:10px 16px;border-radius:14px;background:linear-gradient(145deg,#191919,#292929 60%);color:#fff;text-decoration:none;font-weight:800;font-size:15px;border:1px solid rgba(255,255,255,0.04);
-    box-shadow: 0 10px 26px rgba(0,0,0,0.6);white-space:nowrap;
-    transition: background .22s ease, transform .12s ease;
+    padding:10px 16px;
+    border-radius:14px;
+    background:linear-gradient(145deg,#191919,#292929 60%);
+    color:#fff;
+    text-decoration:none;
+    font-weight:800;
+    font-size:15px;
+    border:1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.6);
+    white-space:nowrap;
   }
-  .cta:active{ transform: translateY(1px) }
+  .cta:hover{ opacity:0.85; transform:translateY(-1px); transition: .12s; }
+  .cta:active{ transform:translateY(1px); }
 
-  /* when blood is ON, CTA becomes reddish (but still subtle) */
-  body.blood .cta{
-    background: linear-gradient(145deg, rgba(120,40,40,0.9), rgba(80,30,30,0.85));
-    border: 1px solid rgba(255,255,255,0.03);
-  }
+  footer{ margin-top:26px; text-align:center; opacity:0.6; padding-bottom:30px; font-size:13px; }
 
-  footer{ margin-top:26px; text-align:center; opacity:0.6; padding-bottom:30px; font-size:13px; width:100% }
-
-  /* ===== SCREENSAVER ===== */
-  #screensaver {
-    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-    pointer-events: none; opacity: 0; transition: opacity .28s ease; z-index:1200;
-  }
-  #screensaver.show { opacity:1; pointer-events:auto; }
-
-  #screensaver.off { background: linear-gradient(180deg, rgba(0,0,0,0.98), rgba(0,0,0,0.98)); }
-  #screensaver.on  { background: linear-gradient(180deg, rgba(40,6,6,0.9), rgba(10,0,0,0.95)); }
-
-  .screen-inner {
-    text-align:center; color:#fff; padding: 20px 28px; border-radius: 12px; display:flex; flex-direction:column; align-items:center; gap:12px;
-    transform: translateY(0); transition: transform .28s ease, opacity .28s ease; opacity:1; pointer-events:auto;
-    max-width:92%;
-    z-index:1210;
-  }
-
-  .screen-logo { width:90px; height:90px; border-radius:20px; background-image:url('logo.png'); background-size:cover;background-position:center; animation:pulse 2.6s ease-in-out infinite;}
-  @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
-
-  .screen-title{ font-weight:800; letter-spacing:4px; font-size:18px; }
-  .screen-sub{ font-size:13px; opacity:0.9; }
-  .screen-hint{ margin-top:6px; font-size:12px; opacity:0.8; }
-
-  /* responsive */
+  /* mobile tweaks (scaled down similarly) */
   @media (max-width:420px){
     .wrap{padding:20px 14px 80px}
-    .header{min-height:240px}
-    .logo{width:92px;height:92px}
+    .logo{width:92px;height:92px;border-radius:18px}
     h1{font-size:28px;letter-spacing:8px;margin-bottom:6px}
-    .switch{width:120px;height:56px}
-    .knob{width:44px;height:44px;top:6px}
-    .switch[data-state="on"] .knob{ transform: translateX(66px) }
+    .switch{width:120px;height:56px} /* mobile-friendly width */
+    .knob{width:44px;height:44px;top:6px;left:8px}
+    body.blood .knob{left:66px}       /* mobile on position */
     .icon{min-width:56px;height:56px}
     .card{padding:14px;border-radius:16px}
     .top-title{font-size:17px}
@@ -201,38 +181,32 @@
 </style>
 </head>
 <body>
-  <!-- Background animation overlay (Canvas) -->
-  <div id="bg-anim" aria-hidden="true">
-    <canvas id="bg-canvas" aria-hidden="true"></canvas>
-    <div class="bg-vignette" aria-hidden="true"></div>
-    <div class="tint" aria-hidden="true"></div>
-  </div>
+  <div class="wrap" role="main" aria-label="Ride To Hell">
 
-  <div class="wrap">
-    <div class="header">
-      <div class="logo"></div>
-      <h1>RIDE TO HELL</h1>
-      <div class="subtitle">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</div>
-      <div class="bold-line">RTH bukan sekadar nama — ini cara gue bertahan.</div>
-      <div class="note">Simple contact · No noise</div>
-      <div class="blood-row"><div>B</div><div>L</div><div>O</div><div>O</div><div>D</div></div>
-      <div class="switch-wrap">
-        <div id="switch" class="switch" data-state="off" role="switch" aria-checked="false" tabindex="0">
-          <div class="knob" aria-hidden="true"></div>
-          <!-- larger invisible element for reliable taps on mobile -->
-          <div class="switch-hit" aria-hidden="true"></div>
-        </div>
+    <div class="logo" aria-hidden="true"></div>
+
+    <h1>RIDE TO HELL</h1>
+
+    <div class="subtitle">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</div>
+    <div class="bold-line">RTH bukan sekadar nama — ini cara gue bertahan.</div>
+    <div class="note">Simple contact · No noise</div>
+
+    <div class="blood-row" aria-hidden="true"><div>B</div><div>L</div><div>O</div><div>O</div><div>D</div></div>
+
+    <div class="switch-wrap">
+      <div id="switch" class="switch" role="switch" aria-checked="false" tabindex="0">
+        <div class="knob" aria-hidden="true"></div>
       </div>
     </div>
 
-    <div class="list">
+    <div class="list" aria-label="Kontak">
       <div class="card">
         <div class="icon">IG</div>
         <div class="text">
           <div class="top-title">@ridetohhell.official</div>
           <div class="sub">Instagram Resmi</div>
         </div>
-        <a class="cta" id="cta-inst" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener">Masuk</a>
+        <a class="cta" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener">Masuk</a>
       </div>
 
       <div class="card">
@@ -241,7 +215,7 @@
           <div class="top-title">Chat via WhatsApp — +62 858-8211-0680</div>
           <div class="sub">Fast contact</div>
         </div>
-        <a class="cta" id="cta-wa" href="https://wa.me/6285882110680" target="_blank" rel="noopener">Terhubung</a>
+        <a class="cta" href="https://wa.me/6285882110680" target="_blank" rel="noopener">Terhubung</a>
       </div>
 
       <div class="card">
@@ -250,7 +224,7 @@
           <div class="top-title">YouTube Channel</div>
           <div class="sub">@RTHProject25</div>
         </div>
-        <a class="cta" id="cta-yt" href="https://youtube.com/@RTHProject25" target="_blank" rel="noopener">Tonton</a>
+        <a class="cta" href="https://youtube.com/@RTHProject25" target="_blank" rel="noopener">Tonton</a>
       </div>
 
       <div class="card">
@@ -259,234 +233,50 @@
           <div class="top-title">Halaman Facebook</div>
           <div class="sub">Ride To Hell</div>
         </div>
-        <a class="cta" id="cta-fb" href="https://facebook.com" target="_blank" rel="noopener">Buka</a>
+        <a class="cta" href="https://facebook.com" target="_blank" rel="noopener">Buka</a>
       </div>
     </div>
 
     <footer>© 2025 Ride To Hell</footer>
   </div>
 
-  <!-- SCREENSAVER -->
-  <div id="screensaver" class="off">
-    <div class="screen-inner" role="dialog" aria-hidden="true">
-      <div class="screen-logo" aria-hidden="true"></div>
-      <div class="screen-title">RIDE TO HELL</div>
-      <div class="screen-sub">Sentuh layar untuk kembali</div>
-      <div class="screen-hint">Tap anywhere to exit</div>
-    </div>
-  </div>
-
 <script>
-/* ========= Canvas Dark Wave (works on mobile) ========= */
 (function(){
-  const canvas = document.getElementById('bg-canvas');
-  const ctx = canvas.getContext('2d', {alpha:true});
-  let w = 0, h = 0, dpr = Math.max(1, window.devicePixelRatio || 1);
-  let particles = [];
-  const PARTICLE_COUNT = 6;
-  const TAU = Math.PI*2;
+  const sw = document.getElementById('switch');
+  const body = document.body;
+  const knob = sw.querySelector('.knob');
 
-  function resize(){
-    dpr = Math.max(1, window.devicePixelRatio || 1);
-    w = Math.max(320, innerWidth);
-    h = Math.max(320, innerHeight);
-    canvas.width = Math.round(w * dpr);
-    canvas.height = Math.round(h * dpr);
-    canvas.style.width = w + 'px';
-    canvas.style.height = h + 'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-
-  function rand(min,max){ return Math.random()*(max-min)+min; }
-
-  function makeParticles(){
-    particles = [];
-    for(let i=0;i<PARTICLE_COUNT;i++){
-      particles.push({
-        x: rand(w*0.2, w*0.8),
-        y: rand(h*0.0, h*0.6),
-        r: rand(Math.min(w,h)*0.22, Math.min(w,h)*0.48),
-        vx: rand(-0.06, 0.06),
-        vy: rand(-0.02, 0.02),
-        rot: rand(0, TAU),
-        vrot: rand(-0.003, 0.003),
-        alpha: rand(0.04, 0.14),
-      });
-    }
-  }
-
-  function draw(){
-    ctx.clearRect(0,0,w,h);
-    ctx.fillStyle = 'rgba(0,0,0,1)';
-    ctx.fillRect(0,0,w,h);
-
-    for(let p of particles){
-      const gx = p.x;
-      const gy = p.y;
-      const gr = p.r;
-      const ox = Math.sin(p.rot*1.1) * (gr*0.06);
-      const oy = Math.cos(p.rot*0.9) * (gr*0.04);
-
-      const grad = ctx.createRadialGradient(gx+ox, gy+oy, 0, gx+ox, gy+oy, gr);
-      grad.addColorStop(0, `rgba(18,18,18,${p.alpha*1.6})`);
-      grad.addColorStop(0.35, `rgba(12,12,12,${p.alpha*1.05})`);
-      grad.addColorStop(1, `rgba(6,6,6,0)`);
-
-      ctx.globalCompositeOperation = 'lighter';
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(gx+ox, gy+oy, gr, 0, TAU);
-      ctx.fill();
-    }
-
-    ctx.globalCompositeOperation = 'source-over';
-    const v = ctx.createRadialGradient(w/2, h*0.35, Math.min(w,h)*0.2, w/2, h/2, Math.max(w,h)*0.9);
-    v.addColorStop(0, 'rgba(0,0,0,0)');
-    v.addColorStop(0.7, 'rgba(0,0,0,0.18)');
-    v.addColorStop(1, 'rgba(0,0,0,0.55)');
-    ctx.fillStyle = v;
-    ctx.fillRect(0,0,w,h);
-  }
-
-  let last = performance.now();
-  function step(now){
-    const dt = Math.min(40, now - last);
-    last = now;
-
-    for(let p of particles){
-      p.x += p.vx * dt * 0.12;
-      p.y += p.vy * dt * 0.08;
-      p.rot += p.vrot * dt * 0.0012;
-      p.r += Math.sin(now*0.0003 + p.rot) * 0.03;
-      if(p.x < -p.r) p.x = w + p.r;
-      if(p.x > w + p.r) p.x = -p.r;
-      if(p.y < -p.r) p.y = h + p.r;
-      if(p.y > h + p.r) p.y = -p.r;
-    }
-
-    draw();
-    raf = requestAnimationFrame(step);
-  }
-
-  let raf = null;
-  function start(){
-    cancelAnimationFrame(raf);
-    resize();
-    makeParticles();
-    last = performance.now();
-    raf = requestAnimationFrame(step);
-  }
-
-  document.addEventListener('visibilitychange', ()=>{
-    if(document.hidden){ cancelAnimationFrame(raf); raf = null; }
-    else if(!raf) { last = performance.now(); raf = requestAnimationFrame(step); }
-  }, false);
-
-  let rto;
-  window.addEventListener('resize', ()=>{
-    clearTimeout(rto);
-    rto = setTimeout(()=>{ resize(); makeParticles(); }, 180);
-  }, {passive:true});
-
-  start();
-  window._rthCanvas = {start, makeParticles, resize};
-})();
-
-/* ========= UI: switch, screensaver, idle logic (mobile-friendly) ========= */
-(function(){
-  const body=document.body;
-  const sw=document.getElementById('switch');
-  const screensaver=document.getElementById('screensaver');
-  const KEY='rth_blood_state_v1';
-  const IDLE=6000;
-  let idleTimer=null;
-
-  function read(){try{return localStorage.getItem(KEY)==='1'}catch(e){return false}}
-  function write(v){try{localStorage.setItem(KEY,v?'1':'0')}catch(e){}}
-
-  function apply(on, skipStorage){
+  function setMode(on){
     if(on){
       body.classList.add('blood');
-      sw.setAttribute('data-state','on');
       sw.setAttribute('aria-checked','true');
     } else {
       body.classList.remove('blood');
-      sw.setAttribute('data-state','off');
       sw.setAttribute('aria-checked','false');
     }
-    if(!skipStorage) write(on);
-    if(screensaver.classList.contains('show')) updateSS(on);
   }
 
-  function updateSS(on){
-    if(on){screensaver.classList.remove('off');screensaver.classList.add('on')}
-    else{screensaver.classList.remove('on');screensaver.classList.add('off')}
-  }
+  setMode(false); // start off
 
-  // initialize from storage
-  apply(read(), true);
-
-  // robust toggle that works with touch + keyboard + click
   function toggle(){
-    apply(!body.classList.contains('blood'));
-    resetIdle();
+    setMode(!body.classList.contains('blood'));
   }
 
-  // listen to click on the visible switch, and also on the invisible hit area
-  sw.addEventListener('click', (e)=>{
-    // ignore text selection etc.
-    toggle();
-  }, {passive:true});
-
-  // keyboard accessibility: space / enter toggles
-  sw.addEventListener('keydown', (ev)=>{
-    if(ev.key === ' ' || ev.key === 'Spacebar' || ev.key === 'Enter'){
-      ev.preventDefault();
+  sw.addEventListener('click', toggle);
+  sw.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
       toggle();
     }
   });
 
-  // also make each CTA clickable normally — no code change required, but we'll keep them interactive.
-  // screensaver logic
-  function showSS(){
-    updateSS(body.classList.contains('blood'));
-    screensaver.classList.add('show');
-    document.documentElement.style.overflow='hidden';
-  }
-  function hideSS(){
-    screensaver.classList.remove('show');
-    document.documentElement.style.overflow='';
-    resetIdle();
-  }
-
-  screensaver.addEventListener('click', hideSS, {passive:true});
-
-  function resetIdle(){
-    clearTimeout(idleTimer);
-    if(screensaver.classList.contains('show')) hideSS();
-    idleTimer=setTimeout(()=>showSS(),IDLE);
-  }
-
-  ['mousemove','mousedown','touchstart','touchmove','keydown','scroll'].forEach(e=>{
-    document.addEventListener(e,resetIdle,{passive:true});
+  // ensure knob exact position on DOM change
+  const observer = new MutationObserver(()=> {
+    if(body.classList.contains('blood')) knob.style.left = '70px';
+    else knob.style.left = '8px';
   });
-
-  resetIdle();
-
-  // tiny UX: if user long-presses switch (mobile), treat as toggle — handle touchend fallback
-  let touchStartTime=0;
-  sw.addEventListener('touchstart',(e)=>{ touchStartTime = Date.now(); }, {passive:true});
-  sw.addEventListener('touchend',(e)=>{
-    const dur = Date.now() - touchStartTime;
-    // short tap already handled by click; ensure no accidental double toggles
-    e.preventDefault();
-  }, {passive:false});
-
-  if(window && window.console) console.log('RTH: UI initialized (switch + screensaver).');
+  observer.observe(body, { attributes:true, attributeFilter:['class'] });
 })();
-
-/* Optional: keep CTAs tabbable and focus-visible (no JS needed here) */
 </script>
-
 </body>
 </html>
