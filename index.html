@@ -8,6 +8,8 @@
   /* ===== RESET ===== */
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
+
+  /* ====== ANIMASI BACKGROUND PREMIUM (DITAMBAHKAN) ====== */
   body{
     font-family: "Inter", Arial, Helvetica, sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -20,6 +22,17 @@
     -webkit-user-select: none;
     user-select: none;
     overscroll-behavior-y: contain;
+
+    /* PREMIUM SOFT VIGNETTE MOVING */
+    background: radial-gradient(circle at center, #000 0%, #000 40%, #050505 70%, #000 100%);
+    background-size: 200% 200%;
+    animation: vignetteMove 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes vignetteMove {
+    0% { background-position: 50% 50%; }
+    50% { background-position: 48% 52%; }
+    100% { background-position: 52% 48%; }
   }
 
   /* ===== LAYOUT (locked & stable) ===== */
@@ -105,11 +118,10 @@
     padding:10px 16px;border-radius:14px;background:linear-gradient(145deg,#191919,#292929 60%);color:#fff;text-decoration:none;font-weight:800;font-size:15px;border:1px solid rgba(255,255,255,0.04);
     box-shadow: 0 10px 26px rgba(0,0,0,0.6);white-space:nowrap;
   }
-  .cta:hover{ opacity:0.85; transform:translateY(-1px); transition: .12s; }
 
   footer{ margin-top:26px; text-align:center; opacity:0.6; padding-bottom:30px; font-size:13px; width:100% }
 
-  /* ===== SCREENSAVER (hidden by default; appears after idle) ===== */
+  /* ===== SCREENSAVER ===== */
   #screensaver {
     position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
     pointer-events: none; opacity: 0; transition: opacity .28s ease; z-index:1200;
@@ -126,36 +138,18 @@
     z-index:1210;
   }
 
-  .screen-logo { width:90px; height:90px; border-radius:20px; background-image:url('logo.png'); background-size:cover; background-position:center; box-shadow:0 18px 60px rgba(0,0,0,0.6); animation: pulse 2.6s ease-in-out infinite; }
-  @keyframes pulse { 0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)} }
+  .screen-logo { width:90px; height:90px; border-radius:20px; background-image:url('logo.png'); background-size:cover;background-position:center; animation:pulse 2.6s ease-in-out infinite;}
+  @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
 
   .screen-title{ font-weight:800; letter-spacing:4px; font-size:18px; }
   .screen-sub{ font-size:13px; opacity:0.9; }
   .screen-hint{ margin-top:6px; font-size:12px; opacity:0.8; }
 
-  #screensaver.on .screen-inner { box-shadow: 0 20px 60px rgba(120,20,20,0.14), inset 0 1px 0 rgba(255,255,255,0.02); }
-  #screensaver.off .screen-inner{ box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02); }
-
-  /* responsive */
-  @media (max-width:420px){
-    .wrap{padding:20px 14px 80px}
-    .header{min-height:240px}
-    .logo{width:92px;height:92px}
-    h1{font-size:28px;letter-spacing:8px;margin-bottom:6px}
-    .switch{width:120px;height:56px}
-    .knob{width:44px;height:44px;top:6px}
-    .switch[data-state="on"] .knob{ transform: translateX(66px) }
-    .icon{min-width:56px;height:56px}
-    .card{padding:14px;border-radius:16px}
-    .top-title{font-size:17px}
-    .cta{padding:9px 14px;font-size:14px}
-  }
 </style>
 </head>
 <body>
-  <div class="wrap" role="main" aria-label="Ride To Hell">
-
-    <div class="header" aria-hidden="true">
+  <div class="wrap">
+    <div class="header">
       <div class="logo"></div>
       <h1>RIDE TO HELL</h1>
       <div class="subtitle">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</div>
@@ -163,20 +157,20 @@
       <div class="note">Simple contact · No noise</div>
       <div class="blood-row"><div>B</div><div>L</div><div>O</div><div>O</div><div>D</div></div>
       <div class="switch-wrap">
-        <div id="switch" class="switch" role="switch" tabindex="0" data-state="off" aria-checked="false" aria-label="Toggle BLOOD">
-          <div class="knob" aria-hidden="true"></div>
+        <div id="switch" class="switch" data-state="off">
+          <div class="knob"></div>
         </div>
       </div>
     </div>
 
-    <div class="list" aria-label="Kontak">
+    <div class="list">
       <div class="card">
         <div class="icon">IG</div>
         <div class="text">
           <div class="top-title">@ridetohhell.official</div>
           <div class="sub">Instagram Resmi</div>
         </div>
-        <a class="cta" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener">Masuk</a>
+        <a class="cta" href="https://instagram.com/ridetohhell.official" target="_blank">Masuk</a>
       </div>
 
       <div class="card">
@@ -185,7 +179,7 @@
           <div class="top-title">Chat via WhatsApp — +62 858-8211-0680</div>
           <div class="sub">Fast contact</div>
         </div>
-        <a class="cta" href="https://wa.me/6285882110680" target="_blank" rel="noopener">Terhubung</a>
+        <a class="cta" href="https://wa.me/6285882110680" target="_blank">Terhubung</a>
       </div>
 
       <div class="card">
@@ -194,7 +188,7 @@
           <div class="top-title">YouTube Channel</div>
           <div class="sub">@RTHProject25</div>
         </div>
-        <a class="cta" href="https://youtube.com/@RTHProject25" target="_blank" rel="noopener">Tonton</a>
+        <a class="cta" href="https://youtube.com/@RTHProject25" target="_blank">Tonton</a>
       </div>
 
       <div class="card">
@@ -203,17 +197,17 @@
           <div class="top-title">Halaman Facebook</div>
           <div class="sub">Ride To Hell</div>
         </div>
-        <a class="cta" href="https://facebook.com" target="_blank" rel="noopener">Buka</a>
+        <a class="cta" href="https://facebook.com" target="_blank">Buka</a>
       </div>
     </div>
 
     <footer>© 2025 Ride To Hell</footer>
   </div>
 
-  <!-- SCREENSAVER (hidden by default) -->
-  <div id="screensaver" class="off" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="screen-inner" role="document">
-      <div class="screen-logo" aria-hidden="true"></div>
+  <!-- SCREENSAVER -->
+  <div id="screensaver" class="off">
+    <div class="screen-inner">
+      <div class="screen-logo"></div>
       <div class="screen-title">RIDE TO HELL</div>
       <div class="screen-sub">Sentuh layar untuk kembali</div>
       <div class="screen-hint">Tap anywhere to exit</div>
@@ -221,85 +215,60 @@
   </div>
 
 <script>
-/* JS: toggle, localStorage, idle screensaver */
 (function(){
-  const body = document.body;
-  const sw = document.getElementById('switch');
-  const screensaver = document.getElementById('screensaver');
-  const SC_KEY = 'rth_blood_state_v1';
-  const IDLE_MS = 6000;
-  let idleTimer = null;
+  const body=document.body;
+  const sw=document.getElementById('switch');
+  const screensaver=document.getElementById('screensaver');
+  const KEY='rth_blood_state_v1';
+  const IDLE=6000;
+  let idleTimer=null;
 
-  // safe getters
-  function readStored(){ try { return localStorage.getItem(SC_KEY) === '1'; } catch(e){ return false; } }
-  function writeStored(v){ try { localStorage.setItem(SC_KEY, v ? '1' : '0'); } catch(e){} }
+  function read(){try{return localStorage.getItem(KEY)==='1'}catch(e){return false}}
+  function write(v){try{localStorage.setItem(KEY,v?'1':'0')}catch(e){}}
 
-  function applyMode(on){
-    if(on){ body.classList.add('blood'); sw.setAttribute('data-state','on'); sw.setAttribute('aria-checked','true'); }
-    else { body.classList.remove('blood'); sw.setAttribute('data-state','off'); sw.setAttribute('aria-checked','false'); }
-    writeStored(on);
-    // if screensaver visible update style
-    if(screensaver.classList.contains('show')){
-      updateScreensaverAppearance(on);
-    }
+  function apply(on){
+    if(on){body.classList.add('blood');sw.setAttribute('data-state','on')}
+    else{body.classList.remove('blood');sw.setAttribute('data-state','off')}
+    write(on);
+    if(screensaver.classList.contains('show'))updateSS(on);
   }
 
-  function updateScreensaverAppearance(isOn){
-    if(isOn){ screensaver.classList.remove('off'); screensaver.classList.add('on'); }
-    else { screensaver.classList.remove('on'); screensaver.classList.add('off'); }
+  function updateSS(on){
+    if(on){screensaver.classList.remove('off');screensaver.classList.add('on')}
+    else{screensaver.classList.remove('on');screensaver.classList.add('off')}
   }
 
-  // init
-  applyMode(readStored());
+  apply(read());
 
-  // toggle & accessible keys
-  function toggleMode(){ applyMode(!body.classList.contains('blood')); resetIdle(); }
-  sw.addEventListener('click', toggleMode);
-  sw.addEventListener('keydown', function(e){
-    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggleMode(); }
-  });
+  function toggle(){apply(!body.classList.contains('blood'));resetIdle()}
+  sw.onclick=toggle;
 
-  // screensaver control
-  function showScreensaver(){
-    updateScreensaverAppearance(body.classList.contains('blood'));
+  function showSS(){
+    updateSS(body.classList.contains('blood'));
     screensaver.classList.add('show');
-    screensaver.setAttribute('aria-hidden','false');
-    document.documentElement.style.overflow = 'hidden';
+    document.documentElement.style.overflow='hidden';
   }
-  function hideScreensaver(){
+  function hideSS(){
     screensaver.classList.remove('show');
-    screensaver.setAttribute('aria-hidden','true');
-    document.documentElement.style.overflow = '';
+    document.documentElement.style.overflow='';
     resetIdle();
   }
 
-  screensaver.addEventListener('click', hideScreensaver, {passive:true});
+  screensaver.onclick=hideSS;
 
-  // idle timer
   function resetIdle(){
     clearTimeout(idleTimer);
-    if(screensaver.classList.contains('show')) hideScreensaver();
-    idleTimer = setTimeout(()=> showScreensaver(), IDLE_MS);
+    if(screensaver.classList.contains('show'))hideSS();
+    idleTimer=setTimeout(()=>showSS(),IDLE);
   }
 
-  ['mousemove','mousedown','touchstart','touchmove','keydown','scroll'].forEach(evt=>{
-    document.addEventListener(evt, resetIdle, {passive:true});
+  ['mousemove','mousedown','touchstart','touchmove','keydown','scroll'].forEach(e=>{
+    document.addEventListener(e,resetIdle,{passive:true});
   });
 
   resetIdle();
-
-  // dev helper: Ctrl/Cmd+S toggles screensaver
-  document.addEventListener('keydown', function(e){
-    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's'){
-      e.preventDefault();
-      if(screensaver.classList.contains('show')) hideScreensaver();
-      else showScreensaver();
-    }
-  });
-
-  // ensure screensaver doesn't block initial render (avoids black page)
-  // screensaver hidden by default; only show via showScreensaver()
 })();
 </script>
+
 </body>
 </html>
