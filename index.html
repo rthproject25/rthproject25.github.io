@@ -1,253 +1,197 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ride To Hell</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ride To Hell</title>
 
-  <!-- PRELOAD BLOOD BACKGROUND -->
-  <link rel="preload" href="Blood.png" as="image">
-
-  <style>
+<style>
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #000;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      transition: background-image 0.5s ease-in-out;
-      color: #fff;
-      text-align: center;
+        margin: 0;
+        padding: 0;
+        background: #000;
+        font-family: Arial, sans-serif;
+        color: #fff;
+        text-align: center;
+        transition: background 0.5s ease-in-out;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
     }
 
     .container {
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
     }
 
-    .logo {
-      width: 180px;
-      height: 180px;
-      margin: 20px auto 10px;
-      border-radius: 20px;
-      object-fit: cover;
-      display: block;
+    img.logo {
+        width: 200px;
+        height: 200px;
+        border-radius: 20px;
+        margin-top: 40px;
     }
 
     h1 {
-      font-size: 40px;
-      font-weight: 900;
-      letter-spacing: 3px;
-      margin-bottom: 15px;
+        font-size: 40px;
+        margin-top: 20px;
+        font-weight: 800;
+        letter-spacing: 2px;
     }
 
     p {
-      font-size: 18px;
-      line-height: 1.5;
-      margin-top: 10px;
-      margin-bottom: 20px;
+        font-size: 18px;
+        line-height: 1.6;
+        padding: 0 10px;
     }
 
-    .quote {
-      font-size: 20px;
-      font-weight: 700;
-      margin-top: 15px;
-      margin-bottom: 20px;
-    }
-
-    .sub-info {
-      color: #bbb;
-      font-size: 15px;
-      margin-bottom: 25px;
-    }
-
-    /* BLOOD TOGGLE */
     .toggle-wrapper {
-      margin-top: 10px;
-      margin-bottom: 25px;
-      letter-spacing: 12px;
-      font-size: 22px;
-      font-weight: 700;
+        margin-top: 20px;
+        font-size: 20px;
+        letter-spacing: 10px;
     }
 
+    /* TOGGLE */
     .switch {
-      position: relative;
-      display: inline-block;
-      width: 70px;
-      height: 34px;
-      margin-top: 8px;
+        position: relative;
+        display: inline-block;
+        width: 80px;
+        height: 40px;
+        margin-top: 10px;
     }
 
     .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
+        opacity: 0;
+        width: 0;
+        height: 0;
     }
 
     .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #444;
-      transition: .4s;
-      border-radius: 34px;
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #555;
+        transition: .4s;
+        border-radius: 40px;
     }
 
     .slider:before {
-      position: absolute;
-      content: "";
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
+        position: absolute;
+        content: "";
+        height: 32px;
+        width: 32px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        border-radius: 50%;
+        transition: .4s;
     }
 
     input:checked + .slider {
-      background-color: #b30000;
+        background-color: #a30000;
     }
 
     input:checked + .slider:before {
-      transform: translateX(36px);
+        transform: translateX(40px);
     }
 
-    /* CARD LINK */
+    /* CARD BUTTON */
     .card {
-      background-color: #141414;
-      border-radius: 20px;
-      padding: 18px;
-      margin: 15px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .left {
-      text-align: left;
-    }
-
-    .title {
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .desc {
-      color: #bbb;
-      font-size: 15px;
+        background: rgba(0, 0, 0, 0.55);
+        padding: 20px;
+        margin: 20px;
+        border-radius: 20px;
+        text-align: left;
     }
 
     .btn {
-      background: #c33534;
-      color: white;
-      font-size: 17px;
-      padding: 10px 18px;
-      border-radius: 15px;
-      text-decoration: none;
-      font-weight: 700;
+        float: right;
+        background: #c73530;
+        padding: 10px 20px;
+        border-radius: 10px;
+        color: white;
+        font-weight: bold;
     }
 
     footer {
-      color: #bbb;
-      margin-top: 40px;
-      font-size: 15px;
-      padding-bottom: 30px;
+        margin-top: 40px;
+        padding-bottom: 40px;
+        opacity: 0.8;
     }
+</style>
 
-  </style>
 </head>
-
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <!-- LOGO -->
     <img src="avatar.png" class="logo">
 
     <h1>RIDE TO HELL</h1>
 
-    <p>Teritori gelap ini rumah gue. Tempat gue jatuh,<br>
-    bangkit, dan ngegas sendirian.</p>
+    <p>Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</p>
 
-    <div class="quote">RTH bukan sekadar nama — ini cara gue bertahan.</div>
+    <p><b>RTH bukan sekadar nama — ini cara gue bertahan.</b></p>
 
-    <div class="sub-info">Simple contact • No noise</div>
+    <p>Simple contact • No noise</p>
 
-    <!-- BLOOD TOGGLE -->
-    <div class="toggle-wrapper">B L O O D</div>
-    <label class="switch">
-      <input type="checkbox" id="bloodToggle">
-      <span class="slider"></span>
-    </label>
-
-    <!-- INSTAGRAM -->
-    <div class="card">
-      <div class="left">
-        <div class="title">@ridetohhell.official</div>
-        <div class="desc">Instagram Resmi</div>
-      </div>
-      <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank">Masuk</a>
+    <div class="toggle-wrapper">
+        B L O O D
+        <br>
+        <label class="switch">
+            <input type="checkbox" id="bloodToggle">
+            <span class="slider"></span>
+        </label>
     </div>
 
-    <!-- WHATSAPP -->
     <div class="card">
-      <div class="left">
-        <div class="title">Chat via WhatsApp — +62 858-8211-0680</div>
-        <div class="desc">Fast contact</div>
-      </div>
-      <a class="btn" href="https://wa.me/6285882110680" target="_blank">Terhubung</a>
+        <b>@ridetohhell.official</b><br>
+        Instagram Resmi
+        <a class="btn" href="https://instagram.com/ridetohhell.official">Masuk</a>
     </div>
 
-    <!-- YOUTUBE -->
     <div class="card">
-      <div class="left">
-        <div class="title">YouTube Channel</div>
-        <div class="desc">@RTHProject25</div>
-      </div>
-      <a class="btn" href="https://youtube.com/@RTHProject25" target="_blank">Tonton</a>
+        <b>Chat via WhatsApp — +62 858-8211-0680</b><br>
+        Fast contact
+        <a class="btn" href="https://wa.me/6285882110680">Terhubung</a>
     </div>
 
-    <!-- FACEBOOK -->
     <div class="card">
-      <div class="left">
-        <div class="title">Halaman Facebook</div>
-        <div class="desc">Ride To Hell</div>
-      </div>
-      <a class="btn" href="#" target="_blank">Buka</a>
+        <b>YouTube Channel</b><br>
+        @RTHProject25
+        <a class="btn" href="https://youtube.com/@RTHProject25">Tonton</a>
     </div>
 
-    <footer>© 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.</footer>
+    <div class="card">
+        <b>Halaman Facebook</b><br>
+        Ride To Hell
+        <a class="btn" href="https://facebook.com">Buka</a>
+    </div>
 
-  </div>
+    <footer>
+        © 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.
+    </footer>
 
-  <!-- BLOOD MODE SCRIPT -->
-  <script>
+</div>
+
+<script>
     const toggle = document.getElementById("bloodToggle");
 
-    const defaultOn = true; 
-    const saved = localStorage.getItem("bloodMode");
-
-    if (saved === "on" || (saved === null && defaultOn)) {
-      toggle.checked = true;
-      document.body.style.backgroundImage = "url('Blood.png')";
-    } else {
-      toggle.checked = false;
-      document.body.style.backgroundImage = "none";
+    function applyBackground() {
+        if (toggle.checked) {
+            document.body.style.backgroundImage = "url('Blood.png')";
+        } else {
+            document.body.style.backgroundImage = "none";
+        }
     }
 
-    toggle.addEventListener("change", () => {
-      if (toggle.checked) {
-        document.body.style.backgroundImage = "url('Blood.png')";
-        localStorage.setItem("bloodMode", "on");
-      } else {
-        document.body.style.backgroundImage = "none";
-        localStorage.setItem("bloodMode", "off");
-      }
-    });
-  </script>
+    toggle.addEventListener("change", applyBackground);
+
+    applyBackground();
+</script>
 
 </body>
 </html>
