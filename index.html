@@ -140,6 +140,23 @@
   .cta{
     padding:10px 16px;border-radius:14px;background:linear-gradient(145deg,#191919,#292929 60%);color:#fff;text-decoration:none;font-weight:800;font-size:15px;border:1px solid rgba(255,255,255,0.04);
     box-shadow: 0 10px 26px rgba(0,0,0,0.6);white-space:nowrap;
+    transition: background .22s ease, transform .12s ease, box-shadow .18s ease;
+    display:inline-block;
+  }
+  .cta:active{ transform: translateY(1px); }
+
+  /* When Blood is ON: CTA becomes red-toned (but only visual) */
+  body.blood .cta{
+    background:linear-gradient(145deg,#7f3f3f,#754343 60%);
+    border:1px solid rgba(255,50,50,0.08);
+    box-shadow: 0 8px 28px rgba(120,18,18,0.24);
+  }
+
+  /* Active state for individual button when clicked: stronger red + label 'On' */
+  .cta.active{
+    background:linear-gradient(145deg,#c05555,#9a3a3a 60%);
+    border:1px solid rgba(255,80,80,0.12) !important;
+    box-shadow: 0 12px 36px rgba(160,30,30,0.32) !important;
   }
 
   footer{ margin-top:26px; text-align:center; opacity:0.6; padding-bottom:30px; font-size:13px; width:100% }
@@ -201,7 +218,7 @@
       <div class="note">Simple contact · No noise</div>
       <div class="blood-row"><div>B</div><div>L</div><div>O</div><div>O</div><div>D</div></div>
       <div class="switch-wrap">
-        <div id="switch" class="switch" data-state="off">
+        <div id="switch" class="switch" data-state="off" role="button" aria-pressed="false" tabindex="0">
           <div class="knob"></div>
         </div>
       </div>
@@ -214,7 +231,7 @@
           <div class="top-title">@ridetohhell.official</div>
           <div class="sub">Instagram Resmi</div>
         </div>
-        <a class="cta" href="https://instagram.com/ridetohhell.official" target="_blank">Masuk</a>
+        <a class="cta" href="https://instagram.com/ridetohhell.official" target="_blank" data-label="Masuk">Masuk</a>
       </div>
 
       <div class="card">
@@ -223,7 +240,7 @@
           <div class="top-title">Chat via WhatsApp — +62 858-8211-0680</div>
           <div class="sub">Fast contact</div>
         </div>
-        <a class="cta" href="https://wa.me/6285882110680" target="_blank">Terhubung</a>
+        <a class="cta" href="https://wa.me/6285882110680" target="_blank" data-label="Terhubung">Terhubung</a>
       </div>
 
       <div class="card">
@@ -232,7 +249,7 @@
           <div class="top-title">YouTube Channel</div>
           <div class="sub">@RTHProject25</div>
         </div>
-        <a class="cta" href="https://youtube.com/@RTHProject25" target="_blank">Tonton</a>
+        <a class="cta" href="https://youtube.com/@RTHProject25" target="_blank" data-label="Tonton">Tonton</a>
       </div>
 
       <div class="card">
@@ -241,7 +258,7 @@
           <div class="top-title">Halaman Facebook</div>
           <div class="sub">Ride To Hell</div>
         </div>
-        <a class="cta" href="https://facebook.com" target="_blank">Buka</a>
+        <a class="cta" href="https://facebook.com" target="_blank" data-label="Buka">Buka</a>
       </div>
     </div>
 
@@ -249,9 +266,9 @@
   </div>
 
   <!-- SCREENSAVER -->
-  <div id="screensaver" class="off">
+  <div id="screensaver" class="off" aria-hidden="true">
     <div class="screen-inner">
-      <div class="screen-logo"></div>
+      <div class="screen-logo" role="img" aria-label="RTH logo"></div>
       <div class="screen-title">RIDE TO HELL</div>
       <div class="screen-sub">Sentuh layar untuk kembali</div>
       <div class="screen-hint">Tap anywhere to exit</div>
@@ -259,17 +276,13 @@
   </div>
 
 <script>
-/* ========= Canvas Dark Wave (works on Samsung Note10+) =========
-   - draws multiple blurred moving circles (soft waves)
-   - uses devicePixelRatio for sharpness
-   - very low CPU by keeping particle count small and low frame cost
-*/
+/* ========= Canvas Dark Wave ========= */
 (function(){
   const canvas = document.getElementById('bg-canvas');
   const ctx = canvas.getContext('2d', {alpha:true});
   let w = 0, h = 0, dpr = Math.max(1, window.devicePixelRatio || 1);
   let particles = [];
-  const PARTICLE_COUNT = 6; // low, subtle
+  const PARTICLE_COUNT = 6;
   const TAU = Math.PI*2;
 
   function resize(){
@@ -291,7 +304,7 @@
       particles.push({
         x: rand(w*0.2, w*0.8),
         y: rand(h*0.0, h*0.6),
-        r: rand(Math.min(w,h)*0.22, Math.min(w,h)*0.48), // large blobs
+        r: rand(Math.min(w,h)*0.22, Math.min(w,h)*0.48),
         vx: rand(-0.06, 0.06),
         vy: rand(-0.02, 0.02),
         rot: rand(0, TAU),
@@ -303,23 +316,18 @@
   }
 
   function draw(){
-    // Clear with solid black
     ctx.clearRect(0,0,w,h);
     ctx.fillStyle = 'rgba(0,0,0,1)';
     ctx.fillRect(0,0,w,h);
 
-    // draw subtle blurred glows
     for(let p of particles){
-      // create radial gradient for particle
       const gx = p.x;
       const gy = p.y;
       const gr = p.r;
-      // subtle move & rotate simulated by offset
       const ox = Math.sin(p.rot*1.1) * (gr*0.06);
       const oy = Math.cos(p.rot*0.9) * (gr*0.04);
 
       const grad = ctx.createRadialGradient(gx+ox, gy+oy, 0, gx+ox, gy+oy, gr);
-      // base colors (dark neutral). If body has blood class, tint will show via CSS overlay.
       grad.addColorStop(0, `rgba(18,18,18,${p.alpha*1.6})`);
       grad.addColorStop(0.35, `rgba(12,12,12,${p.alpha*1.05})`);
       grad.addColorStop(1, `rgba(6,6,6,0)`);
@@ -331,129 +339,7 @@
       ctx.fill();
     }
 
-    // subtle top vignette (extra)
     ctx.globalCompositeOperation = 'source-over';
     const v = ctx.createRadialGradient(w/2, h*0.35, Math.min(w,h)*0.2, w/2, h/2, Math.max(w,h)*0.9);
     v.addColorStop(0, 'rgba(0,0,0,0)');
-    v.addColorStop(0.7, 'rgba(0,0,0,0.18)');
-    v.addColorStop(1, 'rgba(0,0,0,0.55)');
-    ctx.fillStyle = v;
-    ctx.fillRect(0,0,w,h);
-  }
-
-  // animation loop (low CPU; 30-45fps typical on mobile)
-  let last = performance.now();
-  function step(now){
-    const dt = Math.min(40, now - last);
-    last = now;
-
-    // update particles
-    for(let p of particles){
-      p.x += p.vx * dt * 0.12;
-      p.y += p.vy * dt * 0.08;
-      p.rot += p.vrot * dt * 0.0012;
-      // tiny breathing
-      p.r += Math.sin(now*0.0003 + p.rot) * 0.03;
-
-      // loops edges softly
-      if(p.x < -p.r) p.x = w + p.r;
-      if(p.x > w + p.r) p.x = -p.r;
-      if(p.y < -p.r) p.y = h + p.r;
-      if(p.y > h + p.r) p.y = -p.r;
-    }
-
-    draw();
-    raf = requestAnimationFrame(step);
-  }
-
-  let raf = null;
-  function start(){
-    cancelAnimationFrame(raf);
-    resize();
-    makeParticles();
-    last = performance.now();
-    raf = requestAnimationFrame(step);
-  }
-
-  // try to be friendly to battery saver: pause when document hidden
-  document.addEventListener('visibilitychange', ()=>{
-    if(document.hidden){ cancelAnimationFrame(raf); raf = null; }
-    else if(!raf) { last = performance.now(); raf = requestAnimationFrame(step); }
-  }, false);
-
-  // responsive
-  let rto;
-  window.addEventListener('resize', ()=>{
-    clearTimeout(rto);
-    rto = setTimeout(()=>{ resize(); makeParticles(); }, 180);
-  }, {passive:true});
-
-  // initial start
-  start();
-
-  // expose for debugging (console)
-  window._rthCanvas = {start, makeParticles, resize};
-
-})();
-
-/* ========= UI: switch, screensaver, idle logic (unchanged behavior) ========= */
-(function(){
-  const body=document.body;
-  const sw=document.getElementById('switch');
-  const screensaver=document.getElementById('screensaver');
-  const KEY='rth_blood_state_v1';
-  const IDLE=6000;
-  let idleTimer=null;
-
-  function read(){try{return localStorage.getItem(KEY)==='1'}catch(e){return false}}
-  function write(v){try{localStorage.setItem(KEY,v?'1':'0')}catch(e){}}
-
-  function apply(on){
-    if(on){body.classList.add('blood');sw.setAttribute('data-state','on')}
-    else{body.classList.remove('blood');sw.setAttribute('data-state','off')}
-    write(on);
-    if(screensaver.classList.contains('show'))updateSS(on);
-  }
-
-  function updateSS(on){
-    if(on){screensaver.classList.remove('off');screensaver.classList.add('on')}
-    else{screensaver.classList.remove('on');screensaver.classList.add('off')}
-  }
-
-  apply(read());
-
-  function toggle(){apply(!body.classList.contains('blood'));resetIdle()}
-  sw.onclick=toggle;
-
-  function showSS(){
-    updateSS(body.classList.contains('blood'));
-    screensaver.classList.add('show');
-    document.documentElement.style.overflow='hidden';
-  }
-  function hideSS(){
-    screensaver.classList.remove('show');
-    document.documentElement.style.overflow='';
-    resetIdle();
-  }
-
-  screensaver.onclick=hideSS;
-
-  function resetIdle(){
-    clearTimeout(idleTimer);
-    if(screensaver.classList.contains('show'))hideSS();
-    idleTimer=setTimeout(()=>showSS(),IDLE);
-  }
-
-  ['mousemove','mousedown','touchstart','touchmove','keydown','scroll'].forEach(e=>{
-    document.addEventListener(e,resetIdle,{passive:true});
-  });
-
-  resetIdle();
-
-  // debug
-  if(window && window.console) console.log('RTH: Canvas Dark Wave active');
-})();
-</script>
-
-</body>
-</html>
+    v.addColorStop(0.
