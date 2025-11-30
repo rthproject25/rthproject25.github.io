@@ -9,7 +9,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
 
-  /* ====== ANIMASI BACKGROUND PREMIUM (FIXED) ====== */
+  /* ====== ANIMASI BACKGROUND PREMIUM (FIXED FOR OFF) ====== */
   body{
     font-family: "Inter", Arial, Helvetica, sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -21,18 +21,25 @@
     -webkit-user-select: none;
     user-select: none;
     overscroll-behavior-y: contain;
-
-    /* PREMIUM SOFT VIGNETTE MOVING FIX */
-    background: radial-gradient(circle at center, #000 0%, #000 40%, #050505 70%, #000 100%) !important;
-    background-size: 200% 200% !important;
-    animation: vignetteMove 8s ease-in-out infinite alternate !important;
+    /* default background kept minimal — overridden by OFF/ON rules below */
+    background: #000;
   }
 
+  /* Keyframes for vignette (used only when not .blood) */
   @keyframes vignetteMove {
     0% { background-position: 50% 50%; }
     50% { background-position: 48% 52%; }
     100% { background-position: 52% 48%; }
   }
+
+  /* === FIX: Force animation to appear when OFF (body does NOT have .blood) === */
+  body:not(.blood) {
+    background: radial-gradient(circle at center, #000 0%, #000 40%, #050505 70%, #000 100%) !important;
+    background-size: 200% 200% !important;
+    animation: vignetteMove 8s ease-in-out infinite alternate !important;
+  }
+
+  /* (When blood mode is on, existing styling applies via .blood class) */
 
   /* ===== LAYOUT (locked & stable) ===== */
   .wrap{
@@ -150,6 +157,20 @@
   .screen-sub{ font-size:13px; opacity:0.9; }
   .screen-hint{ margin-top:6px; font-size:12px; opacity:0.8; }
 
+  /* responsive */
+  @media (max-width:420px){
+    .wrap{padding:20px 14px 80px}
+    .header{min-height:240px}
+    .logo{width:92px;height:92px}
+    h1{font-size:28px;letter-spacing:8px;margin-bottom:6px}
+    .switch{width:120px;height:56px}
+    .knob{width:44px;height:44px;top:6px}
+    .switch[data-state="on"] .knob{ transform: translateX(66px) }
+    .icon{min-width:56px;height:56px}
+    .card{padding:14px;border-radius:16px}
+    .top-title{font-size:17px}
+    .cta{padding:9px 14px;font-size:14px}
+  }
 </style>
 </head>
 <body>
