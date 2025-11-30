@@ -1,209 +1,182 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Ride To Hell</title>
-
+  <meta name="theme-color" content="#000000" />
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Arial", sans-serif;
+    :root{
+      --bg:#000;
+      --panel: rgba(0,0,0,0.65);
+      --accent: #c33;
+      --muted: rgba(255,255,255,0.85);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      padding:0;
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--muted);
+      -webkit-font-smoothing:antialiased;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      background-image: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80');
+      background-size:cover;
+      background-position:center;
+    }
+
+    /* gelap overlay */
+    .backdrop{
+      position:fixed;
+      inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
+      z-index:0;
+    }
+
+    .card{
+      position:relative;
+      z-index:1;
+      width:min(880px, 92vw);
+      padding:34px;
+      border-radius:14px;
+      background:var(--panel);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
+      text-align:center;
+    }
+
+    .avatar {
+      width:88px;
+      height:88px;
+      border-radius:14px;
+      margin:0 auto 18px;
+      background:linear-gradient(180deg,#111,#000);
+      box-shadow: 0 6px 20px rgba(195,51,51,0.12);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      border:2px solid rgba(255,255,255,0.03);
+    }
+    .avatar img{width:100%;height:100%;object-fit:cover}
+
+    h1{
+      margin:0 0 12px;
+      font-size:34px;
+      letter-spacing:3px;
+      font-weight:800;
       color: #fff;
-      background: #000;
-      overflow-x: hidden;
     }
 
-    /* BACKGROUND ANIMASI BLOOD */
-    .blood-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(80,0,0,0.4), #000);
-      animation: bloodMove 8s infinite alternate ease-in-out;
-      z-index: -2;
+    p.lead{
+      margin:0 0 20px;
+      color: rgba(255,255,255,0.85);
+      font-size:15px;
+      line-height:1.6;
+      max-width:720px;
+      margin-left:auto;margin-right:auto;
     }
 
-    @keyframes bloodMove {
-      0% { filter: brightness(0.4) blur(3px); }
-      100% { filter: brightness(0.9) blur(6px); }
+    .sub{
+      margin-top:14px;
+      font-weight:700;
+      color:rgba(255,255,255,0.9);
+      font-size:15px;
     }
 
-    /* CARD UTAMA */
-    .card {
-      max-width: 420px;
-      margin: 60px auto;
-      padding: 30px;
-      background: rgba(0,0,0,0.75);
-      border-radius: 25px;
-      box-shadow: 0 0 20px rgba(255,0,0,0.2);
-      backdrop-filter: blur(6px);
-      text-align: center;
+    /* tombol simple */
+    .links{
+      margin-top:20px;
+      display:flex;
+      gap:12px;
+      flex-direction:column;
+      align-items:center;
     }
 
-    .logo {
-      width: 160px;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 25px;
-      box-shadow: 0 0 20px rgba(255,0,0,0.3);
-      margin-bottom: 20px;
+    .btn{
+      width:100%;
+      max-width:520px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:14px 18px;
+      border-radius:12px;
+      background: rgba(0,0,0,0.45);
+      border:1px solid rgba(255,255,255,0.03);
+      text-decoration:none;
+      color:var(--muted);
+      font-weight:600;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
     }
 
-    .title {
-      font-size: 35px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
+    .cta{
+      background: linear-gradient(90deg, rgba(195,51,51,0.98), rgba(128,28,28,0.95));
+      color: #fff;
+      border: none;
+      padding:10px 16px;
+      border-radius:10px;
+      font-weight:700;
+      box-shadow: 0 6px 18px rgba(195,51,51,0.12);
     }
 
-    .desc {
-      opacity: 0.8;
-      line-height: 1.6;
-      margin-bottom: 25px;
+    footer{
+      margin-top:22px;
+      font-size:13px;
+      color:rgba(255,255,255,0.6);
     }
 
-    /* SWITCH BLOOD MODE */
-    .switch-area {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 35px;
-      font-weight: bold;
+    /* responsive */
+    @media (min-width:900px){
+      .links{flex-direction:column}
     }
-
-    .switch {
-      width: 55px;
-      height: 28px;
-      background: #333;
-      border-radius: 20px;
-      position: relative;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .switch::after {
-      content: "";
-      width: 23px;
-      height: 23px;
-      background: #fff;
-      border-radius: 50%;
-      position: absolute;
-      top: 50%;
-      left: 3px;
-      transform: translateY(-50%);
-      transition: 0.3s;
-    }
-
-    .switch.on {
-      background: #8b0000;
-    }
-
-    .switch.on::after {
-      left: 29px;
-      background: #ff5959;
-    }
-
-    /* BUTTON LINK */
-    .link-box {
-      background: rgba(20,20,20,0.8);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 18px;
-      margin-bottom: 16px;
-      backdrop-filter: blur(4px);
-    }
-
-    .btn {
-      background: #b12828;
-      padding: 10px 22px;
-      border-radius: 15px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 25px;
-      opacity: 0.6;
-      font-size: 12px;
+    @media (max-width:420px){
+      h1{font-size:28px}
+      .card{padding:22px;border-radius:10px}
+      .avatar{width:72px;height:72px}
     }
   </style>
 </head>
-
 <body>
+  <div class="backdrop" aria-hidden="true"></div>
 
-  <div class="blood-bg"></div>
-
-  <div class="card">
-    <img src="https://rthproject25.github.io/logo.png" class="logo">
-
-    <div class="title">RIDE TO HELL</div>
-
-    <div class="desc">
-      Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.  
-      <br><br><b>RTH bukan sekadar nama — ini cara gue bertahan.</b>
+  <main class="card" role="main" aria-labelledby="site-title">
+    <div class="avatar" aria-hidden="true">
+      <!-- Kalau mau ganti avatar: upload file bernama avatar.jpg di repo dan ganti src -->
+      <img src="https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?auto=format&fit=crop&w=500&q=60" alt="Ride To Hell" />
     </div>
 
-    <div class="switch-area">
-      BLOOD  
-      <div id="bloodSwitch" class="switch"></div>
+    <h1 id="site-title">RIDE TO HELL</h1>
+    <p class="lead">
+      Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.
+      RTH bukan sekadar nama — ini cara gue bertahan.
+    </p>
+
+    <div class="sub">Simple contact • No noise</div>
+
+    <div class="links" aria-label="Links">
+      <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener noreferrer">
+        <span>@ridetohhell.official</span>
+        <span class="cta">Masuk</span>
+      </a>
+
+      <a class="btn" href="https://wa.me/6285882110680" target="_blank" rel="noopener noreferrer">
+        <span>Chat via WhatsApp — +62 858-8211-0680</span>
+        <span class="cta">Terhubung</span>
+      </a>
+
+      <a class="btn" href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
+        <span>YouTube Channel</span>
+        <span class="cta">Tonton</span>
+      </a>
     </div>
 
-    <a href="https://instagram.com/ridetohhell.official" target="_blank">
-      <div class="link-box">
-        <div>@ridetohhell.official</div>
-        <div class="btn">Masuk</div>
-      </div>
-    </a>
-
-    <a href="https://wa.me/6285882110680" target="_blank">
-      <div class="link-box">
-        <div>Chat via WhatsApp<br><small>+62 858-8211-0680</small></div>
-        <div class="btn">Terhubung</div>
-      </div>
-    </a>
-
-    <a href="https://youtube.com/@RTHProject25" target="_blank">
-      <div class="link-box">
-        <div>YouTube Channel<br><small>@RTHProject25</small></div>
-        <div class="btn">Tonton</div>
-      </div>
-    </a>
-
-    <a href="https://facebook.com" target="_blank">
-      <div class="link-box">
-        <div>Halaman Facebook</div>
-        <div class="btn">Buka</div>
-      </div>
-    </a>
-
-    <div class="footer">
-      © 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.
-    </div>
-  </div>
-
-  <script>
-    const bg = document.querySelector(".blood-bg");
-    const sw = document.getElementById("bloodSwitch");
-
-    sw.addEventListener("click", () => {
-      sw.classList.toggle("on");
-      if (sw.classList.contains("on")) {
-        bg.style.filter = "hue-rotate(0deg)";
-      } else {
-        bg.style.filter = "hue-rotate(180deg)";
-      }
-    });
-  </script>
-
+    <footer>
+      © <strong>Ride To Hell</strong> — Streetwear & content. Built minimal untuk loading cepat.
+    </footer>
+  </main>
 </body>
 </html>
