@@ -7,94 +7,131 @@
   <meta name="description" content="Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian." />
   <meta name="robots" content="index, follow" />
   <link rel="stylesheet" href="styles.css" />
+  <meta name="theme-color" content="#000000" />
 </head>
 <body>
-
   <div class="page-wrap">
-
-    <main class="panel">
+    <main class="panel" id="main-panel" role="main" aria-labelledby="site-title">
 
       <!-- HEADER -->
       <header class="panel-head">
-
-        <!-- LOGO -->
-        <div class="logo-center">
+        <div class="logo-center" aria-hidden="true">
           <img src="file_000000003a487206942539694d1573ae.png" class="logo-big" alt="RTH Logo">
         </div>
 
         <div class="hero-text">
-          <h1>RIDE TO HELL</h1>
+          <h1 id="site-title">RIDE TO HELL</h1>
           <p class="lead">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</p>
           <p class="muted"><strong>RTH bukan sekadar nama — ini cara gue bertahan.</strong></p>
         </div>
 
-        <div class="blood-toggle">
-          <span>BLOOD</span>
-          <div class="toggle-dot"></div>
+        <!-- BLOOD TOGGLE (accessible) -->
+        <div class="blood-row">
+          <label id="blood-label" class="blood-label">BLOOD</label>
+          <button id="blood-toggle" class="blood-toggle" aria-pressed="false" aria-labelledby="blood-label" title="Toggle Blood Mode">
+            <span class="toggle-track" aria-hidden="true"></span>
+            <span class="toggle-knob" aria-hidden="true"></span>
+          </button>
         </div>
-
       </header>
 
-      <!-- LIST CARD -->
-      <section class="list-cards">
-
-        <!-- IG -->
+      <!-- LINKS -->
+      <section class="list-cards" aria-label="Links Ride To Hell">
+        <!-- Instagram -->
         <article class="card">
           <div class="left">
-            <img class="icon-img" src="file_0000000020807206a72845919b7e437f.png">
+            <img class="icon-img" src="file_0000000020807206a72845919b7e437f.png" alt="Instagram icon">
             <div class="meta">
               <div class="title">@ridetohhell.official</div>
               <div class="sub">Instagram Resmi</div>
             </div>
           </div>
-          <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank">Masuk</a>
+          <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener noreferrer">Masuk</a>
         </article>
 
-        <!-- WA -->
+        <!-- WhatsApp -->
         <article class="card">
           <div class="left">
-            <img class="icon-img" src="file_00000000c8147206912a5f584721674f.png">
+            <img class="icon-img" src="file_00000000c8147206912a5f584721674f.png" alt="WhatsApp icon">
             <div class="meta">
               <div class="title">Chat via WhatsApp</div>
               <div class="sub">+62 858-8211-0680</div>
             </div>
           </div>
-          <a class="btn" href="https://wa.me/6285882110680" target="_blank">Terhubung</a>
+          <a class="btn" href="https://wa.me/6285882110680" target="_blank" rel="noopener noreferrer">Terhubung</a>
         </article>
 
-        <!-- YT -->
+        <!-- YouTube -->
         <article class="card">
           <div class="left">
-            <img class="icon-img" src="file_000000005aa07209aded73ff041cc2b4.png">
+            <img class="icon-img" src="file_000000005aa07209aded73ff041cc2b4.png" alt="YouTube icon">
             <div class="meta">
               <div class="title">YouTube Channel</div>
               <div class="sub">@RTHProject25</div>
             </div>
           </div>
-          <a class="btn" href="https://youtube.com/@RTHProject25" target="_blank">Tonton</a>
+          <a class="btn" href="https://youtube.com/@RTHProject25" target="_blank" rel="noopener noreferrer">Tonton</a>
         </article>
 
-        <!-- FB -->
+        <!-- Facebook -->
         <article class="card">
           <div class="left">
-            <img class="icon-img" src="file_00000000a72c72099e492e55677a6ef7.png">
+            <img class="icon-img" src="file_00000000a72c72099e492e55677a6ef7.png" alt="Facebook icon">
             <div class="meta">
               <div class="title">Halaman Facebook</div>
               <div class="sub">Ride To Hell</div>
             </div>
           </div>
-          <a class="btn" href="https://facebook.com" target="_blank">Buka</a>
+          <a class="btn" href="https://facebook.com" target="_blank" rel="noopener noreferrer">Buka</a>
         </article>
-
       </section>
 
       <footer class="panel-foot">
         © 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.
       </footer>
-
     </main>
-
   </div>
 
+  <!-- SCRIPT: blood toggle + save state -->
+  <script>
+    (function () {
+      const TOGGLE_ID = 'rth_blood_mode_v1';
+      const toggle = document.getElementById('blood-toggle');
+      const html = document.documentElement;
+
+      // read saved state (string 'on' or null)
+      const saved = localStorage.getItem(TOGGLE_ID);
+      const isOn = saved === 'on';
+
+      function setMode(on, save = true) {
+        if (on) {
+          html.classList.add('blood-mode');
+          toggle.setAttribute('aria-pressed', 'true');
+          if (save) localStorage.setItem(TOGGLE_ID, 'on');
+        } else {
+          html.classList.remove('blood-mode');
+          toggle.setAttribute('aria-pressed', 'false');
+          if (save) localStorage.removeItem(TOGGLE_ID);
+        }
+      }
+
+      // initialize from saved
+      setMode(isOn, false);
+
+      // click toggles
+      toggle.addEventListener('click', function () {
+        const now = html.classList.contains('blood-mode');
+        setMode(!now, true);
+      });
+
+      // allow keyboard (space/enter)
+      toggle.addEventListener('keydown', function (e) {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          toggle.click();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
