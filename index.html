@@ -9,13 +9,13 @@
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(180deg, #3a0000, #120000);
+            background: url('bg-red.jpg') center/cover no-repeat fixed;
             font-family: Arial, sans-serif;
             color: #fff;
         }
 
         .overlay {
-            background: rgba(0,0,0,0.45);
+            background: rgba(0, 0, 0, 0.45);
             position: fixed;
             inset: 0;
             z-index: 1;
@@ -28,6 +28,7 @@
             text-align: center;
         }
 
+        /* LOGO */
         .logo {
             width: 120px;
             height: 120px;
@@ -50,7 +51,7 @@
             opacity: .9;
         }
 
-        .bold {
+        .bold-line {
             font-weight: bold;
             margin-bottom: 25px;
         }
@@ -58,18 +59,18 @@
         .note {
             opacity: .6;
             font-size: 13px;
+            margin-bottom: 20px;
         }
 
-        /* SWITCH */
-        .switch-wrapper {
-            margin: 25px auto;
-            text-align: center;
-        }
-
+        /* SWITCH BLOOD */
         .blood-text {
-            letter-spacing: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
             opacity: .35;
+            font-size: 16px;
             margin-bottom: 8px;
+            letter-spacing: 8px;
         }
 
         .switch {
@@ -78,7 +79,7 @@
             background: #b65959;
             border-radius: 30px;
             position: relative;
-            margin: 0 auto;
+            margin: 0 auto 30px;
         }
 
         .switch::after {
@@ -92,9 +93,10 @@
             left: 1px;
         }
 
-        /* ITEM LIST */
+        /* LIST ITEM */
         .item {
             background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(4px);
             border-radius: 18px;
             padding: 15px;
             margin: 15px 0;
@@ -135,14 +137,15 @@
             border-radius: 14px;
             padding: 10px 17px;
             color: #fff;
-            cursor: pointer;
             font-size: 14px;
+            cursor: pointer;
         }
 
         footer {
-            margin-top: 25px;
-            opacity: .5;
-            font-size: 12px;
+            text-align: center;
+            padding: 20px 0 30px;
+            opacity: .6;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -161,16 +164,14 @@
         Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.
     </div>
 
-    <div class="bold">
+    <div class="bold-line">
         RTH bukan sekadar nama — ini cara gue bertahan.
     </div>
 
     <div class="note">Simple contact · No noise</div>
 
-    <div class="switch-wrapper">
-        <div class="blood-text">B L O O D</div>
-        <div class="switch"></div>
-    </div>
+    <div class="blood-text">B L O O D</div>
+    <div class="switch"></div>
 
     <!-- IG -->
     <div class="item">
@@ -192,7 +193,7 @@
         <button class="btn" onclick="window.open('https://wa.me/6285882110680')">Terhubung</button>
     </div>
 
-    <!-- YT -->
+    <!-- YOUTUBE -->
     <div class="item">
         <div class="icon-box">YT</div>
         <div class="text-box">
@@ -202,7 +203,7 @@
         <button class="btn" onclick="window.open('https://youtube.com/@RTHProject25')">Tonton</button>
     </div>
 
-    <!-- FB -->
+    <!-- FACEBOOK -->
     <div class="item">
         <div class="icon-box">f</div>
         <div class="text-box">
@@ -213,6 +214,7 @@
     </div>
 
     <footer>© 2025 Ride To Hell</footer>
+
 </div>
 
 </body>
