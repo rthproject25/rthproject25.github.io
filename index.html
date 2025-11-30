@@ -9,10 +9,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
 
-  /* ===== DARK WAVE BACKGROUND (RTH Dark Wave) =====
-     Implemented as multiple absolutely-positioned "wave" layers
-     animated via transform & opacity (works on Samsung & mobile).
-  */
+  /* ===== BACKGROUND CONTAINER (contains canvas animation) ===== */
   #bg-anim {
     position: fixed;
     inset: 0;
@@ -22,46 +19,10 @@
     background: #000; /* base black */
   }
 
-  .bg-wave {
-    position: absolute;
-    left: -20%;
-    width: 140%;
-    height: 120%;
-    top: -10%;
-    transform-origin: center;
-    filter: blur(36px);
-    opacity: 0.12;
-    will-change: transform, opacity;
-    border-radius: 40%;
-    mix-blend-mode: normal;
-  }
+  /* Canvas will fill container */
+  #bg-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 
-  /* Wave color / gradient (neutral black waves) */
-  .bg-wave.wave-1 {
-    background: radial-gradient(closest-side, rgba(32,32,32,0.75), rgba(2,2,2,0.35));
-    animation: waveMove1 14s linear infinite;
-    opacity: 0.10;
-    top: -12%; height: 110%;
-    transform: translate3d(-6%,0,0) scale(1.05) rotate(-6deg);
-  }
-  .bg-wave.wave-2 {
-    background: radial-gradient(closest-side, rgba(18,18,18,0.7), rgba(4,4,4,0.25));
-    animation: waveMove2 18s linear infinite;
-    opacity: 0.08;
-    top: -6%; height: 120%;
-    transform: translate3d(0%,0,0) scale(1.12) rotate(4deg);
-    filter: blur(46px);
-  }
-  .bg-wave.wave-3 {
-    background: radial-gradient(closest-side, rgba(10,10,10,0.6), rgba(0,0,0,0.15));
-    animation: waveMove3 22s linear infinite;
-    opacity: 0.06;
-    top: -4%; height: 125%;
-    transform: translate3d(2%,0,0) scale(1.18) rotate(8deg);
-    filter: blur(60px);
-  }
-
-  /* subtle vignette layer to add depth */
+  /* subtle vignette layer (still present) */
   .bg-vignette {
     position:absolute;inset:0;
     background: radial-gradient(ellipse at center, rgba(0,0,0,0) 38%, rgba(0,0,0,0.6) 100%);
@@ -70,26 +31,9 @@
     opacity: 1;
   }
 
-  @keyframes waveMove1 {
-    0% { transform: translate3d(-6%,0,0) scale(1.05) rotate(-6deg); opacity:0.10; }
-    50% { transform: translate3d(2%,2%,0) scale(1.08) rotate(-4deg); opacity:0.12; }
-    100% { transform: translate3d(-6%,0,0) scale(1.05) rotate(-6deg); opacity:0.10; }
-  }
-  @keyframes waveMove2 {
-    0% { transform: translate3d(0%,0,0) scale(1.12) rotate(4deg); opacity:0.08; }
-    50% { transform: translate3d(-3%,2%,0) scale(1.14) rotate(2deg); opacity:0.10; }
-    100% { transform: translate3d(0%,0,0) scale(1.12) rotate(4deg); opacity:0.08; }
-  }
-  @keyframes waveMove3 {
-    0% { transform: translate3d(2%,0,0) scale(1.18) rotate(8deg); opacity:0.06; }
-    50% { transform: translate3d(8%,3%,0) scale(1.20) rotate(10deg); opacity:0.08; }
-    100% { transform: translate3d(2%,0,0) scale(1.18) rotate(8deg); opacity:0.06; }
-  }
-
-  /* When blood mode is ON, tint waves with subtle red */
-  body.blood #bg-anim .bg-wave.wave-1 { background: radial-gradient(closest-side, rgba(70,20,20,0.65), rgba(20,6,6,0.28)); }
-  body.blood #bg-anim .bg-wave.wave-2 { background: radial-gradient(closest-side, rgba(60,16,16,0.62), rgba(14,6,6,0.22)); }
-  body.blood #bg-anim .bg-wave.wave-3 { background: radial-gradient(closest-side, rgba(42,10,10,0.55), rgba(10,4,4,0.18)); }
+  /* When blood mode is ON, we tint overlay via a subtle overlay element */
+  #bg-anim .tint { position:absolute; inset:0; pointer-events:none; z-index:-9997; opacity:0; transition:opacity .4s ease; background: linear-gradient(180deg, rgba(50,12,12,0.35), rgba(10,0,0,0.45)); }
+  body.blood #bg-anim .tint { opacity:1; }
 
   /* ===== PAGE BASE ===== */
   body{
@@ -241,12 +185,11 @@
 </style>
 </head>
 <body>
-  <!-- Background animation overlay (Dark Wave) -->
+  <!-- Background animation overlay (Canvas) -->
   <div id="bg-anim" aria-hidden="true">
-    <div class="bg-wave wave-1" aria-hidden="true"></div>
-    <div class="bg-wave wave-2" aria-hidden="true"></div>
-    <div class="bg-wave wave-3" aria-hidden="true"></div>
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
     <div class="bg-vignette" aria-hidden="true"></div>
+    <div class="tint" aria-hidden="true"></div>
   </div>
 
   <div class="wrap">
@@ -316,11 +259,148 @@
   </div>
 
 <script>
+/* ========= Canvas Dark Wave (works on Samsung Note10+) =========
+   - draws multiple blurred moving circles (soft waves)
+   - uses devicePixelRatio for sharpness
+   - very low CPU by keeping particle count small and low frame cost
+*/
+(function(){
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d', {alpha:true});
+  let w = 0, h = 0, dpr = Math.max(1, window.devicePixelRatio || 1);
+  let particles = [];
+  const PARTICLE_COUNT = 6; // low, subtle
+  const TAU = Math.PI*2;
+
+  function resize(){
+    dpr = Math.max(1, window.devicePixelRatio || 1);
+    w = Math.max(320, innerWidth);
+    h = Math.max(320, innerHeight);
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+
+  function rand(min,max){ return Math.random()*(max-min)+min; }
+
+  function makeParticles(){
+    particles = [];
+    for(let i=0;i<PARTICLE_COUNT;i++){
+      particles.push({
+        x: rand(w*0.2, w*0.8),
+        y: rand(h*0.0, h*0.6),
+        r: rand(Math.min(w,h)*0.22, Math.min(w,h)*0.48), // large blobs
+        vx: rand(-0.06, 0.06),
+        vy: rand(-0.02, 0.02),
+        rot: rand(0, TAU),
+        vrot: rand(-0.003, 0.003),
+        alpha: rand(0.04, 0.14),
+        hueShift: rand(-8,8)
+      });
+    }
+  }
+
+  function draw(){
+    // Clear with solid black
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = 'rgba(0,0,0,1)';
+    ctx.fillRect(0,0,w,h);
+
+    // draw subtle blurred glows
+    for(let p of particles){
+      // create radial gradient for particle
+      const gx = p.x;
+      const gy = p.y;
+      const gr = p.r;
+      // subtle move & rotate simulated by offset
+      const ox = Math.sin(p.rot*1.1) * (gr*0.06);
+      const oy = Math.cos(p.rot*0.9) * (gr*0.04);
+
+      const grad = ctx.createRadialGradient(gx+ox, gy+oy, 0, gx+ox, gy+oy, gr);
+      // base colors (dark neutral). If body has blood class, tint will show via CSS overlay.
+      grad.addColorStop(0, `rgba(18,18,18,${p.alpha*1.6})`);
+      grad.addColorStop(0.35, `rgba(12,12,12,${p.alpha*1.05})`);
+      grad.addColorStop(1, `rgba(6,6,6,0)`);
+
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(gx+ox, gy+oy, gr, 0, TAU);
+      ctx.fill();
+    }
+
+    // subtle top vignette (extra)
+    ctx.globalCompositeOperation = 'source-over';
+    const v = ctx.createRadialGradient(w/2, h*0.35, Math.min(w,h)*0.2, w/2, h/2, Math.max(w,h)*0.9);
+    v.addColorStop(0, 'rgba(0,0,0,0)');
+    v.addColorStop(0.7, 'rgba(0,0,0,0.18)');
+    v.addColorStop(1, 'rgba(0,0,0,0.55)');
+    ctx.fillStyle = v;
+    ctx.fillRect(0,0,w,h);
+  }
+
+  // animation loop (low CPU; 30-45fps typical on mobile)
+  let last = performance.now();
+  function step(now){
+    const dt = Math.min(40, now - last);
+    last = now;
+
+    // update particles
+    for(let p of particles){
+      p.x += p.vx * dt * 0.12;
+      p.y += p.vy * dt * 0.08;
+      p.rot += p.vrot * dt * 0.0012;
+      // tiny breathing
+      p.r += Math.sin(now*0.0003 + p.rot) * 0.03;
+
+      // loops edges softly
+      if(p.x < -p.r) p.x = w + p.r;
+      if(p.x > w + p.r) p.x = -p.r;
+      if(p.y < -p.r) p.y = h + p.r;
+      if(p.y > h + p.r) p.y = -p.r;
+    }
+
+    draw();
+    raf = requestAnimationFrame(step);
+  }
+
+  let raf = null;
+  function start(){
+    cancelAnimationFrame(raf);
+    resize();
+    makeParticles();
+    last = performance.now();
+    raf = requestAnimationFrame(step);
+  }
+
+  // try to be friendly to battery saver: pause when document hidden
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.hidden){ cancelAnimationFrame(raf); raf = null; }
+    else if(!raf) { last = performance.now(); raf = requestAnimationFrame(step); }
+  }, false);
+
+  // responsive
+  let rto;
+  window.addEventListener('resize', ()=>{
+    clearTimeout(rto);
+    rto = setTimeout(()=>{ resize(); makeParticles(); }, 180);
+  }, {passive:true});
+
+  // initial start
+  start();
+
+  // expose for debugging (console)
+  window._rthCanvas = {start, makeParticles, resize};
+
+})();
+
+/* ========= UI: switch, screensaver, idle logic (unchanged behavior) ========= */
 (function(){
   const body=document.body;
   const sw=document.getElementById('switch');
   const screensaver=document.getElementById('screensaver');
-  const bgAnim = document.getElementById('bg-anim');
   const KEY='rth_blood_state_v1';
   const IDLE=6000;
   let idleTimer=null;
@@ -332,7 +412,6 @@
     if(on){body.classList.add('blood');sw.setAttribute('data-state','on')}
     else{body.classList.remove('blood');sw.setAttribute('data-state','off')}
     write(on);
-    // subtle bg tint handled in CSS via body.blood rules
     if(screensaver.classList.contains('show'))updateSS(on);
   }
 
@@ -371,10 +450,8 @@
 
   resetIdle();
 
-  // debug note
-  if(window && window.console){
-    console.log('RTH: Dark Wave animation active');
-  }
+  // debug
+  if(window && window.console) console.log('RTH: Canvas Dark Wave active');
 })();
 </script>
 
