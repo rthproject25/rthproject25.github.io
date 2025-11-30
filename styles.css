@@ -1,144 +1,156 @@
+/* RIDE TO HELL — styles.css (FULL) */
+/* Variables */
 :root{
-  --bg:#000;
-  --panel:#0d0d0d;
-  --muted:#aaa;
-  --accent:#b83b34;
-  --white:#f2f2f2;
-  --radius:22px;
+  --bg-0: #050303;
+  --bg-1: #0b0b0b;
+  --panel: rgba(0,0,0,0.6);
+  --muted: #a8a8a8;
+  --accent: #b83b34;       /* normal accent */
+  --accent-strong: #8a2d27;
+  --white: #efefef;
+  --radius: 18px;
+  --maxw: 920px;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
+/* Blood-mode overrides will apply when .blood-mode on <html> */
+html.blood-mode {
+  --accent: #ff3b3b;      /* brighter blood red */
+  --accent-strong: #b82b2b;
+  background: radial-gradient(circle at top, rgba(30,0,0,0.6), #000 60%);
+}
 
+/* Reset */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
 body{
-  background: radial-gradient(circle at top, #1a0000 0%, #000 65%);
-  font-family: Inter, Arial, sans-serif;
-  padding:40px 18px 80px;
+  background: radial-gradient(circle at top, #1a0000 0%, #000 60%);
   color:var(--white);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.6;
+  padding:36px 18px 80px;
 }
 
+/* Page container */
+.page-wrap{max-width:var(--maxw);margin:0 auto}
+
+/* Panel */
 .panel{
-  background:rgba(0,0,0,0.55);
-  border-radius:var(--radius);
-  padding:36px 24px;
-  max-width:880px;
-  margin:0 auto;
-  backdrop-filter:blur(7px);
-  box-shadow:0 25px 45px rgba(0,0,0,0.7);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.45));
+  border-radius:28px;
+  padding:28px 22px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.03);
 }
 
-/* LOGO */
-.logo-center{
-  text-align:center;
-  margin-bottom:26px;
-}
+/* Logo */
+.logo-center{text-align:center;margin-bottom:20px}
 .logo-big{
-  width:140px;
-  height:140px;
-  border-radius:20px;
-  box-shadow:0 0 45px rgba(255,0,0,0.18);
+  width:120px;height:120px;object-fit:cover;border-radius:16px;
+  box-shadow: 0 24px 60px rgba(184,59,52,0.08);
+  display:inline-block;
 }
 
-/* TEXT */
+/* Hero text */
+.hero-text h1,
+#site-title,
 h1{
-  font-size:38px;
-  font-weight:800;
-  margin-bottom:12px;
+  font-size:40px;
+  letter-spacing:1px;
+  margin-bottom:10px;
+  font-weight:900;
 }
 .lead{
-  font-size:18px;
+  color:rgba(239,239,239,0.93);
+  font-size:17px;
   margin-bottom:8px;
 }
-.muted{
-  font-size:14px;
-  color:var(--muted);
-  margin-bottom:16px;
-}
+.muted{ color:var(--muted); font-weight:700; margin-bottom:6px; font-size:14px;}
 
-/* BLOOD */
+/* Blood toggle row */
+.blood-row{ display:flex; align-items:center; gap:12px; margin-bottom:22px; }
+.blood-label{ color:var(--muted); font-weight:700; font-size:13px; letter-spacing:0.6px; }
+
+/* Toggle button */
 .blood-toggle{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-size:14px;
-  opacity:0.7;
-  margin-bottom:30px;
-}
-.toggle-dot{
-  width:35px;height:20px;
-  background:#3b0000;
+  width:56px;
+  height:28px;
   border-radius:20px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(255,255,255,0.02));
+  border:1px solid rgba(255,255,255,0.03);
   position:relative;
+  padding:4px;
+  display:inline-block;
+  cursor:pointer;
+  outline:none;
+  transition: box-shadow .18s, transform .08s;
 }
-.toggle-dot::after{
-  content:"";
-  width:14px;height:14px;
-  background:var(--accent);
-  border-radius:50%;
+.blood-toggle:focus{ box-shadow:0 0 0 5px rgba(184,59,52,0.08); transform:translateY(-1px); }
+.toggle-track{ position:absolute; inset:0; border-radius:20px; pointer-events:none; }
+.toggle-knob{
   position:absolute;
-  top:3px;right:3px;
+  top:4px; left:4px;
+  width:20px; height:20px;
+  background:var(--muted);
+  border-radius:50%;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  transition: left .16s ease, background .16s ease, box-shadow .16s;
 }
 
-/* CARDS */
-.list-cards{
-  display:flex;
-  flex-direction:column;
-  gap:22px;
+/* when active (blood-mode), move knob & change color */
+html.blood-mode .toggle-knob{
+  left:32px;
+  background:var(--accent);
+  box-shadow: 0 10px 28px rgba(184,59,52,0.28);
 }
 
+/* Cards list */
+.list-cards{ display:flex; flex-direction:column; gap:18px; margin-top:8px; }
+
+/* Card */
 .card{
-  background:rgba(255,255,255,0.05);
-  border-radius:var(--radius);
-  padding:18px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border:1px solid rgba(255,255,255,0.06);
-}
-
-.icon-img{
-  width:40px;
-  height:40px;
-  border-radius:10px;
-  padding:6px;
-  background:#000;
-  box-shadow:inset 0 0 12px rgba(0,0,0,0.7);
-}
-
-.left{
-  display:flex;
-  align-items:center;
+  display:flex; align-items:center; justify-content:space-between;
   gap:16px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(255,255,255,0.02));
+  border-radius:20px;
+  padding:14px 18px;
+  box-shadow: 0 12px 34px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.02);
 }
 
-.title{
-  font-size:16px;
-  font-weight:700;
+/* left block */
+.left{ display:flex; align-items:center; gap:14px; min-width:0; }
+.icon-img{
+  width:46px; height:46px; object-fit:cover; border-radius:12px;
+  background:#000; padding:8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6) inset;
 }
-.sub{
-  font-size:13px;
-  color:var(--muted);
-}
+.meta{ min-width:0; }
+.title{ font-weight:800; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sub{ color:var(--muted); font-size:13px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
-/* BUTTON */
+/* Button */
 .btn{
   background:var(--accent);
-  padding:10px 20px;
-  border-radius:14px;
-  color:#fff;
-  font-weight:700;
+  color:var(--white);
   text-decoration:none;
-  box-shadow:0 6px 15px rgba(184,59,52,0.25);
-  transition:0.2s;
+  padding:10px 18px;
+  border-radius:14px;
+  font-weight:800;
+  box-shadow: 0 12px 28px rgba(184,59,52,0.22);
+  transition: transform .12s ease, box-shadow .12s ease;
 }
-.btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 14px 35px rgba(0,0,0,0.6);
-}
+.btn:active{ transform:translateY(1px) }
 
-/* FOOTER */
-.panel-foot{
-  text-align:center;
-  margin-top:30px;
-  font-size:13px;
-  color:var(--muted);
+/* footer */
+.panel-foot{ margin-top:30px; color:var(--muted); font-size:14px; text-align:center; }
+
+/* responsive */
+@media (max-width:520px){
+  .logo-big{ width:100px;height:100px; }
+  h1{ font-size:32px; }
+  .icon-img{ width:42px;height:42px; padding:6px; }
+  body{ padding:28px 14px; }
 }
