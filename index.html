@@ -1,219 +1,218 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ride To Hell</title>
 
 <style>
-  body {
-    margin:0;
-    background:#000;
-    font-family:Inter, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    transition: background 0.3s ease;
-  }
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #000;
+        color: white;
+        transition: 0.5s;
+        background-image: none;
+        background-size: cover;
+        background-position: center;
+    }
 
-  /* 🔥 BLOOD MODE BACKGROUND FIX */
-  body.blood {
-    background: url("Blood.png") center/cover no-repeat fixed !important;
-  }
+    .container {
+        max-width: 420px;
+        margin: auto;
+        padding: 20px;
+        text-align: center;
+    }
 
-  :root {
-    --accent:#d64545;
-    --accent-dark:#9a1f1f;
-    --text-light:rgba(255,255,255,0.92);
-  }
+    .card {
+        background: rgba(0,0,0,0.45);
+        padding: 25px;
+        border-radius: 20px;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 0 30px rgba(255,0,0,0.15);
+    }
 
-  body.blood {
-    --accent:#ff4444;
-    --accent-dark:#b71c1c;
-    --text-light:rgba(255,230,230,0.92);
-  }
+    .logo {
+        width: 110px;
+        border-radius: 20px;
+        margin-bottom: 15px;
+    }
 
-  .overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.82);
-    pointer-events:none;
-  }
+    h1 {
+        font-size: 32px;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
 
-  .card{
-    position:relative;
-    z-index:2;
-    max-width:880px;
-    margin:40px auto;
-    background:rgba(20,20,20,0.6);
-    border-radius:20px;
-    padding:30px;
-    backdrop-filter:blur(8px);
-    border:1px solid rgba(255,255,255,0.05);
-  }
+    p {
+        opacity: 0.9;
+        font-size: 16px;
+        line-height: 1.5rem;
+    }
 
-  h1{
-    text-align:center;
-    color:white;
-    font-size:34px;
-    letter-spacing:4px;
-    font-weight:800;
-    margin-bottom:12px;
-  }
+    .toggle-wrapper {
+        margin: 25px 0 10px;
+        font-weight: bold;
+        letter-spacing: 4px;
+    }
 
-  p, .lead{
-    text-align:center;
-    color:var(--text-light);
-    margin:6px 0;
-    font-size:15px;
-    line-height:1.55;
-  }
+    /* TOGGLE BLOOD */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 70px;
+        height: 34px;
+        margin-bottom: 20px;
+    }
 
-  .bold-line{
-    color:white;
-    text-align:center;
-    font-weight:900;
-    margin:15px 0 8px;
-  }
+    .switch input { display: none; }
 
-  /* TOGGLE */
-  .toggle-box{
-    text-align:center;
-    margin:18px 0;
-    color:white;
-    font-weight:700;
-    letter-spacing:2px;
-  }
-  .toggle{
-    width:60px;
-    height:30px;
-    margin:10px auto;
-    border-radius:30px;
-    background:#444;
-    display:flex;
-    align-items:center;
-    padding:3px;
-    cursor:pointer;
-    transition:0.2s;
-  }
-  body.blood .toggle{
-    background:var(--accent);
-    justify-content:flex-end;
-  }
-  .dot{
-    width:24px;
-    height:24px;
-    border-radius:50%;
-    background:white;
-  }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background: #444;
+        border-radius: 34px;
+        transition: 0.4s;
+    }
 
-  /* Buttons */
-  .btn{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:rgba(255,255,255,0.04);
-    border:1px solid rgba(255,255,255,0.08);
-    padding:16px;
-    border-radius:14px;
-    margin:12px 0;
-    text-decoration:none;
-    box-shadow:0 8px 30px rgba(0,0,0,0.5);
-  }
-  .label{
-    color:white;
-    font-size:17px;
-    font-weight:800;
-  }
-  .subtext{
-    color:var(--text-light);
-    font-size:13px;
-    margin-top:4px;
-  }
-  .cta{
-    background:var(--accent);
-    padding:10px 16px;
-    border-radius:10px;
-    color:white;
-    font-weight:800;
-    min-width:78px;
-    text-align:center;
-  }
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background: #fff;
+        border-radius: 50%;
+        transition: 0.4s;
+    }
 
-  footer{
-    text-align:center;
-    color:rgba(255,255,255,0.6);
-    margin-top:20px;
-  }
+    input:checked + .slider {
+        background: #d30000;
+        box-shadow: 0 0 20px #ff0000;
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(36px);
+        background: white;
+    }
+
+    .link-box {
+        background: rgba(30,30,30,0.8);
+        margin-top: 15px;
+        padding: 18px;
+        border-radius: 18px;
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .label {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .sub {
+        font-size: 13px;
+        opacity: 0.7;
+    }
+
+    .btn {
+        background: #c73131;
+        padding: 10px 18px;
+        border-radius: 12px;
+        font-weight: bold;
+        text-decoration: none;
+        color: white;
+    }
+
+    footer {
+        margin-top: 40px;
+        opacity: 0.5;
+        font-size: 13px;
+    }
 </style>
-</head>
 
+</head>
 <body>
 
-<div class="overlay"></div>
+<div class="container">
+    <div class="card">
 
-<div class="card">
+        <img src="avatar.png" class="logo">
 
-  <h1>RIDE TO HELL</h1>
+        <h1>RIDE TO HELL</h1>
 
-  <p class="lead">Teritori gelap ini rumah gue. Tempat gue jatuh,</p>
-  <p class="lead">bangkit, dan ngegas sendirian.</p>
+        <p>Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</p>
 
-  <div class="bold-line">RTH bukan sekadar nama — ini cara gue bertahan.</div>
+        <p><b>RTH bukan sekadar nama — ini cara gue bertahan.</b></p>
 
-  <p class="lead">Simple contact • No noise</p>
+        <p>Simple contact • No noise</p>
 
-  <!-- TOGGLE -->
-  <div class="toggle-box">BLOOD</div>
-  <div id="tog" class="toggle"><div class="dot"></div></div>
+        <div class="toggle-wrapper">B L O O D</div>
 
-  <!-- Buttons -->
-  <a href="https://instagram.com/ridetohhell.official" class="btn" target="_blank">
-    <div>
-      <div class="label">@ridetohhell.official</div>
-      <div class="subtext">Instagram Resmi</div>
+        <label class="switch">
+            <input id="bloodToggle" type="checkbox">
+            <span class="slider"></span>
+        </label>
+
+        <!-- Instagram -->
+        <div class="link-box">
+            <div>
+                <div class="label">@ridetohhell.official</div>
+                <div class="sub">Instagram Resmi</div>
+            </div>
+            <a href="https://instagram.com/ridetohhell.official" class="btn">Masuk</a>
+        </div>
+
+        <!-- WhatsApp -->
+        <div class="link-box">
+            <div>
+                <div class="label">Chat via WhatsApp — +62 858-8211-0680</div>
+                <div class="sub">Fast contact</div>
+            </div>
+            <a href="https://wa.me/6285882110680" class="btn">Terhubung</a>
+        </div>
+
+        <!-- YouTube -->
+        <div class="link-box">
+            <div>
+                <div class="label">YouTube Channel</div>
+                <div class="sub">@RTHProject25</div>
+            </div>
+            <a href="https://youtube.com/@RTHProject25" class="btn">Tonton</a>
+        </div>
+
+        <!-- Facebook -->
+        <div class="link-box">
+            <div>
+                <div class="label">Halaman Facebook</div>
+                <div class="sub">Ride To Hell</div>
+            </div>
+            <a href="https://facebook.com" class="btn">Buka</a>
+        </div>
+
+        <footer>© 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.</footer>
+
     </div>
-    <div class="cta">Masuk</div>
-  </a>
-
-  <a href="https://wa.me/6285882110680" class="btn" target="_blank">
-    <div>
-      <div class="label">Chat via WhatsApp — +62 858-8211-0680</div>
-      <div class="subtext">Fast contact</div>
-    </div>
-    <div class="cta">Terhubung</div>
-  </a>
-
-  <a href="https://www.youtube.com/@RTHProject25" class="btn" target="_blank">
-    <div>
-      <div class="label">YouTube Channel</div>
-      <div class="subtext">@RTHProject25</div>
-    </div>
-    <div class="cta">Tonton</div>
-  </a>
-
-  <a href="https://facebook.com/RideToHell" class="btn" target="_blank">
-    <div>
-      <div class="label">Halaman Facebook</div>
-      <div class="subtext">Ride To Hell</div>
-    </div>
-    <div class="cta">Buka</div>
-  </a>
-
-  <footer>© 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.</footer>
-
 </div>
 
+
 <script>
-  const t = document.getElementById("tog");
-  const KEY = "bloodTheme";
-  const saved = localStorage.getItem(KEY);
+    const toggle = document.getElementById("bloodToggle");
 
-  if(saved === "1") document.body.classList.add("blood");
-
-  t.onclick = () => {
-    document.body.classList.toggle("blood");
-    const active = document.body.classList.contains("blood") ? "1" : "0";
-    localStorage.setItem(KEY, active);
-  };
+    toggle.onchange = () => {
+        if (toggle.checked) {
+            document.body.style.backgroundImage = "url('Blood.png')";
+            document.body.style.backgroundColor = "#000";
+        } else {
+            document.body.style.backgroundImage = "none";
+            document.body.style.backgroundColor = "#000";
+        }
+    };
 </script>
 
 </body>
