@@ -1,178 +1,222 @@
-/* ========= RIDE TO HELL — STYLES (FULL) ========= */
-
-/* | Root colors */
-:root{
-  --bg:#070707;
-  --panel:#0e0e0e;
-  --muted:#a6a6a6;
-  --accent:#b84b44; /* base red */
-  --accent-dark:#7a2b28;
-  --white:#efefef;
-  --card-radius:18px;
-  --maxw:980px;
-  --gap:20px;
-  --shadow-1: 0 18px 36px rgba(0,0,0,0.6);
-  --glass: rgba(255,255,255,0.02);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
 }
 
-/* Basic reset */
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  background:var(--bg);
-  color:var(--white);
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  line-height:1.6;
-  padding:28px 18px;
-  -webkit-font-smoothing:antialiased;
+body {
+    background: #000;
+    color: white;
+    overflow-x: hidden;
+    transition: background 0.6s ease;
 }
 
-/* Background animated smoky / blood texture */
-.bg-anim{
-  position:fixed; inset:0; z-index:0; pointer-events:none;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(184,59,52,0.12), transparent 8%),
-    radial-gradient(circle at 80% 70%, rgba(40,10,10,0.08), transparent 10%);
-  mix-blend-mode: overlay;
-  opacity:0.95;
-  transition:opacity .4s ease;
-}
-.bg-anim::after{
-  content:"";
-  position:absolute; inset:0;
-  background-image: url('file_0000000079707207be1a2821720f5b52.png');
-  background-size: 1600px 1200px;
-  background-position: 50% 50%;
-  opacity:0.18;
-  filter: blur(6px) contrast(.9) saturate(.9);
-  transform: translate3d(0,0,0);
-  animation: bg-pan 20s linear infinite;
-  mix-blend-mode: normal;
-}
-@keyframes bg-pan{
-  0%   { background-position: 45% 45%; }
-  50%  { background-position: 55% 55%; }
-  100% { background-position: 45% 45%; }
+/* ---------------- BACKGROUND SMOKE ---------------- */
+
+.smoke-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('file_0000000020807206a72845919b7e437f.png');
+    background-size: cover;
+    filter: brightness(0.35);
+    animation: smokeMove 22s infinite linear;
+    z-index: -1;
+    opacity: 0.6;
 }
 
-/* Container page */
-.page{
-  position:relative;
-  z-index:2;
-  max-width:var(--maxw);
-  margin:0 auto;
-  padding:28px;
+@keyframes smokeMove {
+    0% { transform: scale(1.1) translateY(0); }
+    50% { transform: scale(1.15) translateY(-15px); }
+    100% { transform: scale(1.1) translateY(0); }
 }
 
-/* Hero */
-.hero{
-  display:flex;
-  gap:22px;
-  align-items:flex-start;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
-  border-radius:26px;
-  padding:22px;
-  box-shadow: var(--shadow-1);
-  border: 1px solid rgba(255,255,255,0.03);
-  backdrop-filter: blur(6px);
-  position:relative;
+.blood-smoke {
+    filter: brightness(0.25) saturate(2);
+    opacity: 0.9;
 }
 
-.hero-left{ width:92px; display:flex; align-items:flex-start; justify-content:center;}
-.logo-badge{
-  width:84px; height:84px; border-radius:18px; display:flex; align-items:center; justify-content:center;
-  background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.15));
-  box-shadow: inset 0 6px 14px rgba(0,0,0,0.6), 0 8px 24px rgba(0,0,0,0.5);
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,0.02);
-}
-.logo-img{ width:72px; height:72px; object-fit:cover; border-radius:12px; display:block; }
-.logo-fallback{ display:none; color:var(--white); font-weight:800; font-size:18px; }
+/* ---------------- CONTAINER ---------------- */
 
-/* hero right */
-.hero-right{ flex:1; padding-right:6px; }
-.site-title{
-  font-size:44px; letter-spacing:1px; margin-bottom:12px; font-weight:800;
-  text-shadow: 0 6px 18px rgba(0,0,0,0.6);
-}
-.lead{ color:rgba(239,239,239,0.95); font-size:17px; margin-bottom:8px; max-width:70ch; }
-.strap{ color:var(--muted); font-weight:700; margin-bottom:10px; }
-
-/* blood row */
-.blood-row{ display:flex; align-items:center; gap:12px; margin-top:8px; margin-bottom:6px; }
-.blood-label{ color:var(--muted); font-weight:700; letter-spacing:0.6px; font-size:13px; }
-/* fancy toggle */
-.blood-toggle{
-  width:56px; height:28px; border-radius:24px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.08));
-  border:1px solid rgba(255,255,255,0.03);
-  position:relative; cursor:pointer;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.6) inset;
-}
-.blood-toggle::before{
-  content:""; position:absolute; top:4px; left:4px; width:20px; height:20px; border-radius:50%;
-  background:#e6e6e6; transition: transform .22s cubic-bezier(.2,.9,.3,1), background .18s;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.45);
-}
-body.blood .blood-toggle{ background: linear-gradient(180deg, rgba(184,59,52,0.25), rgba(110,20,20,0.12)); }
-body.blood .blood-toggle::before{ transform: translateX(28px); background:var(--accent); box-shadow: 0 10px 22px rgba(184,59,52,0.28); }
-
-/* Cards list */
-.cards{ margin-top:22px; display:flex; flex-direction:column; gap:14px; }
-.card{
-  display:flex; align-items:center; justify-content:space-between; gap:14px;
-  padding:16px; border-radius:20px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06));
-  border: 1px solid rgba(255,255,255,0.02);
-  box-shadow: 0 10px 32px rgba(0,0,0,0.6);
-  overflow:hidden;
-}
-.card .left{ display:flex; gap:14px; align-items:center; min-width:0; flex:1; }
-.icon-wrap{
-  width:56px; height:56px; border-radius:12px; display:flex; align-items:center; justify-content:center;
-  background: rgba(0,0,0,0.45); border:1px solid rgba(255,255,255,0.02);
-  box-shadow: inset 0 6px 18px rgba(0,0,0,0.6);
-  flex:0 0 56px;
-}
-.icon-svg{ width:26px; height:26px; color:rgba(255,255,255,0.95); display:block; }
-
-/* meta text */
-.meta .title{ font-weight:800; font-size:16px; color:var(--white); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.meta .sub{ color:var(--muted); font-size:13px; margin-top:4px; }
-
-/* button */
-.btn{
-  background:var(--accent); color:var(--white); text-decoration:none;
-  padding:12px 20px; border-radius:14px; font-weight:800; flex:0 0 auto;
-  box-shadow: 0 10px 28px rgba(184,59,52,0.18);
-  border:none; transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
-}
-.btn:active{ transform:translateY(1px) }
-.btn:hover{ box-shadow: 0 16px 34px rgba(0,0,0,0.6) }
-
-/* footer */
-.foot{ margin-top:26px; color:var(--muted); font-size:14px; text-align:center; padding-bottom:40px; }
-
-/* 'blood' mode specifics */
-body.blood .site-title{ text-shadow: 0 10px 28px rgba(120,18,18,0.45); }
-body.blood .lead{ color:rgba(255,241,241,0.92); }
-body.blood .card{ background: linear-gradient(180deg, rgba(30,10,10,0.45), rgba(0,0,0,0.45)); border:1px solid rgba(120,20,20,0.15); }
-body.blood .icon-wrap{ background: rgba(0,0,0,0.65); border:1px solid rgba(255,255,255,0.03); }
-body.blood .btn{ background: linear-gradient(180deg,var(--accent), var(--accent-dark)); box-shadow: 0 18px 36px rgba(120,20,20,0.28); }
-
-/* small screens */
-@media (max-width:640px){
-  .hero{ flex-direction:column; gap:14px; padding:18px; }
-  .hero-left{ width:100%; display:flex; justify-content:center; }
-  .logo-badge{ width:96px; height:96px; }
-  .site-title{ font-size:34px; text-align:center; }
-  .hero-right{text-align:center;}
-  .card{ padding:14px; border-radius:16px; }
-  .icon-wrap{ width:52px; height:52px; flex:0 0 52px; }
-  .btn{ padding:10px 16px; }
-  body{ padding:18px 12px; }
+.container {
+    width: 90%;
+    max-width: 520px;
+    margin: auto;
+    padding: 30px 0 60px;
 }
 
-/* safety: prevent external svgs/images from overflowing page */
-img, svg{ max-width:100%; height:auto; display:block; }
+/* ---------------- HEADER CARD ---------------- */
+
+.header-card {
+    background: rgba(20, 20, 20, 0.65);
+    padding: 35px 25px;
+    border-radius: 22px;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.2);
+    margin-bottom: 25px;
+    backdrop-filter: blur(9px);
+    transition: all 0.4s ease;
+}
+
+.logo {
+    width: 120px;
+    display: block;
+    margin: auto;
+    border-radius: 20px;
+}
+
+.title {
+    text-align: center;
+    font-size: 33px;
+    margin-top: 15px;
+    font-weight: 700;
+}
+
+.desc {
+    text-align: center;
+    margin-top: 10px;
+    opacity: 0.88;
+    line-height: 1.45;
+}
+
+.quote {
+    margin-top: 10px;
+    text-align: center;
+    opacity: 0.75;
+    font-size: 14px;
+}
+
+.toggle-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+/* Switch */
+.switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #444;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+.slider:before {
+    content: "";
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+input:checked + .slider {
+    background: #b30000;
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* ---------------- SOCIAL CARDS ---------------- */
+
+.card {
+    background: rgba(15, 15, 15, 0.75);
+    padding: 18px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    background: rgba(25, 25, 25, 0.85);
+}
+
+.left {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.icon {
+    width: 42px;
+    height: 42px;
+}
+
+.title-sosmed {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.sub {
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+.btn {
+    background: #b32121;
+    padding: 10px 18px;
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    background: #cc2b2b;
+}
+
+/* ---------------- BLOOD MODE ---------------- */
+
+body.blood-mode .header-card {
+    box-shadow: 0 0 35px rgba(255, 0, 0, 0.45);
+    background: rgba(30, 0, 0, 0.45);
+}
+
+body.blood-mode .card {
+    background: rgba(40, 0, 0, 0.55);
+}
+
+body.blood-mode .btn {
+    background: #d12424;
+}
+
+body.blood-mode .btn:hover {
+    background: #e43030;
+}
+
+/* ---------------- FOOTER ---------------- */
+
+.footer {
+    text-align: center;
+    margin-top: 35px;
+    font-size: 12px;
+    opacity: 0.6;
+}
