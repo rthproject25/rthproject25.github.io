@@ -26,7 +26,7 @@
     padding:22px 18px 80px;
   }
 
-  /* LOGO: pos & size like screenshot */
+  /* LOGO */
   .logo{
     width:96px;
     height:96px;
@@ -39,7 +39,7 @@
     transform:translateZ(0);
   }
 
-  /* TITLE: big, spaced like screenshot */
+  /* TITLE */
   h1{
     font-weight:800;
     text-align:center;
@@ -83,12 +83,12 @@
     font-size:14px;
   }
 
-  /* SWITCH: proportions tuned to screenshot */
+  /* SWITCH (20% smaller than previous) */
   .switch-wrap{display:flex;justify-content:center;margin-bottom:20px}
   .switch{
-    width:160px;
-    height:70px;
-    border-radius:40px;
+    width:128px;           /* reduced from 160 → 128 (20%) */
+    height:56px;           /* reduced from 70 → 56 (20%) */
+    border-radius:36px;
     background:linear-gradient(180deg,#0f0f0f,#070707 60%);
     position:relative;
     cursor:pointer;
@@ -96,13 +96,13 @@
     transition:background .28s ease, box-shadow .28s ease;
   }
   .knob{
-    width:62px;
-    height:62px;
+    width:50px;            /* reduced from 62 → 50 (~20%) */
+    height:50px;
     border-radius:50%;
     background:#fff;
     position:absolute;
-    top:4px;
-    left:10px;
+    top:3px;
+    left:8px;              /* adjusted smaller offset */
     transition:left .28s cubic-bezier(.2,.9,.2,1);
     box-shadow:0 12px 30px rgba(0,0,0,0.6);
   }
@@ -110,9 +110,9 @@
     background:linear-gradient(180deg,#6f2f2f,#401616 60%);
     box-shadow:inset 0 6px 20px rgba(120,20,20,0.06), 0 12px 36px rgba(120,20,20,0.2);
   }
-  body.blood .knob{ left:86px; }
+  body.blood .knob{ left:70px; } /* moved on-position for reduced width */
 
-  /* CONTACT CARDS: large like screenshot */
+  /* CONTACT CARDS */
   .list{margin-top:6px;display:flex;flex-direction:column;gap:16px;padding-bottom:18px}
   .card{
     display:flex;
@@ -147,7 +147,7 @@
   .top-title{ font-size:18px; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .sub{ font-size:13px; opacity:0.75; margin-top:6px; }
 
-  /* CTA button polished: "slightly lighter" but still dark */
+  /* CTA button — slightly lighter but still dark */
   .cta{
     padding:10px 16px;
     border-radius:14px;
@@ -163,17 +163,16 @@
   .cta:hover{ opacity:0.85; transform:translateY(-1px); transition: .12s; }
   .cta:active{ transform:translateY(1px); }
 
-  /* footer */
   footer{ margin-top:26px; text-align:center; opacity:0.6; padding-bottom:30px; font-size:13px; }
 
-  /* mobile tweaks to match screenshot proportions */
+  /* mobile tweaks (scaled down similarly) */
   @media (max-width:420px){
     .wrap{padding:20px 14px 80px}
     .logo{width:92px;height:92px;border-radius:18px}
     h1{font-size:28px;letter-spacing:8px;margin-bottom:6px}
-    .switch{width:150px;height:66px}
-    .knob{width:58px;height:58px;top:4px;left:10px}
-    body.blood .knob{left:80px}
+    .switch{width:120px;height:56px} /* mobile-friendly width */
+    .knob{width:44px;height:44px;top:6px;left:8px}
+    body.blood .knob{left:66px}       /* mobile on position */
     .icon{min-width:56px;height:56px}
     .card{padding:14px;border-radius:16px}
     .top-title{font-size:17px}
@@ -271,10 +270,10 @@
     }
   });
 
-  // small accessibility: ensure knob position reflects class (in case CSS transition differs)
+  // ensure knob exact position on DOM change
   const observer = new MutationObserver(()=> {
-    if(body.classList.contains('blood')) knob.style.left = getComputedStyle(document.documentElement).getPropertyValue('--knob-on') || '86px';
-    else knob.style.left = '10px';
+    if(body.classList.contains('blood')) knob.style.left = '70px';
+    else knob.style.left = '8px';
   });
   observer.observe(body, { attributes:true, attributeFilter:['class'] });
 })();
