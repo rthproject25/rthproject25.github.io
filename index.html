@@ -11,7 +11,7 @@ body {
     font-family: Arial, sans-serif;
     color: white;
     text-align: center;
-    background-color: #000000;
+    background-color: #000;
     transition: background 0.4s ease;
 }
 
@@ -24,7 +24,7 @@ body {
     background-size: cover;
     background-position: center;
     border-radius: 22px;
-    box-shadow: 0 0 18px rgba(0,0,0,0.8);
+    box-shadow: 0 0 22px rgba(0,0,0,0.85);
 }
 
 /* TEXT */
@@ -36,7 +36,7 @@ h1 {
 
 .subtitle {
     max-width: 330px;
-    margin: 10px auto 20px;
+    margin: 12px auto 22px;
     font-size: 15px;
     line-height: 23px;
 }
@@ -44,7 +44,7 @@ h1 {
 .midtext {
     font-size: 14px;
     margin-top: 10px;
-    opacity: 0.8;
+    opacity: 0.85;
 }
 
 .blood-labels {
@@ -63,7 +63,7 @@ h1 {
 .switch {
     width: 130px;
     height: 55px;
-    background-color: #111111; /* OFF MODE PURE BLACK */
+    background: linear-gradient(145deg, #111 0%, #000 100%);
     border-radius: 40px;
     margin: auto;
     position: relative;
@@ -81,7 +81,7 @@ h1 {
     transition: left 0.35s ease;
 }
 
-/* ON MODE BLOOD */
+/* BLOOD MODE ON */
 body.blood {
     background: #1a0000;
 }
@@ -92,23 +92,25 @@ body.blood .switch-circle {
     left: 78px;
 }
 body.blood .contact-card {
-    background: #000000;
+    background: #000000c0;
+    backdrop-filter: blur(6px);
 }
 body.blood .cta-btn {
     background-color: #7a3d3d;
 }
 
-/* CONTACT CARDS */
+/* CONTACT CARDS – PREMIUM GRADIENT */
 .contact-card {
     width: 88%;
     padding: 18px;
     margin: 12px auto;
-    background: #000000;
+    background: linear-gradient(145deg, #111 0%, #000 100%);
     border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: background 0.4s;
+    box-shadow: inset 0 0 12px rgba(255,255,255,0.03),
+                0 0 18px rgba(0,0,0,0.9);
 }
 
 /* ICON */
@@ -116,7 +118,7 @@ body.blood .cta-btn {
     width: 48px;
     height: 48px;
     border-radius: 12px;
-    background: #111111;
+    background: linear-gradient(145deg, #1a1a1a, #000);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -129,18 +131,18 @@ body.blood .cta-btn {
     margin-left: 8px;
 }
 
-/* CTA BUTTON — PURE BLACK MODE */
+/* BUTTONS – BLACK PREMIUM */
 .cta-btn {
     padding: 10px 18px;
     border-radius: 12px;
-    background: #111111;   /* <— FULL BLACK */
+    background: linear-gradient(145deg, #1a1a1a, #000);
     font-size: 14px;
     text-decoration: none;
     color: white;
-    transition: 0.3s;
+    transition: 0.25s;
 }
 .cta-btn:hover {
-    opacity: 0.6;
+    opacity: 0.65;
 }
 
 footer {
@@ -155,69 +157,4 @@ footer {
 
 <div class="logo"></div>
 
-<h1>RIDE TO HELL</h1>
-
-<p class="subtitle">
-Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.
-<br>RTH bukan sekadar nama — ini cara gue bertahan.
-</p>
-
-<div class="midtext">Simple contact · No noise</div>
-
-<div class="blood-labels">
-    <span>B</span><span>L</span><span>O</span><span>O</span><span>D</span>
-</div>
-
-<div class="switch-wrapper">
-    <div class="switch" onclick="toggleBlood()">
-        <div class="switch-circle"></div>
-    </div>
-</div>
-
-<!-- CONTACT ITEMS -->
-<div class="contact-card">
-    <div class="icon">IG</div>
-    <div class="left">
-        <div>@ridetohhell.official</div>
-        <div style="opacity:0.7; font-size:13px;">Instagram Resmi</div>
-    </div>
-    <a class="cta-btn" href="https://instagram.com/ridetohhell.official">Masuk</a>
-</div>
-
-<div class="contact-card">
-    <div class="icon">WA</div>
-    <div class="left">
-        <div>Chat via WhatsApp — +62 858-8211-0680</div>
-        <div style="opacity:0.7; font-size:13px;">Fast contact</div>
-    </div>
-    <a class="cta-btn" href="https://wa.me/6285882110680">Terhubung</a>
-</div>
-
-<div class="contact-card">
-    <div class="icon">YT</div>
-    <div class="left">
-        <div>YouTube Channel</div>
-        <div style="opacity:0.7; font-size:13px;">@RTHProject25</div>
-    </div>
-    <a class="cta-btn" href="https://youtube.com/@RTHProject25">Tonton</a>
-</div>
-
-<div class="contact-card">
-    <div class="icon">f</div>
-    <div class="left">
-        <div>Halaman Facebook</div>
-        <div style="opacity:0.7; font-size:13px;">Ride To Hell</div>
-    </div>
-    <a class="cta-btn" href="https://facebook.com">Buka</a>
-</div>
-
-<footer>© 2025 Ride To Hell</footer>
-
-<script>
-function toggleBlood() {
-    document.body.classList.toggle('blood');
-}
-</script>
-
-</body>
-</html>
+<h1>RIDE TO
