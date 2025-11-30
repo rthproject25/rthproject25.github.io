@@ -9,7 +9,26 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
 
-  /* ====== ANIMASI BACKGROUND PREMIUM (FIXED FOR OFF) ====== */
+  /* ===== BACKGROUND ANIMATION OVERLAY (NEW: guaranteed visible) ===== */
+  /* This is a fixed element behind everything that runs the vignette animation.
+     It avoids being overridden by any other background rules. */
+  #bg-anim {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -9999; /* always behind content */
+    background: radial-gradient(circle at center, #000 0%, #000 40%, #050505 70%, #000 100%);
+    background-size: 200% 200%;
+    will-change: background-position;
+    animation: vignetteMove 8s ease-in-out infinite alternate;
+  }
+  @keyframes vignetteMove {
+    0% { background-position: 50% 50%; }
+    50% { background-position: 48% 52%; }
+    100% { background-position: 52% 48%; }
+  }
+
+  /* ===== PAGE BASE ===== */
   body{
     font-family: "Inter", Arial, Helvetica, sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -21,25 +40,8 @@
     -webkit-user-select: none;
     user-select: none;
     overscroll-behavior-y: contain;
-    /* default background kept minimal — overridden by OFF/ON rules below */
-    background: #000;
+    background: transparent; /* keep transparent so overlay shows */
   }
-
-  /* Keyframes for vignette (used only when not .blood) */
-  @keyframes vignetteMove {
-    0% { background-position: 50% 50%; }
-    50% { background-position: 48% 52%; }
-    100% { background-position: 52% 48%; }
-  }
-
-  /* === FIX: Force animation to appear when OFF (body does NOT have .blood) === */
-  body:not(.blood) {
-    background: radial-gradient(circle at center, #000 0%, #000 40%, #050505 70%, #000 100%) !important;
-    background-size: 200% 200% !important;
-    animation: vignetteMove 8s ease-in-out infinite alternate !important;
-  }
-
-  /* (When blood mode is on, existing styling applies via .blood class) */
 
   /* ===== LAYOUT (locked & stable) ===== */
   .wrap{
@@ -50,6 +52,8 @@
     display:flex;
     flex-direction:column;
     align-items:center;
+    z-index: 1; /* ensure content above bg-anim */
+    position: relative;
   }
 
   .header {
@@ -174,6 +178,9 @@
 </style>
 </head>
 <body>
+  <!-- Background animation overlay (guaranteed visible) -->
+  <div id="bg-anim" aria-hidden="true"></div>
+
   <div class="wrap">
     <div class="header">
       <div class="logo"></div>
@@ -245,6 +252,7 @@
   const body=document.body;
   const sw=document.getElementById('switch');
   const screensaver=document.getElementById('screensaver');
+  const bgAnim = document.getElementById('bg-anim');
   const KEY='rth_blood_state_v1';
   const IDLE=6000;
   let idleTimer=null;
@@ -256,6 +264,12 @@
     if(on){body.classList.add('blood');sw.setAttribute('data-state','on')}
     else{body.classList.remove('blood');sw.setAttribute('data-state','off')}
     write(on);
+    // sync bgAnim tint if you want (we keep it neutral so OFF animation still visible)
+    if(on){
+      bgAnim.style.filter = 'brightness(0.9)'; // subtle darken when blood on
+    } else {
+      bgAnim.style.filter = '';
+    }
     if(screensaver.classList.contains('show'))updateSS(on);
   }
 
@@ -293,6 +307,11 @@
   });
 
   resetIdle();
+
+  // DEV HELPER: log to console when animation frame updates (only for debugging)
+  if(window && window.console){
+    console.log('RTH: bg-anim overlay active — vignette animation running');
+  }
 })();
 </script>
 
