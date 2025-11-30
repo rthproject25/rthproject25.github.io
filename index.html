@@ -1,197 +1,345 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ride To Hell</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ride To Hell — Contact</title>
+
+<!-- Basic SEO -->
+<meta name="description" content="Ride To Hell — Streetwear & content. Simple contact, no noise." />
 
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: #000;
-        font-family: Arial, sans-serif;
-        color: #fff;
-        text-align: center;
-        transition: background 0.5s ease-in-out;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
+  /* RESET-ish */
+  :root{
+    --bg:#000;
+    --card:#0e0e0f;
+    --muted:#bdbdbd;
+    --white:#fff;
+    --accent:#c44a44; /* blood red */
+    --accent-dark:#922f2f;
+    --glass: rgba(255,255,255,0.04);
+    --shadow: 0 8px 30px rgba(0,0,0,0.7);
+    --radius:18px;
+    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
 
-    .container {
-        max-width: 600px;
-        margin: auto;
-        padding: 20px;
-    }
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:var(--font-sans);
+    background:var(--bg);
+    color:var(--white);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:28px 18px;
+  }
 
-    img.logo {
-        width: 200px;
-        height: 200px;
-        border-radius: 20px;
-        margin-top: 40px;
-    }
+  /* container card */
+  .wrap{
+    width:100%;
+    max-width:720px;
+  }
 
-    h1 {
-        font-size: 40px;
-        margin-top: 20px;
-        font-weight: 800;
-        letter-spacing: 2px;
-    }
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+    border-radius:20px;
+    padding:36px 28px;
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
+  }
 
-    p {
-        font-size: 18px;
-        line-height: 1.6;
-        padding: 0 10px;
-    }
+  /* background "blood" overlay */
+  .bg-blood{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    background-image: url('Blood.png');
+    background-size:cover;
+    background-position:center;
+    opacity:0; /* toggled with .active */
+    transition:opacity .45s ease;
+    mix-blend-mode: overlay;
+    filter:contrast(.9) saturate(.85) blur(.4px);
+  }
+  .card.blood-on .bg-blood{ opacity:1; }
 
-    .toggle-wrapper {
-        margin-top: 20px;
-        font-size: 20px;
-        letter-spacing: 10px;
-    }
+  /* subtle vignette edges */
+  .card:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:1;
+    background: radial-gradient(60% 40% at 50% 20%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.75) 100%);
+    pointer-events:none;
+  }
 
-    /* TOGGLE */
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 80px;
-        height: 40px;
-        margin-top: 10px;
-    }
+  /* content */
+  .content{position:relative; z-index:2; text-align:center;}
 
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
+  .logo{
+    width:84px; height:84px; margin:0 auto 18px;
+    border-radius:16px;
+    overflow:hidden;
+    display:block;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    background:linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.6));
+  }
+  .logo img{display:block; width:100%; height:100%; object-fit:cover;}
 
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #555;
-        transition: .4s;
-        border-radius: 40px;
-    }
+  h1{
+    margin:6px 0 12px;
+    font-size:36px;
+    letter-spacing:3px;
+    font-weight:800;
+  }
 
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 32px;
-        width: 32px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        border-radius: 50%;
-        transition: .4s;
-    }
+  p.lead{
+    margin:0 auto 14px;
+    max-width:760px;
+    color:var(--muted);
+    font-size:16px;
+    line-height:1.6;
+  }
 
-    input:checked + .slider {
-        background-color: #a30000;
-    }
+  .strong{
+    margin:12px 0 14px;
+    font-weight:800;
+    font-size:18px;
+  }
 
-    input:checked + .slider:before {
-        transform: translateX(40px);
-    }
+  .muted-small{
+    color:var(--muted);
+    margin-bottom:18px;
+    letter-spacing:.2px;
+  }
 
-    /* CARD BUTTON */
-    .card {
-        background: rgba(0, 0, 0, 0.55);
-        padding: 20px;
-        margin: 20px;
-        border-radius: 20px;
-        text-align: left;
-    }
+  /* BLOOD label and toggle */
+  .blood-row{
+    margin:18px 0 26px;
+    display:flex;
+    gap:20px;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+  }
+  .blood-letters{
+    display:flex;
+    gap:18px;
+    justify-content:center;
+    letter-spacing:12px;
+    font-weight:600;
+    color:#fff;
+  }
+  .switch{
+    margin-top:14px;
+  }
 
-    .btn {
-        float: right;
-        background: #c73530;
-        padding: 10px 20px;
-        border-radius: 10px;
-        color: white;
-        font-weight: bold;
-    }
+  /* toggle design */
+  .toggle{
+    width:110px; height:52px;
+    border-radius:40px;
+    background:linear-gradient(180deg,#3c3c3c,#222);
+    display:inline-flex;
+    align-items:center;
+    padding:6px;
+    transition:all .28s ease;
+    position:relative;
+    box-shadow: 0 6px 18px rgba(0,0,0,.6);
+  }
+  .toggle .knob{
+    width:42px; height:42px; border-radius:999px;
+    background:var(--white);
+    transition:transform .28s cubic-bezier(.22,.9,.3,1), background .2s;
+    transform:translateX(0);
+    box-shadow:0 8px 20px rgba(0,0,0,.5);
+  }
+  .card.blood-on .toggle{
+    background:linear-gradient(180deg, var(--accent), var(--accent-dark));
+  }
+  .card.blood-on .toggle .knob{
+    transform:translateX(58px);
+    background:var(--white);
+  }
 
-    footer {
-        margin-top: 40px;
-        padding-bottom: 40px;
-        opacity: 0.8;
-    }
+  /* list of contacts */
+  .list{
+    margin-top:10px;
+    display:grid;
+    gap:18px;
+  }
+
+  .item{
+    background: rgba(255,255,255,0.03);
+    border-radius:16px;
+    padding:18px 18px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+
+  .item .left{
+    text-align:left;
+    max-width:72%;
+  }
+  .handle{
+    font-weight:800;
+    font-size:18px;
+    margin-bottom:6px;
+  }
+  .sub{
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  .btn{
+    background: linear-gradient(180deg,var(--accent),var(--accent-dark));
+    color:var(--white);
+    border:none;
+    padding:10px 18px;
+    border-radius:14px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    min-width:90px;
+  }
+  .btn:active{ transform:translateY(1px); }
+
+  /* footer */
+  .foot{
+    margin-top:22px;
+    color:var(--muted);
+    text-align:center;
+    font-size:13px;
+  }
+
+  /* small devices */
+  @media (max-width:420px){
+    h1{ font-size:32px; letter-spacing:2px; }
+    .toggle{ width:92px; height:44px; }
+    .card{ padding:28px 16px; }
+    .logo{ width:72px; height:72px; }
+  }
 </style>
-
 </head>
 <body>
+  <div class="wrap">
+    <div class="card" id="card">
+      <div class="bg-blood" aria-hidden="true"></div>
 
-<div class="container">
+      <div class="content">
+        <!-- logo: make sure avatar.png exists in repo root -->
+        <a class="logo" aria-label="Ride To Hell logo">
+          <img src="avatar.png" alt="RTH logo">
+        </a>
 
-    <img src="avatar.png" class="logo">
+        <h1>RIDE TO HELL</h1>
 
-    <h1>RIDE TO HELL</h1>
+        <p class="lead">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</p>
 
-    <p>Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</p>
+        <div class="strong">RTH bukan sekadar nama — ini cara gue bertahan.</div>
 
-    <p><b>RTH bukan sekadar nama — ini cara gue bertahan.</b></p>
+        <div class="muted-small">Simple contact · No noise</div>
 
-    <p>Simple contact • No noise</p>
+        <div class="blood-row">
+          <div class="blood-letters" aria-hidden="true">B &nbsp; L &nbsp; O &nbsp; O &nbsp; D</div>
 
-    <div class="toggle-wrapper">
-        B L O O D
-        <br>
-        <label class="switch">
-            <input type="checkbox" id="bloodToggle">
-            <span class="slider"></span>
-        </label>
+          <div class="switch" role="button" tabindex="0" aria-pressed="false" id="bloodToggle">
+            <div class="toggle" title="Blood toggle">
+              <div class="knob" id="knob"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="list">
+          <div class="item">
+            <div class="left">
+              <div class="handle">@ridetohhell.official</div>
+              <div class="sub">Instagram Resmi</div>
+            </div>
+            <button class="btn" onclick="openURL('https://instagram.com/ridetohhell.official')">Masuk</button>
+          </div>
+
+          <div class="item">
+            <div class="left">
+              <div class="handle">Chat via WhatsApp — +62 858-8211-0680</div>
+              <div class="sub">Fast contact</div>
+            </div>
+            <button class="btn" onclick="openURL('https://wa.me/6285882110680')">Terhubung</button>
+          </div>
+
+          <div class="item">
+            <div class="left">
+              <div class="handle">YouTube Channel</div>
+              <div class="sub">@RTHProject25</div>
+            </div>
+            <button class="btn" onclick="openURL('https://www.youtube.com/@RTHProject25')">Tonton</button>
+          </div>
+
+          <div class="item">
+            <div class="left">
+              <div class="handle">Halaman Facebook</div>
+              <div class="sub">Ride To Hell</div>
+            </div>
+            <button class="btn" onclick="openURL('https://www.facebook.com/ridetohhell')">Buka</button>
+          </div>
+        </div>
+
+        <div class="foot">© 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.</div>
+      </div>
     </div>
-
-    <div class="card">
-        <b>@ridetohhell.official</b><br>
-        Instagram Resmi
-        <a class="btn" href="https://instagram.com/ridetohhell.official">Masuk</a>
-    </div>
-
-    <div class="card">
-        <b>Chat via WhatsApp — +62 858-8211-0680</b><br>
-        Fast contact
-        <a class="btn" href="https://wa.me/6285882110680">Terhubung</a>
-    </div>
-
-    <div class="card">
-        <b>YouTube Channel</b><br>
-        @RTHProject25
-        <a class="btn" href="https://youtube.com/@RTHProject25">Tonton</a>
-    </div>
-
-    <div class="card">
-        <b>Halaman Facebook</b><br>
-        Ride To Hell
-        <a class="btn" href="https://facebook.com">Buka</a>
-    </div>
-
-    <footer>
-        © 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.
-    </footer>
-
-</div>
+  </div>
 
 <script>
-    const toggle = document.getElementById("bloodToggle");
+  // Utility to open links (mobile friendly)
+  function openURL(url){
+    window.open(url, '_blank');
+  }
 
-    function applyBackground() {
-        if (toggle.checked) {
-            document.body.style.backgroundImage = "url('Blood.png')";
-        } else {
-            document.body.style.backgroundImage = "none";
-        }
+  // BLOOD toggle logic
+  (function(){
+    const card = document.getElementById('card');
+    const toggle = document.getElementById('bloodToggle');
+    const knob = document.getElementById('knob');
+
+    // load saved state from localStorage (so it persists)
+    const saved = localStorage.getItem('rth_blood');
+    if(saved === 'on'){
+      card.classList.add('blood-on');
+      toggle.setAttribute('aria-pressed','true');
     }
 
-    toggle.addEventListener("change", applyBackground);
+    function setOn(on){
+      if(on){
+        card.classList.add('blood-on');
+        toggle.setAttribute('aria-pressed','true');
+        localStorage.setItem('rth_blood','on');
+      } else {
+        card.classList.remove('blood-on');
+        toggle.setAttribute('aria-pressed','false');
+        localStorage.setItem('rth_blood','off');
+      }
+    }
 
-    applyBackground();
+    // click or keyboard toggle (space/enter)
+    toggle.addEventListener('click',()=>{
+      setOn(!card.classList.contains('blood-on'));
+    });
+    toggle.addEventListener('keydown',(e)=>{
+      if(e.key === ' ' || e.key === 'Enter'){
+        e.preventDefault();
+        setOn(!card.classList.contains('blood-on'));
+      }
+    });
+
+    // Accessibility: allow tapping the whole card to toggle too (optional)
+    // card.addEventListener('dblclick', ()=> setOn(!card.classList.contains('blood-on')));
+  })();
 </script>
-
 </body>
 </html>
