@@ -9,24 +9,87 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
 
-  /* ===== BACKGROUND ANIMATION OVERLAY (NEW: guaranteed visible) ===== */
-  /* This is a fixed element behind everything that runs the vignette animation.
-     It avoids being overridden by any other background rules. */
+  /* ===== DARK WAVE BACKGROUND (RTH Dark Wave) =====
+     Implemented as multiple absolutely-positioned "wave" layers
+     animated via transform & opacity (works on Samsung & mobile).
+  */
   #bg-anim {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: -9999; /* always behind content */
-    background: radial-gradient(circle at center, #000 0%, #000 40%, #050505 70%, #000 100%);
-    background-size: 200% 200%;
-    will-change: background-position;
-    animation: vignetteMove 8s ease-in-out infinite alternate;
+    z-index: -9999;
+    overflow: hidden;
+    background: #000; /* base black */
   }
-  @keyframes vignetteMove {
-    0% { background-position: 50% 50%; }
-    50% { background-position: 48% 52%; }
-    100% { background-position: 52% 48%; }
+
+  .bg-wave {
+    position: absolute;
+    left: -20%;
+    width: 140%;
+    height: 120%;
+    top: -10%;
+    transform-origin: center;
+    filter: blur(36px);
+    opacity: 0.12;
+    will-change: transform, opacity;
+    border-radius: 40%;
+    mix-blend-mode: normal;
   }
+
+  /* Wave color / gradient (neutral black waves) */
+  .bg-wave.wave-1 {
+    background: radial-gradient(closest-side, rgba(32,32,32,0.75), rgba(2,2,2,0.35));
+    animation: waveMove1 14s linear infinite;
+    opacity: 0.10;
+    top: -12%; height: 110%;
+    transform: translate3d(-6%,0,0) scale(1.05) rotate(-6deg);
+  }
+  .bg-wave.wave-2 {
+    background: radial-gradient(closest-side, rgba(18,18,18,0.7), rgba(4,4,4,0.25));
+    animation: waveMove2 18s linear infinite;
+    opacity: 0.08;
+    top: -6%; height: 120%;
+    transform: translate3d(0%,0,0) scale(1.12) rotate(4deg);
+    filter: blur(46px);
+  }
+  .bg-wave.wave-3 {
+    background: radial-gradient(closest-side, rgba(10,10,10,0.6), rgba(0,0,0,0.15));
+    animation: waveMove3 22s linear infinite;
+    opacity: 0.06;
+    top: -4%; height: 125%;
+    transform: translate3d(2%,0,0) scale(1.18) rotate(8deg);
+    filter: blur(60px);
+  }
+
+  /* subtle vignette layer to add depth */
+  .bg-vignette {
+    position:absolute;inset:0;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 38%, rgba(0,0,0,0.6) 100%);
+    pointer-events:none;
+    z-index: -9998;
+    opacity: 1;
+  }
+
+  @keyframes waveMove1 {
+    0% { transform: translate3d(-6%,0,0) scale(1.05) rotate(-6deg); opacity:0.10; }
+    50% { transform: translate3d(2%,2%,0) scale(1.08) rotate(-4deg); opacity:0.12; }
+    100% { transform: translate3d(-6%,0,0) scale(1.05) rotate(-6deg); opacity:0.10; }
+  }
+  @keyframes waveMove2 {
+    0% { transform: translate3d(0%,0,0) scale(1.12) rotate(4deg); opacity:0.08; }
+    50% { transform: translate3d(-3%,2%,0) scale(1.14) rotate(2deg); opacity:0.10; }
+    100% { transform: translate3d(0%,0,0) scale(1.12) rotate(4deg); opacity:0.08; }
+  }
+  @keyframes waveMove3 {
+    0% { transform: translate3d(2%,0,0) scale(1.18) rotate(8deg); opacity:0.06; }
+    50% { transform: translate3d(8%,3%,0) scale(1.20) rotate(10deg); opacity:0.08; }
+    100% { transform: translate3d(2%,0,0) scale(1.18) rotate(8deg); opacity:0.06; }
+  }
+
+  /* When blood mode is ON, tint waves with subtle red */
+  body.blood #bg-anim .bg-wave.wave-1 { background: radial-gradient(closest-side, rgba(70,20,20,0.65), rgba(20,6,6,0.28)); }
+  body.blood #bg-anim .bg-wave.wave-2 { background: radial-gradient(closest-side, rgba(60,16,16,0.62), rgba(14,6,6,0.22)); }
+  body.blood #bg-anim .bg-wave.wave-3 { background: radial-gradient(closest-side, rgba(42,10,10,0.55), rgba(10,4,4,0.18)); }
 
   /* ===== PAGE BASE ===== */
   body{
@@ -40,7 +103,7 @@
     -webkit-user-select: none;
     user-select: none;
     overscroll-behavior-y: contain;
-    background: transparent; /* keep transparent so overlay shows */
+    background: transparent;
   }
 
   /* ===== LAYOUT (locked & stable) ===== */
@@ -52,7 +115,7 @@
     display:flex;
     flex-direction:column;
     align-items:center;
-    z-index: 1; /* ensure content above bg-anim */
+    z-index: 1;
     position: relative;
   }
 
@@ -178,8 +241,13 @@
 </style>
 </head>
 <body>
-  <!-- Background animation overlay (guaranteed visible) -->
-  <div id="bg-anim" aria-hidden="true"></div>
+  <!-- Background animation overlay (Dark Wave) -->
+  <div id="bg-anim" aria-hidden="true">
+    <div class="bg-wave wave-1" aria-hidden="true"></div>
+    <div class="bg-wave wave-2" aria-hidden="true"></div>
+    <div class="bg-wave wave-3" aria-hidden="true"></div>
+    <div class="bg-vignette" aria-hidden="true"></div>
+  </div>
 
   <div class="wrap">
     <div class="header">
@@ -264,12 +332,7 @@
     if(on){body.classList.add('blood');sw.setAttribute('data-state','on')}
     else{body.classList.remove('blood');sw.setAttribute('data-state','off')}
     write(on);
-    // sync bgAnim tint if you want (we keep it neutral so OFF animation still visible)
-    if(on){
-      bgAnim.style.filter = 'brightness(0.9)'; // subtle darken when blood on
-    } else {
-      bgAnim.style.filter = '';
-    }
+    // subtle bg tint handled in CSS via body.blood rules
     if(screensaver.classList.contains('show'))updateSS(on);
   }
 
@@ -308,9 +371,9 @@
 
   resetIdle();
 
-  // DEV HELPER: log to console when animation frame updates (only for debugging)
+  // debug note
   if(window && window.console){
-    console.log('RTH: bg-anim overlay active — vignette animation running');
+    console.log('RTH: Dark Wave animation active');
   }
 })();
 </script>
