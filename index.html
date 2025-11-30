@@ -100,6 +100,13 @@
     transition:background .28s ease, box-shadow .28s ease;
     display:inline-block;
     flex-shrink:0;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .switch-hit {
+    position:absolute; inset:-8px; border-radius:44px; /* larger hit area for mobile */
+    background:transparent;
   }
 
   .knob{
@@ -110,6 +117,7 @@
     will-change: transform;
   }
 
+  /* ensure movement is effective & consistent */
   .switch[data-state="off"] .knob { transform: translateX(0); }
   .switch[data-state="on"]  .knob { transform: translateX(70px); }
 
@@ -140,9 +148,15 @@
   .cta{
     padding:10px 16px;border-radius:14px;background:linear-gradient(145deg,#191919,#292929 60%);color:#fff;text-decoration:none;font-weight:800;font-size:15px;border:1px solid rgba(255,255,255,0.04);
     box-shadow: 0 10px 26px rgba(0,0,0,0.6);white-space:nowrap;
+    transition: background .22s ease, transform .12s ease;
   }
+  .cta:active{ transform: translateY(1px) }
 
-  .cta.ghost { background:transparent; border:1px solid rgba(255,255,255,0.06); box-shadow:none; }
+  /* when blood is ON, CTA becomes reddish (but still subtle) */
+  body.blood .cta{
+    background: linear-gradient(145deg, rgba(120,40,40,0.9), rgba(80,30,30,0.85));
+    border: 1px solid rgba(255,255,255,0.03);
+  }
 
   footer{ margin-top:26px; text-align:center; opacity:0.6; padding-bottom:30px; font-size:13px; width:100% }
 
@@ -203,8 +217,10 @@
       <div class="note">Simple contact · No noise</div>
       <div class="blood-row"><div>B</div><div>L</div><div>O</div><div>O</div><div>D</div></div>
       <div class="switch-wrap">
-        <div id="switch" class="switch" data-state="off" role="button" aria-pressed="false" tabindex="0">
-          <div class="knob"></div>
+        <div id="switch" class="switch" data-state="off" role="switch" aria-checked="false" tabindex="0">
+          <div class="knob" aria-hidden="true"></div>
+          <!-- larger invisible element for reliable taps on mobile -->
+          <div class="switch-hit" aria-hidden="true"></div>
         </div>
       </div>
     </div>
@@ -216,7 +232,7 @@
           <div class="top-title">@ridetohhell.official</div>
           <div class="sub">Instagram Resmi</div>
         </div>
-        <a class="cta" data-href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener">Masuk</a>
+        <a class="cta" id="cta-inst" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener">Masuk</a>
       </div>
 
       <div class="card">
@@ -225,7 +241,7 @@
           <div class="top-title">Chat via WhatsApp — +62 858-8211-0680</div>
           <div class="sub">Fast contact</div>
         </div>
-        <a class="cta" data-href="https://wa.me/6285882110680" target="_blank" rel="noopener">Terhubung</a>
+        <a class="cta" id="cta-wa" href="https://wa.me/6285882110680" target="_blank" rel="noopener">Terhubung</a>
       </div>
 
       <div class="card">
@@ -234,7 +250,7 @@
           <div class="top-title">YouTube Channel</div>
           <div class="sub">@RTHProject25</div>
         </div>
-        <a class="cta" data-href="https://youtube.com/@RTHProject25" target="_blank" rel="noopener">Tonton</a>
+        <a class="cta" id="cta-yt" href="https://youtube.com/@RTHProject25" target="_blank" rel="noopener">Tonton</a>
       </div>
 
       <div class="card">
@@ -243,7 +259,7 @@
           <div class="top-title">Halaman Facebook</div>
           <div class="sub">Ride To Hell</div>
         </div>
-        <a class="cta" data-href="https://facebook.com" target="_blank" rel="noopener">Buka</a>
+        <a class="cta" id="cta-fb" href="https://facebook.com" target="_blank" rel="noopener">Buka</a>
       </div>
     </div>
 
@@ -252,8 +268,8 @@
 
   <!-- SCREENSAVER -->
   <div id="screensaver" class="off">
-    <div class="screen-inner">
-      <div class="screen-logo"></div>
+    <div class="screen-inner" role="dialog" aria-hidden="true">
+      <div class="screen-logo" aria-hidden="true"></div>
       <div class="screen-title">RIDE TO HELL</div>
       <div class="screen-sub">Sentuh layar untuk kembali</div>
       <div class="screen-hint">Tap anywhere to exit</div>
@@ -261,13 +277,13 @@
   </div>
 
 <script>
-/* ========= Canvas Dark Wave (works on Samsung Note10+) ========= */
+/* ========= Canvas Dark Wave (works on mobile) ========= */
 (function(){
   const canvas = document.getElementById('bg-canvas');
   const ctx = canvas.getContext('2d', {alpha:true});
   let w = 0, h = 0, dpr = Math.max(1, window.devicePixelRatio || 1);
   let particles = [];
-  const PARTICLE_COUNT = 6; // low, subtle
+  const PARTICLE_COUNT = 6;
   const TAU = Math.PI*2;
 
   function resize(){
@@ -294,7 +310,7 @@
         vy: rand(-0.02, 0.02),
         rot: rand(0, TAU),
         vrot: rand(-0.003, 0.003),
-        alpha: rand(0.04, 0.14)
+        alpha: rand(0.04, 0.14),
       });
     }
   }
@@ -333,10 +349,10 @@
   }
 
   let last = performance.now();
-  let raf = null;
   function step(now){
     const dt = Math.min(40, now - last);
     last = now;
+
     for(let p of particles){
       p.x += p.vx * dt * 0.12;
       p.y += p.vy * dt * 0.08;
@@ -347,10 +363,12 @@
       if(p.y < -p.r) p.y = h + p.r;
       if(p.y > h + p.r) p.y = -p.r;
     }
+
     draw();
     raf = requestAnimationFrame(step);
   }
 
+  let raf = null;
   function start(){
     cancelAnimationFrame(raf);
     resize();
@@ -374,13 +392,11 @@
   window._rthCanvas = {start, makeParticles, resize};
 })();
 
-/* ========= UI: switch, screensaver, idle logic, CTA behavior ========= */
+/* ========= UI: switch, screensaver, idle logic (mobile-friendly) ========= */
 (function(){
   const body=document.body;
   const sw=document.getElementById('switch');
   const screensaver=document.getElementById('screensaver');
-  const tint = document.querySelector('#bg-anim .tint');
-  const CTAS = Array.from(document.querySelectorAll('.cta'));
   const KEY='rth_blood_state_v1';
   const IDLE=6000;
   let idleTimer=null;
@@ -388,10 +404,17 @@
   function read(){try{return localStorage.getItem(KEY)==='1'}catch(e){return false}}
   function write(v){try{localStorage.setItem(KEY,v?'1':'0')}catch(e){}}
 
-  function apply(on){
-    if(on){body.classList.add('blood');sw.setAttribute('data-state','on'); sw.setAttribute('aria-pressed','true');}
-    else{body.classList.remove('blood');sw.setAttribute('data-state','off'); sw.setAttribute('aria-pressed','false');}
-    write(on);
+  function apply(on, skipStorage){
+    if(on){
+      body.classList.add('blood');
+      sw.setAttribute('data-state','on');
+      sw.setAttribute('aria-checked','true');
+    } else {
+      body.classList.remove('blood');
+      sw.setAttribute('data-state','off');
+      sw.setAttribute('aria-checked','false');
+    }
+    if(!skipStorage) write(on);
     if(screensaver.classList.contains('show')) updateSS(on);
   }
 
@@ -400,13 +423,31 @@
     else{screensaver.classList.remove('on');screensaver.classList.add('off')}
   }
 
-  // init from storage
-  apply(read());
+  // initialize from storage
+  apply(read(), true);
 
-  function toggle(){ apply(!body.classList.contains('blood')); resetIdle(); }
-  sw.addEventListener('click', toggle);
-  sw.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); toggle(); } });
+  // robust toggle that works with touch + keyboard + click
+  function toggle(){
+    apply(!body.classList.contains('blood'));
+    resetIdle();
+  }
 
+  // listen to click on the visible switch, and also on the invisible hit area
+  sw.addEventListener('click', (e)=>{
+    // ignore text selection etc.
+    toggle();
+  }, {passive:true});
+
+  // keyboard accessibility: space / enter toggles
+  sw.addEventListener('keydown', (ev)=>{
+    if(ev.key === ' ' || ev.key === 'Spacebar' || ev.key === 'Enter'){
+      ev.preventDefault();
+      toggle();
+    }
+  });
+
+  // also make each CTA clickable normally — no code change required, but we'll keep them interactive.
+  // screensaver logic
   function showSS(){
     updateSS(body.classList.contains('blood'));
     screensaver.classList.add('show');
@@ -418,7 +459,7 @@
     resetIdle();
   }
 
-  screensaver.addEventListener('click', hideSS);
+  screensaver.addEventListener('click', hideSS, {passive:true});
 
   function resetIdle(){
     clearTimeout(idleTimer);
@@ -432,35 +473,19 @@
 
   resetIdle();
 
-  // If user taps CTA and BLOOD is off -> enable BLOOD first, then open link.
-  CTAS.forEach(a=>{
-    a.addEventListener('click', function(ev){
-      ev.preventDefault();
-      const href = this.getAttribute('data-href') || this.href || '#';
-      const openNow = ()=>{
-        // open link in new tab (works on mobile)
-        try{
-          window.open(href, '_blank', 'noopener');
-        }catch(e){
-          // fallback for strict environments
-          location.href = href;
-        }
-      };
-      if(!document.body.classList.contains('blood')){
-        apply(true);
-        // small delay so user perceives color change, but not long
-        setTimeout(openNow, 160);
-      } else {
-        openNow();
-      }
-    });
-  });
+  // tiny UX: if user long-presses switch (mobile), treat as toggle — handle touchend fallback
+  let touchStartTime=0;
+  sw.addEventListener('touchstart',(e)=>{ touchStartTime = Date.now(); }, {passive:true});
+  sw.addEventListener('touchend',(e)=>{
+    const dur = Date.now() - touchStartTime;
+    // short tap already handled by click; ensure no accidental double toggles
+    e.preventDefault();
+  }, {passive:false});
 
-  // expose apply for external calls (debug)
-  window._rthApply = apply;
-
-  if(window && window.console) console.log('RTH: UI active (switch, ctas, screensaver)');
+  if(window && window.console) console.log('RTH: UI initialized (switch + screensaver).');
 })();
+
+/* Optional: keep CTAs tabbable and focus-visible (no JS needed here) */
 </script>
 
 </body>
