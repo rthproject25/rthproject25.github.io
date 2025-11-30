@@ -1,351 +1,219 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ride To Hell</title>
-  <style>
-    :root{
-      --bg-dark:#000;
-      --bg-deep:#070707;
-      --accent:#b65959;
-      --muted:rgba(255,255,255,0.72);
-      --card-bg: rgba(255,255,255,0.02);
-      --card-border: rgba(255,255,255,0.04);
-      --radius: 16px;
-      --gap: 14px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ride To Hell</title>
 
-    /* Reset & base */
-    html,body{height:100%; margin:0; padding:0; background:var(--bg-dark); color:#fff; font-family:Inter, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing:antialiased;}
-    .wrap{min-height:100%; box-sizing:border-box; padding:28px 20px 48px; display:flex; flex-direction:column; align-items:center; position:relative; z-index:1; }
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(180deg, #3a0000, #120000);
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
 
-    /* BACKGROUND TEXTURE (dark red subtle) */
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      z-index:0;
-      background:
-        radial-gradient(1200px 600px at 10% 10%, rgba(182,89,89,0.06), transparent 8%),
-        radial-gradient(900px 500px at 90% 80%, rgba(80,10,10,0.03), transparent 6%),
-        linear-gradient(180deg, rgba(10,8,8,0.92), rgba(5,5,5,0.96));
-      background-blend-mode:overlay;
-      pointer-events:none;
-      transition: filter .28s ease, opacity .28s ease;
-      filter: saturate(1);
-    }
+        .overlay {
+            background: rgba(0,0,0,0.45);
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+        }
 
-    /* BLOOD overlay (toggled by switch) */
-    .blood-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-      background: linear-gradient(180deg, rgba(182,89,89,0.12), rgba(10,0,0,0.08));
-      mix-blend-mode: overlay;
-      opacity: 0;
-      transition: opacity .28s ease;
-    }
-    .blood-active .blood-overlay { opacity: 1; }
+        .content {
+            position: relative;
+            z-index: 5;
+            padding: 30px 20px;
+            text-align: center;
+        }
 
-    /* subtle cracked texture on top (decor only) */
-    .texture {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: 3;
-      pointer-events: none;
-      background-image: url('bg-red.jpg');
-      background-size: cover;
-      background-position: center;
-      opacity: 0.15;
-      mix-blend-mode: multiply;
-      transition: opacity .3s ease;
-    }
-    /* If no bg-red.jpg, texture won't show much — safe fallback */
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            margin: 20px auto;
+            background: url('rth-logo.png') center/cover no-repeat;
+        }
 
-    /* LOGO + HEADER */
-    .logo {
-      width:92px;
-      height:92px;
-      border-radius:18px;
-      margin: 6px 0 12px;
-      position:relative;
-      background: url('rth-logo.png') center/cover no-repeat;
-      box-shadow: 0 8px 34px rgba(182,89,89,0.06);
-      z-index:4;
-    }
-    .logo::before{
-      content:"";
-      position:absolute;
-      inset:auto;
-      left:50%;
-      transform:translateX(-50%);
-    }
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-top: 10px;
+        }
 
-    .title { font-size:28px; font-weight:800; letter-spacing:6px; margin:8px 0 10px; z-index:4; }
-    .subtitle { max-width:700px; text-align:center; color:rgba(255,255,255,0.88); line-height:1.5; margin-bottom:12px; z-index:4; }
-    .bold-line { font-weight:700; margin:12px 0 8px; text-align:center; font-size:15px; z-index:4; }
-    .section-label { color: rgba(255,255,255,0.7); font-size:13px; margin-bottom:18px; z-index:4; }
+        .subtitle {
+            margin: 15px 0;
+            font-size: 15px;
+            line-height: 1.6;
+            opacity: .9;
+        }
 
-    /* SWITCH area - DO NOT change layout */
-    .switch-wrapper { margin-bottom:22px; width:100%; display:flex; flex-direction:column; align-items:center; gap:8px; z-index:4; }
-    .blood-text { display:flex; gap:24px; opacity:.35; letter-spacing:10px; font-weight:600; font-size:14px; z-index:4; }
-    .switch {
-      width:84px; height:44px; border-radius:40px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      box-shadow: 0 8px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
-      position:relative;
-      z-index:4;
-      cursor:pointer;
-      border: 1px solid rgba(255,255,255,0.02);
-    }
-    .switch .knob { position:absolute; left:6px; top:6px; width:32px; height:32px; border-radius:50%; background:#fff; box-shadow: 0 6px 18px rgba(0,0,0,0.5); transition: all .18s ease; }
-    .switch.on { background: linear-gradient(180deg, rgba(182,89,89,0.18), rgba(140,40,40,0.06)); }
-    .switch.on .knob { left: calc(100% - 38px); background: #fff; }
+        .bold {
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
 
-    /* LIST area - keep structure identical but premium visual */
-    .list { width:100%; max-width:520px; margin-top:6px; display:flex; flex-direction:column; gap:12px; padding:6px 0 2px; z-index:4; }
+        .note {
+            opacity: .6;
+            font-size: 13px;
+        }
 
-    .item {
-      display:flex; align-items:center; gap:14px; padding:14px; border-radius:14px;
-      background: rgba(255,255,255,0.01);
-      border: 1px solid rgba(255,255,255,0.03);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.01);
-      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-      transition: transform .14s ease, box-shadow .14s ease, background .18s ease;
-    }
-    .item:active { transform: translateY(1px); }
-    .item:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0,0,0,0.7); }
+        /* SWITCH */
+        .switch-wrapper {
+            margin: 25px auto;
+            text-align: center;
+        }
 
-    .icon-box{ min-width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.03); box-shadow: 0 6px 18px rgba(0,0,0,0.6); opacity:0.95; font-size:14px; }
-    .text-box{ flex:1; min-width:0; text-align:left; }
-    .label-top{ font-size:15px; font-weight:700; color:#fff; line-height:1.05; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .label-sub{ margin-top:4px; font-size:13px; color:rgba(255,255,255,0.78); }
+        .blood-text {
+            letter-spacing: 10px;
+            opacity: .35;
+            margin-bottom: 8px;
+        }
 
-    .btn { margin-left:12px; background: linear-gradient(180deg, var(--accent), #8b3f3f); border: none; padding:10px 14px; border-radius:12px; color:#fff; font-weight:700; cursor:pointer; box-shadow: 0 8px 18px rgba(182,89,89,0.12); transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease; white-space:nowrap; font-size:14px; }
-    .btn:active { transform: translateY(1px); }
+        .switch {
+            width: 95px;
+            height: 40px;
+            background: #b65959;
+            border-radius: 30px;
+            position: relative;
+            margin: 0 auto;
+        }
 
-    footer { margin-top:16px; text-align:center; font-size:12px; color: rgba(255,255,255,0.35); max-width:720px; padding:10px 6px 40px; z-index:4; }
+        .switch::after {
+            content: "";
+            width: 38px;
+            height: 38px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 1px;
+            left: 1px;
+        }
 
-    /* SCREENSAVER (fixed, covers whole viewport) */
-    .screensaver {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at 50% 40%, rgba(0,0,0,0.75), rgba(0,0,0,0.9) 40%), rgba(0,0,0,0.85);
-      opacity: 0;
-      pointer-events: none; /* until active */
-      transition: opacity .28s ease;
-    }
+        /* ITEM LIST */
+        .item {
+            background: rgba(0,0,0,0.35);
+            border-radius: 18px;
+            padding: 15px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-    .screensaver.active { opacity: 1; pointer-events: auto; }
+        .icon-box {
+            width: 42px;
+            height: 42px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
 
-    /* subtle animated vignette/smoke using pseudo elements */
-    .screensaver::before, .screensaver::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-repeat: no-repeat;
-      background-size: cover;
-      mix-blend-mode: screen;
-      opacity: 0.06;
-      animation: moveSmoke 14s linear infinite;
-      filter: blur(24px) saturate(0.9);
-    }
-    .screensaver::after { animation-direction: reverse; opacity:0.05; animation-duration: 18s; filter: blur(40px) saturate(1.1); }
+        .text-box {
+            flex: 1;
+            text-align: left;
+        }
 
-    @keyframes moveSmoke {
-      0% { transform: translate3d(-6%, -4%, 0) scale(1.02); }
-      50% { transform: translate3d(6%, 4%, 0) scale(1.04); }
-      100% { transform: translate3d(-6%, -4%, 0) scale(1.02); }
-    }
+        .label-top {
+            font-size: 15px;
+            font-weight: bold;
+        }
 
-    .screensaver .msg {
-      position: relative;
-      z-index: 2;
-      color: rgba(255,255,255,0.88);
-      font-size: 20px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-      padding: 18px 26px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.04);
-      backdrop-filter: blur(6px);
-    }
+        .label-sub {
+            font-size: 13px;
+            opacity: .7;
+        }
 
-    /* small instruction to dismiss screensaver */
-    .screensaver .sub {
-      position: relative;
-      z-index:2;
-      margin-top:10px;
-      font-size:12px;
-      color:rgba(255,255,255,0.6);
-      letter-spacing:1px;
-      text-transform:none;
-      opacity:0.9;
-    }
+        .btn {
+            background: #b65959;
+            border: none;
+            border-radius: 14px;
+            padding: 10px 17px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+        }
 
-    /* responsive */
-    @media (max-width:420px){
-      .title { font-size:24px; letter-spacing:4px; }
-      .logo { width:80px; height:80px; border-radius:14px; }
-      .item { padding:12px; border-radius:12px; }
-      .icon-box{ min-width:44px; height:44px; border-radius:10px; }
-      .btn{ padding:9px 12px; border-radius:10px; font-size:13px; }
-    }
-  </style>
+        footer {
+            margin-top: 25px;
+            opacity: .5;
+            font-size: 12px;
+        }
+    </style>
 </head>
+
 <body>
-  <!-- blood-active class toggled on <body> to show red overlay -->
-  <div class="blood-overlay" aria-hidden="true"></div>
-  <div class="texture" aria-hidden="true"></div>
 
-  <div class="wrap" id="mainWrap">
-    <div class="logo" aria-hidden="true"></div>
+<div class="overlay"></div>
+
+<div class="content">
+
+    <div class="logo"></div>
+
     <div class="title">RIDE TO HELL</div>
-    <div class="subtitle">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</div>
-    <div class="bold-line">RTH bukan sekadar nama — ini cara gue bertahan.</div>
-    <div class="section-label">Simple contact · No noise</div>
 
-    <div class="switch-wrapper">
-      <div class="blood-text">B &nbsp; L &nbsp; O &nbsp; O &nbsp; D</div>
-      <div class="switch" id="bloodSwitch" role="switch" tabindex="0" aria-checked="false">
-        <div class="knob"></div>
-      </div>
+    <div class="subtitle">
+        Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.
     </div>
 
-    <div class="list" id="listArea">
-      <div class="item" role="group" aria-label="Instagram">
+    <div class="bold">
+        RTH bukan sekadar nama — ini cara gue bertahan.
+    </div>
+
+    <div class="note">Simple contact · No noise</div>
+
+    <div class="switch-wrapper">
+        <div class="blood-text">B L O O D</div>
+        <div class="switch"></div>
+    </div>
+
+    <!-- IG -->
+    <div class="item">
         <div class="icon-box">IG</div>
         <div class="text-box">
-          <div class="label-top">@ridetohhell.official</div>
-          <div class="label-sub">Instagram Resmi</div>
+            <div class="label-top">@ridetohhell.official</div>
+            <div class="label-sub">Instagram Resmi</div>
         </div>
-        <button class="btn" onclick="window.open('https://instagram.com/ridetohhell.official','_blank')">Masuk</button>
-      </div>
+        <button class="btn" onclick="window.open('https://instagram.com/ridetohhell.official')">Masuk</button>
+    </div>
 
-      <div class="item" role="group" aria-label="WhatsApp">
+    <!-- WA -->
+    <div class="item">
         <div class="icon-box">WA</div>
         <div class="text-box">
-          <div class="label-top">Chat via WhatsApp — +62 858-8211-0680</div>
-          <div class="label-sub">Fast contact</div>
+            <div class="label-top">Chat via WhatsApp — +62 858-8211-0680</div>
+            <div class="label-sub">Fast contact</div>
         </div>
-        <button class="btn" onclick="window.open('https://wa.me/6285882110680','_blank')">Terhubung</button>
-      </div>
+        <button class="btn" onclick="window.open('https://wa.me/6285882110680')">Terhubung</button>
+    </div>
 
-      <div class="item" role="group" aria-label="YouTube">
+    <!-- YT -->
+    <div class="item">
         <div class="icon-box">YT</div>
         <div class="text-box">
-          <div class="label-top">YouTube Channel</div>
-          <div class="label-sub">@RTHProject25</div>
+            <div class="label-top">YouTube Channel</div>
+            <div class="label-sub">@RTHProject25</div>
         </div>
-        <button class="btn" onclick="window.open('https://youtube.com/@RTHProject25','_blank')">Tonton</button>
-      </div>
+        <button class="btn" onclick="window.open('https://youtube.com/@RTHProject25')">Tonton</button>
+    </div>
 
-      <div class="item" role="group" aria-label="Facebook">
+    <!-- FB -->
+    <div class="item">
         <div class="icon-box">f</div>
         <div class="text-box">
-          <div class="label-top">Halaman Facebook</div>
-          <div class="label-sub">Ride To Hell</div>
+            <div class="label-top">Halaman Facebook</div>
+            <div class="label-sub">Ride To Hell</div>
         </div>
-        <button class="btn" onclick="window.open('https://facebook.com','_blank')">Buka</button>
-      </div>
+        <button class="btn" onclick="window.open('https://facebook.com')">Buka</button>
     </div>
 
     <footer>© 2025 Ride To Hell</footer>
-  </div>
+</div>
 
-  <!-- SCREENSAVER -->
-  <div class="screensaver" id="screensaver" aria-hidden="true">
-    <div style="text-align:center;">
-      <div class="msg">RIDE TO HELL</div>
-      <div class="sub">Sentuh layar untuk kembali</div>
-    </div>
-  </div>
-
-  <script>
-    (function(){
-      // Elements
-      const body = document.documentElement || document.body;
-      const bloodSwitch = document.getElementById('bloodSwitch');
-      const screensaver = document.getElementById('screensaver');
-      const SC_TIMEOUT = 6000; // ms idle before screensaver shows
-      let idleTimer = null;
-      let screensaverVisible = false;
-
-      // Toggle blood overlay on <body> by adding/removing class
-      function setBlood(on){
-        if(on){
-          document.body.classList.add('blood-active');
-          bloodSwitch.classList.add('on');
-          bloodSwitch.setAttribute('aria-checked','true');
-        } else {
-          document.body.classList.remove('blood-active');
-          bloodSwitch.classList.remove('on');
-          bloodSwitch.setAttribute('aria-checked','false');
-        }
-      }
-
-      // Initial: keep off (decorative)
-      setBlood(false);
-
-      // Switch click / keyboard
-      bloodSwitch.addEventListener('click', ()=> setBlood(!document.body.classList.contains('blood-active')));
-      bloodSwitch.addEventListener('keydown', (e)=> {
-        if(e.key === 'Enter' || e.key === ' '){
-          e.preventDefault();
-          setBlood(!document.body.classList.contains('blood-active'));
-        }
-      });
-
-      // SCREENSAVER logic: show after idle
-      function resetIdle(){
-        if(screensaverVisible){
-          hideScreensaver();
-        }
-        if(idleTimer) clearTimeout(idleTimer);
-        idleTimer = setTimeout(showScreensaver, SC_TIMEOUT);
-      }
-
-      function showScreensaver(){
-        screensaver.classList.add('active');
-        screensaverVisible = true;
-        // add small subtle animation to background elements (optional)
-      }
-
-      function hideScreensaver(){
-        screensaver.classList.remove('active');
-        screensaverVisible = false;
-      }
-
-      // user interactions - reset idle
-      ['mousemove','mousedown','touchstart','touchmove','keydown','scroll'].forEach(evt=>{
-        document.addEventListener(evt, resetIdle, {passive:true});
-      });
-
-      // dismiss screensaver by tapping/clicking it
-      screensaver.addEventListener('click', hideScreensaver);
-      screensaver.addEventListener('touchstart', hideScreensaver);
-
-      // start idle timer
-      resetIdle();
-
-      // accessibility: if user prefers reduced motion, tone down animations
-      const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-      if(media.matches){
-        document.querySelectorAll('.screensaver::before, .screensaver::after').forEach(()=>{/* noop; CSS handles it */});
-      }
-
-      // safety: ensure texture/fallback if bg image missing (no errors)
-      // done — all DOM interactions are defensive.
-
-    })();
-  </script>
 </body>
 </html>
