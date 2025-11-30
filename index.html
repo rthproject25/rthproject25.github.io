@@ -11,29 +11,91 @@
   body{
     font-family: "Inter", Arial, Helvetica, sans-serif;
     -webkit-font-smoothing:antialiased;
-    /* === HANYA INI YANG DIGANTI: background default (BLOOD OFF) === */
+    /* fallback background (if pseudo elements fail) */
     background: url('bg-darkoff.png') center/cover no-repeat fixed;
-    /* =========================================================== */
     color:#fff;
     line-height:1.4;
     min-height:100vh;
     -webkit-text-size-adjust:100%;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
+    position:relative;
   }
 
-  /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-     BLOOD MODE BACKGROUND (SATU-SATUNYA HAL YG DITAMBAH)
-     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
-  body.blood {
-    background: url('bg-blood.png') center/cover no-repeat fixed !important;
+  /* -----------------------
+     Background layers (for smooth crossfade)
+     - ::before = OFF (dark)
+     - ::after  = ON  (blood)
+     Only opacity changes when toggled -> no layout shift
+     ----------------------- */
+  body::before,
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    pointer-events:none;
+    z-index:0;
+    opacity:0;
+    transition: opacity 600ms ease;
+    will-change: opacity;
   }
 
-  /* CONTAINER */
+  /* OFF image (visible by default) */
+  body::before{
+    background-image: url('bg-darkoff.png');
+    opacity:1; /* default: dark off visible */
+    filter: contrast(0.92) brightness(0.9);
+  }
+
+  /* ON image (blood) */
+  body::after{
+    background-image: url('bg-blood.png');
+    opacity:0;
+    mix-blend-mode: normal;
+    filter: saturate(0.95) contrast(0.95) brightness(0.95);
+  }
+
+  /* enable crossfade after JS adds class 'bg-ready' to avoid initial flash */
+  body.bg-ready::before,
+  body.bg-ready::after{
+    transition: opacity 600ms ease;
+  }
+
+  /* when blood ON -> swap opacities */
+  body.blood::before{ opacity:0; }
+  body.blood::after{ opacity:1; }
+
+  /* subtle vignette increase when blood ON */
+  body::before,
+  body::after{
+    /* combined vignette handled by a separate overlay for control */
+  }
+  /* small overlay vignette element via box-shadow trick on html element */
+  html::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.0) 35%, rgba(0,0,0,0.55) 100%);
+    opacity:1;
+    transition: background 600ms ease, opacity 600ms ease;
+    will-change: background, opacity;
+  }
+  body.blood html::before{
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.15) 25%, rgba(0,0,0,0.68) 100%);
+  }
+
+  /* CONTAINER (keep above background layers) */
   .wrap{
     width:100%;
     max-width:820px;
     margin:0 auto;
     padding:22px 18px 80px;
+    position:relative;
+    z-index:2; /* ensure content sits above bg pseudo-elements */
   }
 
   /* LOGO */
@@ -47,6 +109,11 @@
     background-position:center;
     box-shadow:0 14px 40px rgba(0,0,0,0.7);
     transform:translateZ(0);
+    transition: box-shadow 500ms ease, transform 400ms ease;
+  }
+  /* subtle glow on blood mode (no layout change) */
+  body.blood .logo{
+    box-shadow: 0 28px 80px rgba(140,30,30,0.36);
   }
 
   /* TITLE */
@@ -174,6 +241,7 @@
     display:inline-block;
   }
 
+  /* CTA style on blood */
   body.blood .cta{
     background: linear-gradient(145deg,#9f5b57,#7b2e2e 60%);
     border:1px solid rgba(255,210,205,0.08);
@@ -265,13 +333,9 @@
   const CTA_SEL = '.cta';
 
   function readStored(){
-    try{
-      return localStorage.getItem(KEY) === '1';
-    }catch(e){ return false; }
+    try{ return localStorage.getItem(KEY) === '1'; }catch(e){ return false; }
   }
-  function writeStored(v){
-    try{ localStorage.setItem(KEY, v ? '1' : '0'); }catch(e){}
-  }
+  function writeStored(v){ try{ localStorage.setItem(KEY, v ? '1' : '0'); }catch(e){} }
 
   function applyUI(on){
     if(on){
@@ -286,7 +350,12 @@
     writeStored(on);
   }
 
-  applyUI(readStored());
+  // enable background transition after load (prevents initial flash)
+  window.addEventListener('load', ()=> {
+    body.classList.add('bg-ready');
+    // start with stored state
+    applyUI(readStored());
+  });
 
   function toggle(){ applyUI(!body.classList.contains('blood')); }
 
@@ -309,6 +378,8 @@
 
   const mo = new MutationObserver(()=> bindCTAs());
   mo.observe(document.body, {childList:true, subtree:true});
+
+  if(window && window.console) console.log('RTH: Blood toggle + background transitions ready');
 })();
 </script>
 </body>
