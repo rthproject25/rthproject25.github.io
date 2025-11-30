@@ -16,6 +16,7 @@
     line-height:1.4;
     min-height:100vh;
     -webkit-text-size-adjust:100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
   }
 
   /* CONTAINER */
@@ -86,31 +87,37 @@
   /* SWITCH (20% smaller than previous) */
   .switch-wrap{display:flex;justify-content:center;margin-bottom:20px}
   .switch{
-    width:128px;           /* reduced from 160 → 128 (20%) */
-    height:56px;           /* reduced from 70 → 56 (20%) */
+    width:128px;
+    height:56px;
     border-radius:36px;
     background:linear-gradient(180deg,#0f0f0f,#070707 60%);
     position:relative;
     cursor:pointer;
     box-shadow:inset 0 6px 18px rgba(255,255,255,0.02), 0 10px 26px rgba(0,0,0,0.6);
     transition:background .28s ease, box-shadow .28s ease;
+    display:inline-block;
+    -webkit-tap-highlight-color: transparent;
   }
   .knob{
-    width:50px;            /* reduced from 62 → 50 (~20%) */
+    width:50px;
     height:50px;
     border-radius:50%;
     background:#fff;
     position:absolute;
     top:3px;
-    left:8px;              /* adjusted smaller offset */
-    transition:left .28s cubic-bezier(.2,.9,.2,1);
+    left:8px;
+    transform: translateX(0);
+    transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .18s;
     box-shadow:0 12px 30px rgba(0,0,0,0.6);
+    will-change: transform;
   }
+  /* knob in "on" uses translateX */
+  .switch[data-state="on"] .knob{ transform: translateX(70px); }
+
   body.blood .switch{
     background:linear-gradient(180deg,#6f2f2f,#401616 60%);
     box-shadow:inset 0 6px 20px rgba(120,20,20,0.06), 0 12px 36px rgba(120,20,20,0.2);
   }
-  body.blood .knob{ left:70px; } /* moved on-position for reduced width */
 
   /* CONTACT CARDS */
   .list{margin-top:6px;display:flex;flex-direction:column;gap:16px;padding-bottom:18px}
@@ -159,9 +166,21 @@
     border:1px solid rgba(255,255,255,0.04);
     box-shadow: 0 10px 26px rgba(0,0,0,0.6);
     white-space:nowrap;
+    transition: transform .12s ease, background .18s ease, opacity .12s;
+    display:inline-block;
   }
-  .cta:hover{ opacity:0.85; transform:translateY(-1px); transition: .12s; }
+  .cta:hover{ opacity:0.95; transform:translateY(-1px); }
   .cta:active{ transform:translateY(1px); }
+
+  /* When Blood is ON: tint overlay and CTA color shift to premium red */
+  body.blood .cta{
+    background: linear-gradient(145deg,#9f5b57,#7b2e2e 60%);
+    border:1px solid rgba(255,210,205,0.08);
+    box-shadow: 0 10px 30px rgba(120,20,20,0.28);
+    color:#fff;
+  }
+  /* subtle outline for better tap recognition */
+  .cta:focus{ outline:2px solid rgba(255,255,255,0.04); outline-offset:2px; }
 
   footer{ margin-top:26px; text-align:center; opacity:0.6; padding-bottom:30px; font-size:13px; }
 
@@ -170,9 +189,9 @@
     .wrap{padding:20px 14px 80px}
     .logo{width:92px;height:92px;border-radius:18px}
     h1{font-size:28px;letter-spacing:8px;margin-bottom:6px}
-    .switch{width:120px;height:56px} /* mobile-friendly width */
+    .switch{width:120px;height:56px}
     .knob{width:44px;height:44px;top:6px;left:8px}
-    body.blood .knob{left:66px}       /* mobile on position */
+    .switch[data-state="on"] .knob{ transform: translateX(66px) }
     .icon{min-width:56px;height:56px}
     .card{padding:14px;border-radius:16px}
     .top-title{font-size:17px}
@@ -194,7 +213,7 @@
     <div class="blood-row" aria-hidden="true"><div>B</div><div>L</div><div>O</div><div>O</div><div>D</div></div>
 
     <div class="switch-wrap">
-      <div id="switch" class="switch" role="switch" aria-checked="false" tabindex="0">
+      <div id="switch" class="switch" role="switch" aria-checked="false" tabindex="0" data-state="off">
         <div class="knob" aria-hidden="true"></div>
       </div>
     </div>
@@ -244,38 +263,81 @@
 (function(){
   const sw = document.getElementById('switch');
   const body = document.body;
-  const knob = sw.querySelector('.knob');
+  const KEY = 'rth_blood_state_v2';
+  const CTA_SEL = '.cta';
 
-  function setMode(on){
+  // read stored state (try/catch for browsers that block storage)
+  function readStored(){
+    try{
+      return localStorage.getItem(KEY) === '1';
+    }catch(e){
+      return false;
+    }
+  }
+  function writeStored(v){
+    try{ localStorage.setItem(KEY, v ? '1' : '0'); }catch(e){}
+  }
+
+  function applyUI(on){
     if(on){
       body.classList.add('blood');
+      sw.setAttribute('data-state','on');
       sw.setAttribute('aria-checked','true');
     } else {
       body.classList.remove('blood');
+      sw.setAttribute('data-state','off');
       sw.setAttribute('aria-checked','false');
     }
+    writeStored(on);
   }
 
-  setMode(false); // start off
+  // start with stored state (if any)
+  applyUI(readStored());
 
+  // toggle handler for switch
   function toggle(){
-    setMode(!body.classList.contains('blood'));
+    applyUI(!body.classList.contains('blood'));
   }
-
   sw.addEventListener('click', toggle);
   sw.addEventListener('keydown', function(e){
     if(e.key === 'Enter' || e.key === ' '){
-      e.preventDefault();
-      toggle();
+      e.preventDefault(); toggle();
     }
   });
 
-  // ensure knob exact position on DOM change
+  // When any CTA is tapped: set mode to ON then allow navigation (no other changes)
+  function ctaClickHandler(e){
+    // set blood on
+    applyUI(true);
+    // don't prevent default — allow the link to open
+    // small delay not needed because UI changes are instant
+  }
+
+  // attach listeners to all CTA buttons (delegation safe)
+  function bindCTAs(){
+    const ctas = document.querySelectorAll(CTA_SEL);
+    ctas.forEach(a=>{
+      // ensure we don't double-bind
+      a.removeEventListener('click', ctaClickHandler);
+      a.addEventListener('click', ctaClickHandler, {passive:true});
+    });
+  }
+  bindCTAs();
+
+  // observe for future dynamic changes (if you replace content)
+  const mo = new MutationObserver(()=> bindCTAs());
+  mo.observe(document.body, {childList:true, subtree:true});
+
+  // keep switch knob visual stable if classes change externally
+  const knob = sw.querySelector('.knob');
   const observer = new MutationObserver(()=> {
-    if(body.classList.contains('blood')) knob.style.left = '70px';
-    else knob.style.left = '8px';
+    // no inline positioning needed since CSS uses transform on .switch[data-state="on"]
+    // this observer left intentionally lightweight
   });
-  observer.observe(body, { attributes:true, attributeFilter:['class'] });
+  observer.observe(sw, { attributes:true, attributeFilter:['data-state'] });
+
+  // debug
+  if(window && window.console) console.log('RTH: Blood toggle + CTA listeners active');
 })();
 </script>
 </body>
