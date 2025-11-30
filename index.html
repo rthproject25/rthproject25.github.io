@@ -22,6 +22,7 @@
 /* reset */
 *{box-sizing:border-box}
 html,body{height:100%}
+html, body { -webkit-text-size-adjust: 100%; -ms-text-size-adjust:100%; }
 body{
   margin:0;
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
@@ -30,7 +31,8 @@ body{
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
   overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
+  -webkit-overflow-scrolling:touch; /* smooth native scrolling */
+  overscroll-behavior-y: auto; /* allow pull-to-refresh handling */
 }
 
 /* moving background (Blood.jpg must exist with capital B) */
@@ -56,6 +58,14 @@ body{
 
 /* particles */
 .particles{ position:fixed; inset:0; z-index:-2; pointer-events:none; }
+
+/* pull refresh indicator */
+.pull-indicator {
+  position:fixed; top:10px; left:50%; transform:translateX(-50%) translateY(-40px);
+  background:rgba(255,255,255,0.04); color:var(--white); padding:8px 14px; border-radius:20px;
+  font-size:13px; opacity:0; transition:opacity .2s, transform .18s;
+  z-index:40; pointer-events:none;
+}
 
 /* wrapper */
 .container{
@@ -97,12 +107,13 @@ body{
 
 /* BLOOD letters row - only for these letters */
 .blood-row{
-  display:flex; gap:20px; justify-content:center;
+  display:flex; gap:18px; justify-content:center;
   margin:18px 0 6px;
   color:rgba(255,255,255,0.95);
   font-weight:700;
   letter-spacing:6px;
   pointer-events:none;
+  transition:opacity .28s, transform .28s;
 }
 .blood-row > div{ display:inline-block; font-size:16px; transform:translateY(0); transition:transform .28s ease }
 
@@ -134,6 +145,10 @@ body{
   box-shadow: 0 18px 50px rgba(184,93,86,0.12);
 }
 
+/* ensure BLOOD visible always; slightly dim when premium */
+.blood-row { opacity:1 }
+.premium-on .blood-row { opacity:0.9 }
+
 /* contact list (glass cards) */
 .list{ width:100%; margin-top:6px; display:flex; flex-direction:column; gap:14px; padding-top:6px }
 .card{
@@ -149,7 +164,7 @@ body{
   flex:0 0 56px;
 }
 .meta{ flex:1; text-align:left; min-width:0; } /* min-width:0 allows proper wrapping */
-.meta .meta-title{ font-weight:800; font-size:18px; color:var(--white); line-height:1.15 }
+.meta .meta-title{ font-weight:800; font-size:18px; color:var(--white); line-height:1.15; white-space:normal; word-break:break-word }
 .meta .meta-sub{ color:var(--muted); margin-top:6px; font-size:13px; line-height:1.2; }
 
 /* CTA button aligned right */
@@ -183,6 +198,8 @@ body{
   <div class="bg" aria-hidden="true"></div>
   <canvas class="particles" aria-hidden="true"></canvas>
 
+  <div class="pull-indicator" id="pullIndicator">Tarik untuk refresh…</div>
+
   <div class="container" role="main">
     <div class="avatar" aria-hidden="true">
       <img src="avatar.png" alt="RTH logo">
@@ -206,7 +223,7 @@ body{
 
     <div class="list" id="list">
       <div class="card">
-        <div class="ico">IG</div>
+        <div class="ico" aria-hidden="true">IG</div>
         <div class="meta">
           <div class="meta-title">@ridetohhell.official</div>
           <div class="meta-sub">Instagram Resmi</div>
@@ -217,7 +234,7 @@ body{
       </div>
 
       <div class="card">
-        <div class="ico">WA</div>
+        <div class="ico" aria-hidden="true">WA</div>
         <div class="meta">
           <div class="meta-title">Chat via WhatsApp — +62 858-8211-0680</div>
           <div class="meta-sub">Fast contact</div>
@@ -228,7 +245,7 @@ body{
       </div>
 
       <div class="card">
-        <div class="ico">YT</div>
+        <div class="ico" aria-hidden="true">YT</div>
         <div class="meta">
           <div class="meta-title">YouTube Channel</div>
           <div class="meta-sub">@RTHProject25</div>
@@ -239,7 +256,7 @@ body{
       </div>
 
       <div class="card">
-        <div class="ico">f</div>
+        <div class="ico" aria-hidden="true">f</div>
         <div class="meta">
           <div class="meta-title">Halaman Facebook</div>
           <div class="meta-sub">Ride To Hell</div>
@@ -266,12 +283,12 @@ function applyPremium(on){
     body.classList.remove('premium-off');
     body.classList.add('premium-on');
     toggle.setAttribute('aria-pressed','true');
-    BLOOD.style.opacity = '0.18';
+    BLOOD.style.opacity = '0.9';
   } else {
     body.classList.remove('premium-on');
     body.classList.add('premium-off');
     toggle.setAttribute('aria-pressed','false');
-    BLOOD.style.opacity = '0.95';
+    BLOOD.style.opacity = '1';
   }
   try{ localStorage.setItem('rth_premium', premium ? '1' : '0') }catch(e){}
 }
@@ -333,21 +350,60 @@ try{
   init(); loop();
 })();
 
-/* ====== Pull effect for BLOOD letters ====== */
+/* ====== Pull-to-refresh (touch) ======
+   - If user is at top and pulls down past threshold -> reload
+   - Shows simple indicator text while pulling
+*/
+(function(){
+  const indicator = document.getElementById('pullIndicator');
+  let startY = 0, dist = 0, pulling = false;
+  const threshold = 90; // px to trigger refresh
+  window.addEventListener('touchstart', (e)=>{
+    if(window.scrollY <= 0){
+      startY = e.touches[0].clientY;
+      dist = 0; pulling = true;
+    } else { pulling = false; }
+  }, {passive:true});
+
+  window.addEventListener('touchmove', (e)=>{
+    if(!pulling) return;
+    const y = e.touches[0].clientY;
+    dist = y - startY;
+    if(dist > 0){
+      e.preventDefault(); // prevent rubber-band default if we control UI
+      indicator.style.opacity = Math.min(1, dist/threshold);
+      indicator.style.transform = `translateX(-50%) translateY(${Math.min(8, (dist/threshold)*12)}px)`;
+      indicator.textContent = dist > threshold ? 'Lepas untuk refresh' : 'Tarik untuk refresh…';
+    }
+  }, {passive:false});
+
+  window.addEventListener('touchend', ()=>{
+    if(!pulling) return;
+    if(dist > threshold){
+      indicator.textContent = 'Refresh...';
+      indicator.style.opacity = 1;
+      // small delay so user sees it
+      setTimeout(()=> { try{ location.reload(); } catch(e){ location.href = location.href } }, 220);
+    } else {
+      indicator.style.opacity = 0;
+      indicator.style.transform = `translateX(-50%) translateY(-40px)`;
+    }
+    pulling = false; startY = 0; dist = 0;
+  });
+})();
+
+/* ====== small BLOOD parallax on scroll for feel (subtle) ====== */
 let lastY = 0;
 window.addEventListener('scroll', ()=>{
   const y = window.scrollY || window.pageYOffset;
   const el = document.getElementById('bloodRow');
-  if(y < 60 && lastY > y){
-    const amount = Math.min(16, (60 - y)/4);
-    el.style.transform = `translateY(-${amount}px)`;
-  } else {
-    el.style.transform = 'translateY(0)';
-  }
+  const amount = Math.min(22, Math.max(0, Math.floor(y/10)));
+  el.style.transform = `translateY(-${amount}px)`;
   lastY = y;
 });
 
-console.log("Reminder: Use file named 'Blood.jpg' (capital B) and 'avatar.png' next to index.html");
+/* Reminder in console */
+console.log("Reminder: File names required next to index.html: 'Blood.jpg' (capital B) and 'avatar.png'");
 </script>
 </body>
 </html>
