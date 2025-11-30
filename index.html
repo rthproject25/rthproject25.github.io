@@ -11,7 +11,7 @@
   body{
     font-family: "Inter", Arial, Helvetica, sans-serif;
     -webkit-font-smoothing:antialiased;
-    /* fallback background (if pseudo elements fail) */
+    /* fallback background (dark OFF) */
     background: url('bg-darkoff.png') center/cover no-repeat fixed;
     color:#fff;
     line-height:1.4;
@@ -21,12 +21,7 @@
     position:relative;
   }
 
-  /* -----------------------
-     Background layers (for smooth crossfade)
-     - ::before = OFF (dark)
-     - ::after  = ON  (blood)
-     Only opacity changes when toggled -> no layout shift
-     ----------------------- */
+  /* Background crossfade pseudo-elements (no layout shift) */
   body::before,
   body::after{
     content:"";
@@ -41,38 +36,24 @@
     transition: opacity 600ms ease;
     will-change: opacity;
   }
-
-  /* OFF image (visible by default) */
   body::before{
     background-image: url('bg-darkoff.png');
-    opacity:1; /* default: dark off visible */
+    opacity:1; /* default visible */
     filter: contrast(0.92) brightness(0.9);
   }
-
-  /* ON image (blood) */
   body::after{
     background-image: url('bg-blood.png');
     opacity:0;
-    mix-blend-mode: normal;
     filter: saturate(0.95) contrast(0.95) brightness(0.95);
   }
-
-  /* enable crossfade after JS adds class 'bg-ready' to avoid initial flash */
   body.bg-ready::before,
   body.bg-ready::after{
     transition: opacity 600ms ease;
   }
-
-  /* when blood ON -> swap opacities */
   body.blood::before{ opacity:0; }
   body.blood::after{ opacity:1; }
 
-  /* subtle vignette increase when blood ON */
-  body::before,
-  body::after{
-    /* combined vignette handled by a separate overlay for control */
-  }
-  /* small overlay vignette element via box-shadow trick on html element */
+  /* global vignette overlay (html::before used to avoid changing content stacking) */
   html::before{
     content:"";
     position:fixed;
@@ -88,14 +69,14 @@
     background: radial-gradient(ellipse at center, rgba(0,0,0,0.15) 25%, rgba(0,0,0,0.68) 100%);
   }
 
-  /* CONTAINER (keep above background layers) */
+  /* CONTAINER (kept above overlay) */
   .wrap{
     width:100%;
     max-width:820px;
     margin:0 auto;
     padding:22px 18px 80px;
     position:relative;
-    z-index:2; /* ensure content sits above bg pseudo-elements */
+    z-index:2; /* ensure content above animated overlay */
   }
 
   /* LOGO */
@@ -111,7 +92,6 @@
     transform:translateZ(0);
     transition: box-shadow 500ms ease, transform 400ms ease;
   }
-  /* subtle glow on blood mode (no layout change) */
   body.blood .logo{
     box-shadow: 0 28px 80px rgba(140,30,30,0.36);
   }
@@ -241,7 +221,6 @@
     display:inline-block;
   }
 
-  /* CTA style on blood */
   body.blood .cta{
     background: linear-gradient(145deg,#9f5b57,#7b2e2e 60%);
     border:1px solid rgba(255,210,205,0.08);
@@ -325,6 +304,119 @@
     <footer>© 2025 Ride To Hell</footer>
   </div>
 
+<!-- ===========================
+     Overlay script: clouds, grain, lightning, flicker, smoke
+     Non-invasive: overlay z-index:1, content .wrap z-index:2
+     =========================== -->
+<script>
+(function(){
+  // CONFIG: tweak these if needed
+  const ENABLE = true;
+  if(!ENABLE) return;
+
+  const CLOUD_OPACITY = 0.30;       // cloud layer darkness
+  const GRAIN_OPACITY = 0.08;       // grain overlay
+  const LIGHTNING_MAX = 0.7;        // lightning max intensity
+  const LIGHT_MIN_DELAY = 7000;     // lightning min ms
+  const LIGHT_MAX_DELAY = 14000;    // lightning max ms
+  const SMOKE_OPACITY = 0.22;       // smoke base opacity
+  const SMOKE_SPEED = 22000;        // smoke vertical travel time (ms)
+
+  // create CSS for overlay (scoped)
+  const css = `
+  #rth-anim-overlay{ position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+  /* Clouds: slow moving subtle shapes */
+  .rth-clouds{ position:absolute; inset:-10% -10% -10% -10%; opacity:${CLOUD_OPACITY}; mix-blend-mode:multiply; filter: blur(10px) contrast(0.95); background-image:
+    radial-gradient(ellipse at 20% 30%, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0) 40%),
+    radial-gradient(ellipse at 80% 70%, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 50%),
+    linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.08));
+  transform:translateZ(0); animation:rth-cloud 26s ease-in-out infinite; }
+  @keyframes rth-cloud{
+    0% { transform: translate3d(-4%, -2%,0) scale(1.02); }
+    50% { transform: translate3d(4%, 2%,0) scale(1.015); }
+    100% { transform: translate3d(-4%, -2%,0) scale(1.02); }
+  }
+
+  /* Grain texture for premium film look */
+  .rth-grain{ position:absolute; inset:0; opacity:${GRAIN_OPACITY}; mix-blend-mode:overlay;
+    background-image: url('data:image/svg+xml;utf8,\
+      <svg xmlns="http://www.w3.org/2000/svg" width="180" height="180">\
+        <filter id="g"><feTurbulence baseFrequency="0.9" numOctaves="2"/><feColorMatrix type="saturate" values="0"/></filter>\
+        <rect width="100%" height="100%" filter="url(%23g)" fill="white"/></svg>'); 
+    transform:scale(1.02); animation:rth-grain 14s linear infinite; }
+  @keyframes rth-grain{ 0%{ transform:scale(1.02) translate(0,0);} 50%{ transform:scale(1.025) translate(-1%,0.5%);} 100%{ transform:scale(1.02) translate(0,0);} }
+
+  /* Lightning subtle layer */
+  .rth-lightning{ position:absolute; inset:0; mix-blend-mode:screen; transition: background 240ms ease; pointer-events:none; }
+
+  /* micro flicker */
+  .rth-flicker{ position:absolute; inset:0; mix-blend-mode:screen; opacity:0; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.00)); animation:rth-flick 7s infinite; }
+  @keyframes rth-flick{ 0%{opacity:0} 3%{opacity:0.03} 5%{opacity:0} 100%{opacity:0} }
+
+  /* Smoke layer (vertical drift) - two layers for depth */
+  .rth-smoke{ position:absolute; left:-10%; width:120%; top:110%; height:80%; pointer-events:none; overflow:visible; }
+  .rth-smoke .s{ position:absolute; left:0; width:100%; height:120%; background:
+     radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 40%);
+    mix-blend-mode:screen; filter: blur(28px) contrast(0.95); opacity:${SMOKE_OPACITY}; transform: translateY(0) scale(1.05); will-change: transform, opacity; animation: rth-smoke-move ${SMOKE_SPEED}ms linear infinite; }
+  .rth-smoke .s.s2{ left:-5%; opacity:${SMOKE_OPACITY*0.6}; filter: blur(36px) contrast(0.92); animation-duration: ${Math.floor(SMOKE_SPEED*1.18)}ms; transform: scale(1.12); }
+
+  @keyframes rth-smoke-move{
+    0% { transform: translateY(0) scale(1.05); opacity:0; }
+    10% { opacity:0.14; }
+    50% { transform: translateY(-60%) scale(1.08); opacity:0.28; }
+    90% { opacity:0.08; }
+    100% { transform: translateY(-120%) scale(1.12); opacity:0; }
+  }`;
+
+  const style = document.createElement('style');
+  style.setAttribute('data-rth-overlay','1');
+  style.appendChild(document.createTextNode(css));
+  document.head.appendChild(style);
+
+  // build overlay DOM
+  const overlay = document.createElement('div');
+  overlay.id = 'rth-anim-overlay';
+  overlay.innerHTML = `
+    <div class="rth-clouds"></div>
+    <div class="rth-grain"></div>
+    <div class="rth-lightning"></div>
+    <div class="rth-flicker"></div>
+    <div class="rth-smoke">
+      <div class="s s1"></div>
+      <div class="s s2"></div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  // Lightning scheduling and flash
+  const flashEl = overlay.querySelector('.rth-lightning');
+  function doLightning(){
+    const lx = 15 + Math.random()*70;
+    const ly = 20 + Math.random()*55;
+    const intensity = (0.25 + Math.random()*LIGHTNING_MAX).toFixed(3);
+    flashEl.style.background = `radial-gradient(circle at ${lx}% ${ly}%, rgba(255,255,255,${intensity}) 0%, rgba(255,255,255,0) 18%)`;
+    // layered fade
+    setTimeout(()=> {
+      flashEl.style.background = `radial-gradient(circle at ${lx}% ${ly}%, rgba(255,255,255,${(intensity*0.5).toFixed(3)}) 0%, rgba(255,255,255,0) 26%)`;
+      setTimeout(()=> { flashEl.style.background = 'transparent'; }, 160 + Math.random()*200);
+    }, 90 + Math.random()*140);
+  }
+  function scheduleLightning(){
+    const delay = Math.floor(LIGHT_MIN_DELAY + Math.random()*(LIGHT_MAX_DELAY - LIGHT_MIN_DELAY));
+    setTimeout(()=> { doLightning(); scheduleLightning(); }, delay);
+  }
+  scheduleLightning();
+
+  // Expose quick controls
+  window.__rth_overlay = window.__rth_overlay || {};
+  window.__rth_overlay.remove = function(){ try{ overlay.remove(); style.remove(); }catch(e){} };
+  window.__rth_overlay.hide = function(){ overlay.style.display='none'; };
+  window.__rth_overlay.show = function(){ overlay.style.display='block'; };
+
+})();
+</script>
+
+<!-- Main UI script (unchanged behavior) -->
 <script>
 (function(){
   const sw = document.getElementById('switch');
@@ -353,7 +445,6 @@
   // enable background transition after load (prevents initial flash)
   window.addEventListener('load', ()=> {
     body.classList.add('bg-ready');
-    // start with stored state
     applyUI(readStored());
   });
 
@@ -379,7 +470,7 @@
   const mo = new MutationObserver(()=> bindCTAs());
   mo.observe(document.body, {childList:true, subtree:true});
 
-  if(window && window.console) console.log('RTH: Blood toggle + background transitions ready');
+  if(window && window.console) console.log('RTH: background + premium overlay loaded');
 })();
 </script>
 </body>
