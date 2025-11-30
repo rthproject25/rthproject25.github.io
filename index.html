@@ -7,13 +7,15 @@
   <meta name="theme-color" content="#000000" />
   <style>
     :root{
-      --bg:#000;
-      --panel: rgba(0,0,0,0.65);
-      --accent: #c33;
-      --muted: rgba(255,255,255,0.85);
+      --bg:#060405;
+      --panel: rgba(6,4,5,0.66);
+      --muted: rgba(255,255,255,0.88);
+      --accent-1: #d64545;
+      --accent-2: #9a1f1f;
+      --glass: rgba(255,255,255,0.03);
     }
     *{box-sizing:border-box}
-    html,body{height:100%;}
+    html,body{height:100%}
     body{
       margin:0;
       padding:0;
@@ -25,154 +27,208 @@
       align-items:center;
       justify-content:center;
       min-height:100vh;
-      background-image: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80');
+      background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&q=80');
       background-size:cover;
       background-position:center;
+      background-attachment: fixed;
     }
 
+    /* dark gradient overlay */
     .backdrop{
       position:fixed;
       inset:0;
-      background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
+      background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.9));
       z-index:0;
+      pointer-events:none;
     }
 
+    /* center card */
     .card{
       position:relative;
       z-index:1;
-      width:min(880px, 92vw);
-      padding:34px;
-      border-radius:14px;
-      background:var(--panel);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
-      text-align:center;
+      width:min(820px, 94vw);
+      padding:30px;
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(12,12,12,0.54), rgba(6,4,5,0.64));
+      box-shadow: 0 18px 60px rgba(0,0,0,0.65), 0 0 40px rgba(150,20,20,0.06);
+      border: 1px solid rgba(255,255,255,0.02);
+      backdrop-filter: blur(6px) saturate(0.9);
+      overflow:hidden;
+      transition: transform .25s ease;
+    }
+    .card:hover{ transform: translateY(-6px) }
+
+    /* subtle red vignette inside */
+    .card::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background: radial-gradient(600px 200px at 50% 10%, rgba(200,40,40,0.06), transparent 25%),
+                  radial-gradient(500px 150px at 50% 90%, rgba(150,20,20,0.03), transparent 30%);
+      mix-blend-mode: overlay;
+    }
+
+    .head {
+      display:flex;
+      gap:18px;
+      align-items:center;
+      justify-content:flex-start;
     }
 
     .avatar {
-      width:88px;
-      height:88px;
-      border-radius:14px;
-      margin:0 auto 18px;
-      background:linear-gradient(180deg,#111,#000);
-      box-shadow: 0 6px 20px rgba(195,51,51,0.12);
+      width:86px;
+      height:86px;
+      border-radius:18px;
+      background:linear-gradient(180deg,#0e0e0e,#000);
       display:flex;
       align-items:center;
       justify-content:center;
       overflow:hidden;
-      border:2px solid rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.7), 0 0 18px rgba(214,69,69,0.06);
+      flex-shrink:0;
     }
-    .avatar img{width:100%;height:100%;object-fit:cover}
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
 
+    .title-wrap{flex:1}
     h1{
-      margin:0 0 12px;
-      font-size:34px;
-      letter-spacing:3px;
-      font-weight:800;
-      color: #fff;
+      margin:0;
+      font-size:36px;
+      letter-spacing:4px;
+      font-weight:900;
+      color:#fff;
+      line-height:1;
     }
 
-    p.lead{
-      margin:0 0 20px;
-      color: rgba(255,255,255,0.85);
+    .lead {
+      margin:10px 0 0 0;
+      color: rgba(255,255,255,0.9);
       font-size:15px;
-      line-height:1.6;
-      max-width:720px;
-      margin-left:auto;margin-right:auto;
+      line-height:1.55;
+    }
+
+    .bold-line{
+      margin-top:12px;
+      font-weight:800;
+      color: rgba(255,255,255,0.95);
+      letter-spacing:.3px;
     }
 
     .sub{
-      margin-top:14px;
+      margin-top:12px;
       font-weight:700;
       color:rgba(255,255,255,0.9);
-      font-size:15px;
+      font-size:13px;
+      opacity:0.95;
     }
 
+    .blood-toggle{
+      margin-left:12px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .toggle-pill{
+      width:56px;height:30px;border-radius:30px;background:rgba(255,255,255,0.06);padding:4px;display:flex;align-items:center;
+      justify-content:flex-end;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.01);
+    }
+    .toggle-dot{width:22px;height:22px;border-radius:50%;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));box-shadow:0 6px 18px rgba(150,20,20,0.25)}
+
+    /* links list */
     .links{
       margin-top:20px;
       display:flex;
-      gap:12px;
       flex-direction:column;
-      align-items:center;
+      gap:14px;
     }
 
     .btn{
-      width:100%;
-      max-width:520px;
       display:flex;
-      justify-content:space-between;
       align-items:center;
+      justify-content:space-between;
+      gap:12px;
       padding:14px 18px;
-      border-radius:12px;
-      background: rgba(0,0,0,0.45);
+      border-radius:14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       border:1px solid rgba(255,255,255,0.03);
       text-decoration:none;
       color:var(--muted);
-      font-weight:600;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+      font-weight:700;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 2px 0 rgba(255,255,255,0.01) inset;
+      transition: transform .12s ease, box-shadow .12s ease;
     }
+    .btn:hover{ transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,0.6) }
+
+    .btn .meta{ display:flex; flex-direction:column; align-items:flex-start; text-align:left; gap:6px; }
+    .btn small{ font-weight:600; opacity:0.85; font-size:13px; color:rgba(255,255,255,0.9) }
 
     .cta{
-      background: linear-gradient(90deg, rgba(195,51,51,0.98), rgba(128,28,28,0.95));
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
       color: #fff;
       border: none;
       padding:10px 16px;
       border-radius:10px;
-      font-weight:700;
-      box-shadow: 0 6px 18px rgba(195,51,51,0.12);
+      font-weight:800;
+      box-shadow: 0 10px 28px rgba(180,40,40,0.12);
+      min-width:88px;
+      text-align:center;
     }
 
     footer{
-      margin-top:22px;
+      margin-top:18px;
       font-size:13px;
-      color:rgba(255,255,255,0.6);
+      color:rgba(255,255,255,0.62);
+      text-align:center;
     }
 
-    @media (min-width:900px){
-      .links{flex-direction:column}
+    /* responsive */
+    @media (max-width:720px){
+      .head{flex-direction:column;align-items:center;text-align:center}
+      .title-wrap{width:100%}
+      h1{font-size:30px}
+      .avatar{width:72px;height:72px;border-radius:12px}
+      .btn{padding:12px;border-radius:12px}
+      .cta{min-width:70px;padding:8px 12px}
     }
-    @media (max-width:420px){
-      h1{font-size:28px}
-      .card{padding:22px;border-radius:10px}
-      .avatar{width:72px;height:72px}
-    }
+
+    /* subtle entrance */
+    .card{opacity:0; transform: translateY(10px); animation: enter .6s ease forwards;}
+    @keyframes enter{ to{opacity:1; transform: translateY(0)} }
   </style>
 </head>
 <body>
   <div class="backdrop" aria-hidden="true"></div>
 
   <main class="card" role="main" aria-labelledby="site-title">
-    <div class="avatar" aria-hidden="true">
-      <img src="avatar.png" alt="Ride To Hell" />
+    <div class="head">
+      <div class="avatar" aria-hidden="true">
+        <img src="avatar.png" alt="Ride To Hell" />
+      </div>
+
+      <div class="title-wrap">
+        <div style="display:flex;align-items:center;gap:12px;justify-content:space-between">
+          <div style="flex:1 1 auto">
+            <h1 id="site-title">RIDE TO HELL</h1>
+            <p class="lead">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</p>
+            <div class="bold-line">RTH bukan sekadar nama — ini cara gue bertahan.</div>
+            <div class="sub">Simple contact • No noise</div>
+          </div>
+
+          <div class="blood-toggle" aria-hidden="true" style="margin-left:16px">
+            <label style="font-weight:900;letter-spacing:1px;color:rgba(255,255,255,0.9);font-size:12px">BLOOD</label>
+            <div class="toggle-pill"><div class="toggle-dot"></div></div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <h1 id="site-title">RIDE TO HELL</h1>
-    <p class="lead">
-      Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.
-      RTH bukan sekadar nama — ini cara gue bertahan.
-    </p>
-
-    <div class="sub">Simple contact • No noise</div>
 
     <div class="links" aria-label="Links">
       <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener noreferrer">
-        <span>@ridetohhell.official</span>
-        <span class="cta">Masuk</span>
-      </a>
-
-      <a class="btn" href="https://wa.me/6285882110680" target="_blank" rel="noopener noreferrer">
-        <span>Chat via WhatsApp — +62 858-8211-0680</span>
-        <span class="cta">Terhubung</span>
-      </a>
-
-      <a class="btn" href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
-        <span>YouTube Channel</span>
-        <span class="cta">Tonton</span>
-      </a>
-    </div>
-
-    <footer>
-      © <strong>Ride To Hell</strong> — Streetwear & content. Built minimal untuk loading cepat.
-    </footer>
-  </main>
-</body>
-</html>
+        <div class="meta">
+          <div style="font-size:17px">@ridetohhell.official</div>
+          <small>Instagram Resmi</small>
+        </div>
+        <div class="cta">Masuk</
