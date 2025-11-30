@@ -19,6 +19,13 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0);
   }
 
+  /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+     BLOOD MODE BACKGROUND (SATU-SATUNYA HAL YG DITAMBAH)
+     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
+  body.blood {
+    background: url('bg-blood.png') center/cover no-repeat fixed !important;
+  }
+
   /* CONTAINER */
   .wrap{
     width:100%;
@@ -84,7 +91,7 @@
     font-size:14px;
   }
 
-  /* SWITCH (20% smaller than previous) */
+  /* SWITCH */
   .switch-wrap{display:flex;justify-content:center;margin-bottom:20px}
   .switch{
     width:128px;
@@ -96,7 +103,6 @@
     box-shadow:inset 0 6px 18px rgba(255,255,255,0.02), 0 10px 26px rgba(0,0,0,0.6);
     transition:background .28s ease, box-shadow .28s ease;
     display:inline-block;
-    -webkit-tap-highlight-color: transparent;
   }
   .knob{
     width:50px;
@@ -111,7 +117,6 @@
     box-shadow:0 12px 30px rgba(0,0,0,0.6);
     will-change: transform;
   }
-  /* knob in "on" uses translateX */
   .switch[data-state="on"] .knob{ transform: translateX(70px); }
 
   body.blood .switch{
@@ -147,14 +152,11 @@
     box-shadow: inset 0 2px 6px rgba(255,255,255,0.02);
   }
 
-  .text{
-    flex:1; min-width:0;
-  }
-
+  .text{ flex:1; min-width:0; }
   .top-title{ font-size:18px; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .sub{ font-size:13px; opacity:0.75; margin-top:6px; }
 
-  /* CTA button — slightly lighter but still dark */
+  /* CTA BUTTON */
   .cta{
     padding:10px 16px;
     border-radius:14px;
@@ -169,22 +171,16 @@
     transition: transform .12s ease, background .18s ease, opacity .12s;
     display:inline-block;
   }
-  .cta:hover{ opacity:0.95; transform:translateY(-1px); }
-  .cta:active{ transform:translateY(1px); }
 
-  /* When Blood is ON: tint overlay and CTA color shift to premium red */
   body.blood .cta{
     background: linear-gradient(145deg,#9f5b57,#7b2e2e 60%);
     border:1px solid rgba(255,210,205,0.08);
     box-shadow: 0 10px 30px rgba(120,20,20,0.28);
     color:#fff;
   }
-  /* subtle outline for better tap recognition */
-  .cta:focus{ outline:2px solid rgba(255,255,255,0.04); outline-offset:2px; }
 
   footer{ margin-top:26px; text-align:center; opacity:0.6; padding-bottom:30px; font-size:13px; }
 
-  /* mobile tweaks (scaled down similarly) */
   @media (max-width:420px){
     .wrap{padding:20px 14px 80px}
     .logo{width:92px;height:92px;border-radius:18px}
@@ -266,13 +262,10 @@
   const KEY = 'rth_blood_state_v2';
   const CTA_SEL = '.cta';
 
-  // read stored state (try/catch for browsers that block storage)
   function readStored(){
     try{
       return localStorage.getItem(KEY) === '1';
-    }catch(e){
-      return false;
-    }
+    }catch(e){ return false; }
   }
   function writeStored(v){
     try{ localStorage.setItem(KEY, v ? '1' : '0'); }catch(e){}
@@ -291,53 +284,29 @@
     writeStored(on);
   }
 
-  // start with stored state (if any)
   applyUI(readStored());
 
-  // toggle handler for switch
-  function toggle(){
-    applyUI(!body.classList.contains('blood'));
-  }
+  function toggle(){ applyUI(!body.classList.contains('blood')); }
+
   sw.addEventListener('click', toggle);
-  sw.addEventListener('keydown', function(e){
+  sw.addEventListener('keydown', e=>{
     if(e.key === 'Enter' || e.key === ' '){
       e.preventDefault(); toggle();
     }
   });
 
-  // When any CTA is tapped: set mode to ON then allow navigation (no other changes)
-  function ctaClickHandler(e){
-    // set blood on
-    applyUI(true);
-    // don't prevent default — allow the link to open
-    // small delay not needed because UI changes are instant
-  }
+  function ctaClickHandler(){ applyUI(true); }
 
-  // attach listeners to all CTA buttons (delegation safe)
   function bindCTAs(){
-    const ctas = document.querySelectorAll(CTA_SEL);
-    ctas.forEach(a=>{
-      // ensure we don't double-bind
+    document.querySelectorAll(CTA_SEL).forEach(a=>{
       a.removeEventListener('click', ctaClickHandler);
       a.addEventListener('click', ctaClickHandler, {passive:true});
     });
   }
   bindCTAs();
 
-  // observe for future dynamic changes (if you replace content)
   const mo = new MutationObserver(()=> bindCTAs());
   mo.observe(document.body, {childList:true, subtree:true});
-
-  // keep switch knob visual stable if classes change externally
-  const knob = sw.querySelector('.knob');
-  const observer = new MutationObserver(()=> {
-    // no inline positioning needed since CSS uses transform on .switch[data-state="on"]
-    // this observer left intentionally lightweight
-  });
-  observer.observe(sw, { attributes:true, attributeFilter:['data-state'] });
-
-  // debug
-  if(window && window.console) console.log('RTH: Blood toggle + CTA listeners active');
 })();
 </script>
 </body>
