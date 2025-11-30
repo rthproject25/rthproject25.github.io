@@ -1,247 +1,264 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ride To Hell</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ride To Hell — Contact</title>
 
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        color: white;
-        background: #000;
-        overflow-x: hidden;
-    }
+  :root{
+    --bg-dark:#050505;
+    --card-dark:#121212;
+    --muted:#9b9b9b;
+    --white:#ffffff;
+    --accent:#c96f67;
+    --accent-dark:#8f5a56;
+    --shadow: 0 10px 30px rgba(0,0,0,0.45);
+    --radius:18px;
+    --gap:18px;
+    --pad:18px;
+    --font-sans:"Inter","Segoe UI",Roboto,Arial,sans-serif;
+  }
 
-    .container {
-        max-width: 500px;
-        margin: auto;
-        padding: 20px;
-        text-align: center;
-    }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:var(--font-sans);
+    background:var(--bg-dark);
+    color:var(--white);
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-y:auto;
+    line-height:1.25;
+  }
 
-    /* LOGO */
-    .logo {
-        width: 160px;
-        height: 160px;
-        border-radius: 20px;
-        object-fit: cover;
-        margin: 10px auto 20px;
-        display: block;
-    }
+  /* BLOOD BACKGROUND (pakai Blood.jpg B besar) */
+  .bg-blood{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(255,40,40,0.06), transparent 8%),
+      radial-gradient(ellipse at 80% 90%, rgba(120,10,10,0.06), transparent 8%),
+      url('Blood.jpg');
+    background-size:cover;
+    filter:contrast(0.9) saturate(0.6);
+    opacity:0;
+    transition:opacity .6s ease;
+    pointer-events:none;
+    animation:subtleMove 12s linear infinite;
+  }
+  .blood-on .bg-blood{opacity:1}
 
-    h1 {
-        font-size: 36px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        letter-spacing: 3px;
-    }
+  @keyframes subtleMove{
+    0%{transform:translateY(0) scale(1)}
+    50%{transform:translateY(-10px) scale(1.02)}
+    100%{transform:translateY(0) scale(1)}
+  }
 
-    p.subtitle {
-        font-size: 17px;
-        margin: 10px 0 5px;
-        line-height: 1.5;
-    }
+  .wrap{
+    position:relative;z-index:2;
+    min-height:100vh;
+    padding:28px 18px 120px;
+    display:flex;justify-content:center;align-items:flex-start;
+  }
 
-    .strong {
-        font-weight: bold;
-        font-size: 18px;
-    }
+  .card{max-width:760px;width:100%;margin:auto;text-align:center}
 
-    /* BLOOD TEXT */
-    .blood-text {
-        margin-top: 25px;
-        font-size: 18px;
-        letter-spacing: 28px;
-        opacity: 0.6;
-        transition: opacity 0.3s ease;
-    }
+  .logo{
+    width:96px;height:96px;margin:0 auto 12px;
+    border-radius:20px;overflow:hidden;background:#0b0b0b;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 28px rgba(0,0,0,0.6);
+  }
+  .logo img{width:84%;height:84%;object-fit:cover}
 
-    /* SWITCH */
-    .switch {
-        margin: 20px auto 35px;
-        width: 110px;
-        height: 48px;
-        background: #444;
-        border-radius: 30px;
-        position: relative;
-        cursor: pointer;
-        transition: background 0.3s ease;
-    }
+  h1{
+    margin:8px 0 14px;font-size:34px;letter-spacing:4px;font-weight:700;
+  }
 
-    .switch-circle {
-        width: 46px;
-        height: 46px;
-        background: white;
-        border-radius: 50%;
-        position: absolute;
-        top: 1px;
-        left: 1px;
-        transition: left 0.3s ease;
-    }
+  .lead{color:var(--muted);margin-bottom:10px;font-size:15px}
+  .bold-note{margin:12px 0 10px;font-weight:700;font-size:15px}
+  .sub{color:var(--muted);margin-bottom:18px;font-size:14px}
 
-    /* CONTACT CARD */
-    .card {
-        background: rgba(30, 30, 30, 0.75);
-        border-radius: 16px;
-        margin: 14px 0;
-        padding: 16px;
-        text-align: left;
-        color: #ddd;
-        display: flex;
-        align-items: center;
-        backdrop-filter: blur(4px);
-    }
+  .blood-letters{
+    display:flex;gap:22px;justify-content:center;
+    letter-spacing:10px;margin-bottom:16px;
+    color:rgba(255,255,255,0.18);font-weight:600;
+  }
 
-    .card-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        background: #222;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        margin-right: 18px;
-        font-size: 18px;
-        opacity: 0.85;
-    }
+  .toggle-wrap{display:flex;justify-content:center;margin-bottom:22px}
+  .toggle{
+    --w:140px;--h:60px;
+    width:var(--w);height:var(--h);
+    background:#444;border-radius:48px;
+    box-shadow:0 8px 22px rgba(0,0,0,0.45), inset 0 -6px 18px rgba(0,0,0,0.35);
+    position:relative;cursor:pointer;transition:.35s;
+  }
+  .toggle .knob{
+    position:absolute;left:6px;top:6px;
+    width:calc(var(--h) - 12px);height:calc(var(--h) - 12px);
+    border-radius:50%;background:#fff;
+    box-shadow:0 6px 18px rgba(0,0,0,0.45);
+    transition:left .28s cubic-bezier(.2,.9,.2,1);
+  }
+  .blood-on .toggle{
+    background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+    box-shadow:0 10px 30px rgba(200,90,80,0.25), inset 0 -6px 18px rgba(0,0,0,.5);
+  }
+  .blood-on .toggle .knob{
+    left:calc(var(--w) - var(--h) + 6px);
+  }
 
-    .card-title {
-        font-size: 18px;
-        font-weight: bold;
-        margin: 0;
-    }
+  .links{
+    margin-top:6px;display:grid;gap:16px;
+  }
 
-    .card-sub {
-        font-size: 14px;
-        opacity: 0.8;
-        margin-top: 3px;
-    }
+  .link-card{
+    display:flex;align-items:center;gap:14px;
+    padding:12px 14px;
+    background:rgba(10,10,10,0.55);
+    border-radius:14px;
+    backdrop-filter:blur(6px);
+    box-shadow:var(--shadow);
+    transition:.22s;
+  }
 
-    .btn {
-        margin-left: auto;
-        background: #c15c55;
-        border: none;
-        padding: 10px 18px;
-        border-radius: 12px;
-        color: white;
-        font-weight: bold;
-        font-size: 15px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-    }
+  .link-card:hover{transform:translateY(-4px)}
 
-    /* FOOTER */
-    footer {
-        margin: 40px 0 20px;
-        opacity: 0.7;
-        font-size: 13px;
-    }
+  .link-icon{
+    min-width:56px;min-height:56px;
+    border-radius:12px;background:rgba(255,255,255,0.03);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;color:var(--muted);font-size:16px;
+  }
 
-    /* BLOOD WALLPAPER */
-    .blood-active {
-        background-image: url('Blood.png');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        transition: background 0.5s ease-in-out;
-    }
+  .link-body{text-align:left;flex:1}
+  .link-title{font-weight:700;font-size:18px}
+  .link-sub{color:var(--muted);font-size:13px;margin-top:4px}
 
-    /* MODE SWITCH EFFECTS */
-    .mode-dark .btn {
-        background: #444;
-    }
+  .btn{
+    background:rgba(255,255,255,0.06);
+    color:#fff;border:none;border-radius:12px;
+    padding:10px 18px;font-weight:700;
+    box-shadow:0 6px 18px rgba(0,0,0,.45);
+    cursor:pointer;transition:.22s;
+  }
+  .btn:active{transform:translateY(2px)}
+
+  /* Blood ON coloring */
+  .blood-on .links .link-card{
+    background:linear-gradient(180deg,rgba(255,60,60,0.06),rgba(0,0,0,0.35));
+    border:1px solid rgba(255,60,60,0.06);
+  }
+  .blood-on .btn{
+    background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+  }
+
+  footer{
+    text-align:center;margin-top:28px;
+    color:var(--muted);font-size:13px;opacity:.9;
+  }
 </style>
 </head>
-<body id="body">
 
-<div class="container">
+<body>
+<div class="bg-blood"></div>
 
-    <img src="avatar.png" class="logo">
+<div class="wrap">
+  <main class="card">
+
+    <div class="logo">
+      <img src="avatar.png" alt="RTH">
+    </div>
 
     <h1>RIDE TO HELL</h1>
 
-    <p class="subtitle">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</p>
+    <p class="lead">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</p>
+    <div class="bold-note">RTH bukan sekadar nama — ini cara gue bertahan.</div>
+    <div class="sub">Simple contact · No noise</div>
 
-    <p class="subtitle strong">RTH bukan sekadar nama — ini cara gue bertahan.</p>
-
-    <p class="subtitle" style="margin-top: 15px;">Simple contact · No noise</p>
-
-    <div class="blood-text" id="bloodText">B L O O D</div>
-
-    <div class="switch" id="switchBtn">
-        <div class="switch-circle" id="switchCircle"></div>
+    <div class="blood-letters">
+      <span>B</span><span>L</span><span>O</span><span>O</span><span>D</span>
     </div>
 
-    <!-- IG -->
-    <div class="card">
-        <div class="card-icon">IG</div>
-        <div>
-            <p class="card-title">@ridetohhell.official</p>
-            <p class="card-sub">Instagram Resmi</p>
-        </div>
-        <button class="btn" onclick="location.href='https://instagram.com/ridetohhell.official'">Masuk</button>
+    <div class="toggle-wrap">
+      <div class="toggle" id="toggle">
+        <div class="knob"></div>
+      </div>
     </div>
 
-    <!-- WA -->
-    <div class="card">
-        <div class="card-icon">WA</div>
-        <div>
-            <p class="card-title">Chat via WhatsApp — +62 858-8211-0680</p>
-            <p class="card-sub">Fast contact</p>
-        </div>
-        <button class="btn" onclick="location.href='https://wa.me/6285882110680'">Terhubung</button>
-    </div>
+    <div class="links">
 
-    <!-- YT -->
-    <div class="card">
-        <div class="card-icon">YT</div>
-        <div>
-            <p class="card-title">YouTube Channel</p>
-            <p class="card-sub">@RTHProject25</p>
+      <div class="link-card">
+        <div class="link-icon">IG</div>
+        <div class="link-body">
+          <div class="link-title">@ridetohhell.official</div>
+          <div class="link-sub">Instagram Resmi</div>
         </div>
-        <button class="btn" onclick="location.href='https://youtube.com/@RTHProject25'">Tonton</button>
-    </div>
+        <button class="btn" onclick="openLink('https://instagram.com/ridetohhell.official')">Masuk</button>
+      </div>
 
-    <!-- FB -->
-    <div class="card">
-        <div class="card-icon">f</div>
-        <div>
-            <p class="card-title">Halaman Facebook</p>
-            <p class="card-sub">Ride To Hell</p>
+      <div class="link-card">
+        <div class="link-icon">WA</div>
+        <div class="link-body">
+          <div class="link-title">Chat via WhatsApp — +62 858-8211-0680</div>
+          <div class="link-sub">Fast contact</div>
         </div>
-        <button class="btn" onclick="location.href='https://facebook.com'">Buka</button>
+        <button class="btn" onclick="openLink('https://wa.me/6285882110680')">Terhubung</button>
+      </div>
+
+      <div class="link-card">
+        <div class="link-icon">YT</div>
+        <div class="link-body">
+          <div class="link-title">YouTube Channel</div>
+          <div class="link-sub">@RTHProject25</div>
+        </div>
+        <button class="btn" onclick="openLink('https://youtube.com/@RTHProject25')">Tonton</button>
+      </div>
+
+      <div class="link-card">
+        <div class="link-icon">f</div>
+        <div class="link-body">
+          <div class="link-title">Halaman Facebook</div>
+          <div class="link-sub">Ride To Hell</div>
+        </div>
+        <button class="btn" onclick="openLink('https://facebook.com')">Buka</button>
+      </div>
+
     </div>
 
     <footer>© 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.</footer>
 
+  </main>
 </div>
 
 <script>
-let bloodOn = false;
+(function(){
+  const toggle = document.getElementById("toggle");
 
-const body = document.getElementById("body");
-const bloodText = document.getElementById("bloodText");
-const circle = document.getElementById("switchCircle");
-const btn = document.getElementById("switchBtn");
-
-btn.addEventListener("click", () => {
-    bloodOn = !bloodOn;
-
-    if (bloodOn) {
-        circle.style.left = "63px";
-        body.classList.add("blood-active");
-        body.classList.remove("mode-dark");
-        bloodText.style.opacity = "1";
+  function setBlood(on){
+    if(on){
+      document.documentElement.classList.add("blood-on");
+      localStorage.setItem("rth_blood_on","1");
     } else {
-        circle.style.left = "1px";
-        body.classList.remove("blood-active");
-        body.classList.add("mode-dark");
-        bloodText.style.opacity = "0.6";
+      document.documentElement.classList.remove("blood-on");
+      localStorage.setItem("rth_blood_on","0");
     }
-});
+  }
+
+  const saved = localStorage.getItem("rth_blood_on");
+  if(saved==="1") setBlood(true);
+
+  toggle.addEventListener("click",()=>{
+    const isOn=document.documentElement.classList.contains("blood-on");
+    setBlood(!isOn);
+  });
+
+  window.openLink=function(url){
+    try{window.open(url,"_blank");}catch(e){location.href=url;}
+  };
+})();
 </script>
 
 </body>
