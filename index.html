@@ -3,295 +3,340 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>RTH — Screensaver (Black Premium)</title>
+<title>Ride To Hell</title>
 <style>
-  /* Reset */
+  /* ===== RESET ===== */
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing:antialiased;
     background:#000;
     color:#fff;
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    overflow:hidden;
+    line-height:1.4;
+    min-height:100vh;
+    -webkit-text-size-adjust:100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-user-select: none; /* disable text selection to feel locked */
+    user-select: none;
+    overscroll-behavior-y: contain; /* reduce jump on mobile overscroll */
   }
 
-  /* Fullscreen container */
-  .ss {
-    position:fixed;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:9999;
-    cursor:default;
-    user-select:none;
-    -webkit-user-select:none;
-  }
-
-  /* subtle vignette + center focus */
-  .bg {
-    position:absolute;
-    inset:0;
-    background: radial-gradient(ellipse at center, rgba(20,20,20,0.15) 0%, rgba(0,0,0,0.95) 60%, rgba(0,0,0,1) 100%);
-    pointer-events:none;
-    mix-blend-mode:normal;
-  }
-
-  /* Noise texture (very subtle) */
-  .noise {
-    position:absolute;
-    inset:0;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><filter id="n"><feTurbulence baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.03" /></svg>');
-    opacity:0.04;
-    pointer-events:none;
-    mix-blend-mode:overlay;
-  }
-
-  /* subtle gradient sheen at top */
-  .top-sheen {
-    position:absolute; left:0; right:0; top:0; height:28%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
-    pointer-events:none;
-  }
-
-  /* centered panel (content) */
-  .panel {
-    position:relative;
-    width:min(760px, 92vw);
-    max-width:760px;
-    padding:32px 22px;
+  /* ===== LAYOUT (locked & stable) ===== */
+  .wrap{
+    width:100%;
+    max-width:820px;
+    margin:0 auto;
+    padding:28px 18px 80px;
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:14px;
-    pointer-events:auto; /* allow click to exit */
   }
 
-  /* pulsing logo container */
-  .logo {
-    width:104px;
-    height:104px;
-    border-radius:18px;
-    background-image:url('logo.png');
-    background-size:cover;
-    background-position:center;
-    box-shadow: 0 18px 40px rgba(0,0,0,0.75), 0 2px 8px rgba(255,255,255,0.02) inset;
-    transform: translateZ(0);
-    animation: logoPulse 2600ms ease-in-out infinite;
-  }
-  @keyframes logoPulse {
-    0%   { transform: scale(1); filter: drop-shadow(0 6px 18px rgba(0,0,0,0.6)); }
-    50%  { transform: scale(1.06); filter: drop-shadow(0 18px 50px rgba(0,0,0,0.7)); }
-    100% { transform: scale(1); }
-  }
-
-  /* title (subtle) */
-  .title {
-    font-weight:700;
-    letter-spacing:6px;
-    font-size:18px;
-    opacity:.95;
-  }
-
-  /* small subtitle */
-  .sub {
-    font-size:13px;
-    opacity:.8;
-    text-align:center;
-    max-width:720px;
-    line-height:1.3;
-  }
-
-  /* instruction text */
-  .hint {
-    margin-top:6px;
-    font-size:12px;
-    color:rgba(255,255,255,0.86);
-    opacity:.9;
-    backdrop-filter: blur(0.8px);
-  }
-
-  /* bottom copyright small */
-  .foot {
-    position: absolute;
-    bottom:18px;
+  /* reserve header area so layout doesn't jump */
+  .header {
     width:100%;
-    text-align:center;
-    font-size:11px;
-    color:rgba(255,255,255,0.18);
-    pointer-events:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-height:260px; /* keeps header size stable */
+    padding-top:4px;
+    padding-bottom:6px;
   }
 
-  /* subtle inner card box when hovered (not necessary but premium feel) */
-  .panel::before{
-    content:'';
-    position:absolute;
-    inset: -8px;
-    border-radius:14px;
-    pointer-events:none;
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.03));
-    filter: blur(6px);
-    opacity:0.25;
+  /* logo */
+  .logo{
+    width:96px;height:96px;margin:6px auto 8px;border-radius:20px;
+    background-image:url('logo.png');background-size:cover;background-position:center;
+    box-shadow:0 14px 40px rgba(0,0,0,0.7);
+    transform:translateZ(0);
+    flex-shrink:0;
   }
 
-  /* canvas for particles sits behind panel */
-  canvas#dust {
-    position:absolute; inset:0; width:100%; height:100%; display:block; z-index:2; pointer-events:none;
+  /* title */
+  h1{
+    font-weight:800;text-align:center;letter-spacing:10px;margin-top:8px;margin-bottom:8px;font-size:30px;
+    margin-left:6px;margin-right:6px;
   }
 
-  /* ensure panel sits above particles */
-  .panel { z-index:3; }
+  .subtitle{max-width:760px;margin:8px auto 6px;font-size:14.5px;opacity:0.95;text-align:center}
+  .bold-line{font-weight:800;margin-top:10px;margin-bottom:8px;text-align:center;font-size:15px}
+  .note{text-align:center;margin-bottom:10px;opacity:0.7;font-size:13px}
 
-  /* responsive tweaks */
+  .blood-row{display:flex;justify-content:center;gap:18px;margin:8px 0 12px;opacity:0.45;letter-spacing:9px;font-size:14px}
+
+  /* ===== SWITCH (20% smaller config) ===== */
+  .switch-wrap{display:flex;justify-content:center;margin-bottom:20px;width:100%}
+  .switch{
+    width:128px;height:56px;border-radius:36px;background:linear-gradient(180deg,#0f0f0f,#070707 60%);
+    position:relative;cursor:pointer;box-shadow:inset 0 6px 18px rgba(255,255,255,0.02), 0 10px 26px rgba(0,0,0,0.6);
+    transition:background .28s ease, box-shadow .28s ease;
+    display:inline-block;
+    flex-shrink:0;
+  }
+  .knob{
+    width:50px;height:50px;border-radius:50%;background:#fff;position:absolute;top:3px;left:8px;
+    transform: translateZ(0);
+    transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .18s;
+    box-shadow:0 12px 30px rgba(0,0,0,0.6);
+    will-change: transform;
+  }
+  /* use translateX to move knob (less layout shift than left) */
+  .switch[data-state="off"] .knob { transform: translateX(0); }
+  .switch[data-state="on"]  .knob { transform: translateX(70px); }
+
+  body.blood .switch{
+    background:linear-gradient(180deg,#6f2f2f,#401616 60%);
+    box-shadow:inset 0 6px 20px rgba(120,20,20,0.06), 0 12px 36px rgba(120,20,20,0.2);
+  }
+
+  /* ===== CONTACT CARDS ===== */
+  .list{margin-top:6px;display:flex;flex-direction:column;gap:16px;padding-bottom:18px;width:100%}
+  .card{
+    display:flex;align-items:center;gap:16px;padding:18px;border-radius:18px;
+    background:linear-gradient(160deg,#141414 0%, #0d0d0d 60%, #060606 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.02),0 20px 40px rgba(0,0,0,0.7);
+    border:1px solid rgba(255,255,255,0.02);
+    width:100%;
+  }
+
+  .icon{
+    min-width:64px;height:64px;border-radius:14px;background:linear-gradient(145deg,#1b1b1b,#080808);
+    display:flex;justify-content:center;align-items:center;font-weight:900;font-size:18px;box-shadow: inset 0 2px 6px rgba(255,255,255,0.02);
+  }
+
+  .text{flex:1;min-width:0}
+  .top-title{ font-size:18px; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sub{ font-size:13px; opacity:0.75; margin-top:6px; }
+
+  .cta{
+    padding:10px 16px;border-radius:14px;background:linear-gradient(145deg,#191919,#292929 60%);color:#fff;text-decoration:none;font-weight:800;font-size:15px;border:1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.6);white-space:nowrap;
+  }
+  .cta:hover{ opacity:0.85; transform:translateY(-1px); transition: .12s; }
+
+  footer{ margin-top:26px; text-align:center; opacity:0.6; padding-bottom:30px; font-size:13px; width:100% }
+
+  /* ===== SCREENSAVER ===== */
+  #screensaver {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    pointer-events: none; opacity: 0; transition: opacity .28s ease; z-index:1200;
+  }
+  #screensaver.show { opacity:1; pointer-events:auto; }
+
+  #screensaver.off { background: linear-gradient(180deg, rgba(0,0,0,0.98), rgba(0,0,0,0.98)); }
+  #screensaver.on  { background: linear-gradient(180deg, rgba(40,6,6,0.9), rgba(10,0,0,0.95)); }
+
+  .screen-inner {
+    text-align:center; color:#fff; padding: 20px 28px; border-radius: 12px; display:flex; flex-direction:column; align-items:center; gap:12px;
+    transform: translateY(0); transition: transform .28s ease, opacity .28s ease; opacity:1; pointer-events:auto;
+    max-width:92%;
+  }
+
+  .screen-logo { width:90px; height:90px; border-radius:20px; background-image:url('logo.png'); background-size:cover; background-position:center; box-shadow:0 18px 60px rgba(0,0,0,0.6); animation: pulse 2.6s ease-in-out infinite; }
+  @keyframes pulse { 0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)} }
+
+  .screen-title{ font-weight:800; letter-spacing:4px; font-size:18px; }
+  .screen-sub{ font-size:13px; opacity:0.9; }
+  .screen-hint{ margin-top:6px; font-size:12px; opacity:0.8; }
+
+  #screensaver.on .screen-inner { box-shadow: 0 20px 60px rgba(120,20,20,0.14), inset 0 1px 0 rgba(255,255,255,0.02); }
+  #screensaver.off .screen-inner{ box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02); }
+
+  /* small helper - ensure consistent spacing on small screens */
   @media (max-width:420px){
-    .logo{width:88px;height:88px;border-radius:14px}
-    .panel{padding:20px}
-    .title{font-size:16px}
-    .sub{font-size:13px;padding:0 6px}
+    .wrap{padding:20px 14px 80px}
+    .header{min-height:240px}
+    .logo{width:92px;height:92px}
+    h1{font-size:28px;letter-spacing:8px;margin-bottom:6px}
+    .switch{width:120px;height:56px}
+    .knob{width:44px;height:44px;top:6px}
+    .switch[data-state="on"] .knob{ transform: translateX(66px) }
+    .icon{min-width:56px;height:56px}
+    .card{padding:14px;border-radius:16px}
+    .top-title{font-size:17px}
+    .cta{padding:9px 14px;font-size:14px}
   }
 </style>
 </head>
 <body>
-  <div class="ss" id="screensaver" role="dialog" aria-modal="true" aria-label="Screensaver">
-    <div class="bg" aria-hidden="true"></div>
-    <div class="noise" aria-hidden="true"></div>
-    <div class="top-sheen" aria-hidden="true"></div>
+  <div class="wrap" role="main" aria-label="Ride To Hell">
 
-    <!-- particles canvas -->
-    <canvas id="dust" aria-hidden="true"></canvas>
-
-    <div class="panel" id="panel">
-      <div class="logo" aria-hidden="true"></div>
-      <div class="title">RIDE TO HELL</div>
-      <div class="sub">Sentuh layar untuk kembali — suasana gelap, elegan, dan tenang.</div>
-      <div class="hint">Sentuh / ketuk / klik untuk keluar</div>
+    <div class="header" aria-hidden="true">
+      <div class="logo"></div>
+      <h1>RIDE TO HELL</h1>
+      <div class="subtitle">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</div>
+      <div class="bold-line">RTH bukan sekadar nama — ini cara gue bertahan.</div>
+      <div class="note">Simple contact · No noise</div>
+      <div class="blood-row"><div>B</div><div>L</div><div>O</div><div>O</div><div>D</div></div>
+      <div class="switch-wrap">
+        <div id="switch" class="switch" role="switch" tabindex="0" data-state="off" aria-checked="false">
+          <div class="knob" aria-hidden="true"></div>
+        </div>
+      </div>
     </div>
 
-    <div class="foot">© 2025 Ride To Hell</div>
+    <div class="list" aria-label="Kontak">
+      <div class="card">
+        <div class="icon">IG</div>
+        <div class="text">
+          <div class="top-title">@ridetohhell.official</div>
+          <div class="sub">Instagram Resmi</div>
+        </div>
+        <a class="cta" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener">Masuk</a>
+      </div>
+
+      <div class="card">
+        <div class="icon">WA</div>
+        <div class="text">
+          <div class="top-title">Chat via WhatsApp — +62 858-8211-0680</div>
+          <div class="sub">Fast contact</div>
+        </div>
+        <a class="cta" href="https://wa.me/6285882110680" target="_blank" rel="noopener">Terhubung</a>
+      </div>
+
+      <div class="card">
+        <div class="icon">YT</div>
+        <div class="text">
+          <div class="top-title">YouTube Channel</div>
+          <div class="sub">@RTHProject25</div>
+        </div>
+        <a class="cta" href="https://youtube.com/@RTHProject25" target="_blank" rel="noopener">Tonton</a>
+      </div>
+
+      <div class="card">
+        <div class="icon">f</div>
+        <div class="text">
+          <div class="top-title">Halaman Facebook</div>
+          <div class="sub">Ride To Hell</div>
+        </div>
+        <a class="cta" href="https://facebook.com" target="_blank" rel="noopener">Buka</a>
+      </div>
+    </div>
+
+    <footer>© 2025 Ride To Hell</footer>
+  </div>
+
+  <!-- SCREENSAVER -->
+  <div id="screensaver" class="off" aria-hidden="true">
+    <div class="screen-inner" role="dialog" aria-modal="true" aria-label="Screensaver">
+      <div class="screen-logo" aria-hidden="true"></div>
+      <div class="screen-title">RIDE TO HELL</div>
+      <div class="screen-sub">Sentuh layar untuk kembali</div>
+      <div class="screen-hint">Tap anywhere to exit</div>
+    </div>
   </div>
 
 <script>
-/*
-  Lightweight particle "dust" effect for premium feel.
-  - Gentle upward slow drift
-  - Low opacity, low count for subtlety
-  - Auto scales with device pixel ratio
-  - Stops when not visible to save battery
-*/
 (function(){
-  const canvas = document.getElementById('dust');
-  const ctx = canvas.getContext('2d');
-  let particles = [];
-  const PARTICLE_COUNT = 28; // subtle
-  let width = 0, height = 0, dpr = Math.max(1, window.devicePixelRatio || 1);
-  let running = true;
-
-  function resize() {
-    width = canvas.clientWidth;
-    height = canvas.clientHeight;
-    canvas.width = Math.round(width * dpr);
-    canvas.height = Math.round(height * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
-  function rand(min,max){ return Math.random()*(max-min)+min; }
-
-  function createParticle(){
-    return {
-      x: rand(0, width),
-      y: rand(height*0.2, height),
-      r: rand(0.4, 1.6),
-      alpha: rand(0.02, 0.09),
-      vx: rand(-0.03, 0.03),
-      vy: rand(-0.02, -0.08),
-      life: rand(8000, 22000),
-      t: 0,
-      sway: rand(0.2, 1.2)
-    };
-  }
-
-  function initParticles(){
-    particles = [];
-    for(let i=0;i<PARTICLE_COUNT;i++) particles.push(createParticle());
-  }
-
-  function draw(now){
-    if(!running) return;
-    ctx.clearRect(0,0,width,height);
-    for(let p of particles){
-      p.t += 16;
-      const progress = (p.t % p.life) / p.life;
-      p.x += p.vx + Math.sin(progress * Math.PI * 2) * p.sway * 0.02;
-      p.y += p.vy * (0.5 + progress);
-      // wrap top/bottom
-      if(p.y < -20) { p.y = height + 20; p.x = rand(0,width); p.t = 0; }
-      if(p.x < -30) p.x = width + 30;
-      if(p.x > width + 30) p.x = -30;
-      // draw circle with soft blur
-      ctx.beginPath();
-      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r*8);
-      g.addColorStop(0, `rgba(255,255,255,${p.alpha})`);
-      g.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = g;
-      ctx.fillRect(p.x - p.r*8, p.y - p.r*8, p.r*16, p.r*16);
-    }
-    // next frame via rAF
-    requestAnimationFrame(draw);
-  }
-
-  function start(){
-    resize();
-    initParticles();
-    running = true;
-    requestAnimationFrame(draw);
-  }
-  function stop(){ running = false; }
-
-  // init
-  start();
-
-  // handle resizes
-  let rto;
-  window.addEventListener('resize', ()=>{
-    clearTimeout(rto);
-    rto = setTimeout(()=>{ resize(); }, 120);
-  });
-
-  // screensaver dismissal
+  // Elements
+  const body = document.body;
+  const sw = document.getElementById('switch');
   const screensaver = document.getElementById('screensaver');
-  const panel = document.getElementById('panel');
 
-  function hideScreensaver(){
-    // graceful fade-out: shrink panel a bit then remove
-    panel.style.transition = 'transform .28s ease, opacity .28s ease';
-    panel.style.transform = 'scale(.98)';
-    panel.style.opacity = '0.0';
-    screensaver.style.transition = 'opacity .28s ease';
-    screensaver.style.opacity = '0';
-    setTimeout(()=> {
-      // hide completely
-      screensaver.style.display = 'none';
-      // cleanup particles to save battery
-      stop();
-    }, 320);
+  // Config
+  const IDLE_MS = 6000; // 6s idle => show screensaver
+  let idleTimer = null;
+
+  // Persisted state key
+  const KEY = 'rth_blood_state_v1';
+
+  // Read stored state (true/false)
+  function readStored(){
+    try {
+      const v = localStorage.getItem(KEY);
+      return v === '1';
+    } catch(e){ return false; }
   }
 
-  // any tap/click hides
-  screensaver.addEventListener('pointerdown', function(e){
-    e.preventDefault();
-    hideScreensaver();
-  }, {passive:false});
+  function writeStored(val){
+    try { localStorage.setItem(KEY, val ? '1' : '0'); } catch(e){}
+  }
 
-  // also hide on key
-  document.addEventListener('keydown', (e)=>{
-    if(e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') hideScreensaver();
+  // apply mode (on/off)
+  function applyMode(on){
+    if(on){
+      body.classList.add('blood');
+      sw.setAttribute('data-state','on');
+      sw.setAttribute('aria-checked','true');
+    } else {
+      body.classList.remove('blood');
+      sw.setAttribute('data-state','off');
+      sw.setAttribute('aria-checked','false');
+    }
+    writeStored(on);
+    // if screensaver visible, update its appearance
+    if(screensaver.classList.contains('show')){
+      updateScreensaverAppearance(on);
+    }
+  }
+
+  // initialize from storage
+  applyMode(readStored());
+
+  // toggle handler
+  function toggleMode(){
+    applyMode(!body.classList.contains('blood'));
+    resetIdle();
+  }
+
+  // switch interaction
+  sw.addEventListener('click', toggleMode);
+  sw.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      toggleMode();
+    }
   });
 
-  // accessibility: if page is backgrounded, stop particles
-  document.addEventListener('visibilitychange', ()=>{
-    if(document.hidden) stop(); else { if(!running){ running=true; requestAnimationFrame(draw);} }
+  // screensaver helpers
+  function updateScreensaverAppearance(isOn){
+    if(isOn){
+      screensaver.classList.remove('off'); screensaver.classList.add('on');
+    } else {
+      screensaver.classList.remove('on'); screensaver.classList.add('off');
+    }
+  }
+  function showScreensaver(){
+    updateScreensaverAppearance(body.classList.contains('blood'));
+    screensaver.classList.add('show');
+    screensaver.setAttribute('aria-hidden','false');
+    // prevent background scroll on mobile
+    document.documentElement.style.overflow = 'hidden';
+  }
+  function hideScreensaver(){
+    screensaver.classList.remove('show');
+    screensaver.setAttribute('aria-hidden','true');
+    document.documentElement.style.overflow = '';
+    resetIdle();
+  }
+
+  // idle timer control
+  function resetIdle(){
+    clearTimeout(idleTimer);
+    // hide if currently shown (keeps screen usable)
+    if(screensaver.classList.contains('show')) hideScreensaver();
+    idleTimer = setTimeout(()=> showScreensaver(), IDLE_MS);
+  }
+
+  // dismiss when user taps anywhere on screensaver
+  screensaver.addEventListener('click', hideScreensaver);
+
+  // reset idle on interactions
+  ['mousemove','mousedown','touchstart','touchmove','keydown','scroll'].forEach(evt=>{
+    document.addEventListener(evt, resetIdle, {passive:true});
+  });
+
+  // start idle
+  resetIdle();
+
+  // dev shortcut: Ctrl/Cmd+S toggle screensaver (handy to test)
+  document.addEventListener('keydown', function(e){
+    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's'){
+      e.preventDefault();
+      if(screensaver.classList.contains('show')) hideScreensaver();
+      else showScreensaver();
+    }
   });
 
 })();
