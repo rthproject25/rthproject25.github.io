@@ -1,217 +1,225 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Ride To Hell</title>
-<style>
-  :root{
-    --card-bg: rgba(0,0,0,0.45);
-    --accent: #c73131;
-    --accent-deep: #b22a2a;
-  }
-  html,body{height:100%;margin:0;padding:0}
-  body{
-    background:#000;
-    color:#fff;
-    font-family: "Arial", sans-serif;
-    -webkit-font-smoothing:antialiased;
-    transition: background 0.5s ease;
-    background-position:center;
-    background-repeat:no-repeat;
-    background-size:cover;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ride To Hell</title>
 
-  .container{
-    max-width:460px;
-    margin:28px auto;
-    padding:18px;
-  }
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            background-image: url('');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            transition: background 0.6s ease-in-out;
+            color: white;
+        }
 
-  .card{
-    border-radius:20px;
-    padding:28px 22px;
-    background:var(--card-bg);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 120px rgba(0,0,0,0.25);
-    backdrop-filter: blur(6px);
-  }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            text-align: center;
+        }
 
-  .logo{
-    width:92px;
-    height:92px;
-    object-fit:cover;
-    border-radius:18px;
-    display:block;
-    margin:0 auto 14px;
-    box-shadow: 0 6px 18px rgba(199,49,49,0.12);
-  }
+        .logo {
+            width: 150px;
+            margin: 0 auto 20px;
+            display: block;
+            border-radius: 20px;
+        }
 
-  h1{
-    text-align:center;
-    font-size:34px;
-    letter-spacing:2px;
-    margin:2px 0 10px;
-    font-weight:800;
-  }
+        h1 {
+            font-size: 40px;
+            margin: 10px 0 20px;
+            font-weight: 800;
+        }
 
-  p.lead{
-    text-align:center;
-    margin:8px 0 12px;
-    line-height:1.6;
-    opacity:0.95;
-    font-size:16px;
-  }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
 
-  p.lead b{display:block;margin-top:8px;font-weight:900}
+        .sub {
+            margin-top: 10px;
+            opacity: 0.7;
+            font-size: 15px;
+        }
 
-  .micro{
-    text-align:center;
-    margin-top:8px;
-    opacity:0.75;
-    font-size:14px;
-  }
+        /* TOGGLE */
+        .toggle-box {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 20px;
+            letter-spacing: 10px;
+        }
 
-  .toggle-label{
-    text-align:center;
-    margin:20px 0 10px;
-    letter-spacing:8px;
-    font-weight:700;
-  }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 70px;
+            height: 34px;
+            margin-top: 10px;
+        }
+        .switch input { display: none; }
 
-  /* custom toggle */
-  .switch{position:relative;display:inline-block;width:84px;height:40px}
-  .switch input{display:none}
-  .slider{
-    position:absolute;inset:0;border-radius:40px;background:#414141;transition:all .35s ease;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
-  }
-  .slider:before{
-    content:"";position:absolute;width:32px;height:32px;border-radius:50%;left:4px;top:4px;background:#fff;transition:all .35s ease;box-shadow:0 4px 12px rgba(0,0,0,0.4)
-  }
-  input:checked + .slider{background:linear-gradient(180deg,var(--accent) 0%, var(--accent-deep) 100%); box-shadow: 0 0 30px rgba(199,49,49,0.25)}
-  input:checked + .slider:before{transform:translateX(44px)}
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0;
+            right: 0; bottom: 0;
+            background-color: #444;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #c40000;
+        }
+        input:checked + .slider:before {
+            transform: translateX(36px);
+        }
 
-  /* links */
-  .link-box{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    background: rgba(10,10,10,0.35);
-    padding:16px;
-    border-radius:14px;
-    margin-top:16px;
-    border:1px solid rgba(255,255,255,0.03);
-  }
+        /* CARD */
+        .card {
+            background: rgba(20,20,20,0.9);
+            padding: 20px;
+            border-radius: 20px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-  .label{font-weight:800;font-size:16px}
-  .sub{font-size:13px;opacity:0.75;margin-top:6px}
-  .btn{
-    background:var(--accent);
-    color:#fff;padding:10px 16px;border-radius:12px;text-decoration:none;font-weight:800;
-    box-shadow: 0 10px 20px rgba(199,49,49,0.12);
-  }
+        .card .left {
+            text-align: left;
+        }
 
-  footer{margin-top:20px;text-align:center;opacity:0.6;font-size:13px}
+        .card .title {
+            font-size: 20px;
+            font-weight: bold;
+        }
 
-  /* responsive tweaks */
-  @media (max-width:420px){
-    .container{padding:12px}
-    .card{padding:22px}
-    h1{font-size:30px}
-  }
-</style>
+        .card .desc {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .btn {
+            background: #c03434;
+            padding: 12px 25px;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 14px;
+            opacity: 0.6;
+        }
+    </style>
 </head>
+
 <body>
 
 <div class="container">
-  <div class="card">
-    <img src="avatar.png" alt="RTH logo" class="logo" />
+
+    <img src="avatar.png" class="logo">
+
     <h1>RIDE TO HELL</h1>
 
-    <p class="lead">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.
-      <b>RTH bukan sekadar nama — ini cara gue bertahan.</b>
-    </p>
+    <p>Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</p>
 
-    <div class="micro">Simple contact • No noise</div>
+    <p><b>RTH bukan sekadar nama — ini cara gue bertahan.</b></p>
 
-    <div class="toggle-label">B L O O D</div>
-    <label class="switch" aria-label="toggle blood">
-      <input id="bloodToggle" type="checkbox">
-      <span class="slider" aria-hidden="true"></span>
+    <div class="sub">Simple contact • No noise</div>
+
+    <!-- BLOOD SWITCH -->
+    <div class="toggle-box">B L O O D</div>
+
+    <label class="switch">
+        <input type="checkbox" id="bloodToggle">
+        <span class="slider"></span>
     </label>
 
-    <div class="link-box" style="margin-top:22px">
-      <div>
-        <div class="label">@ridetohhell.official</div>
-        <div class="sub">Instagram Resmi</div>
-      </div>
-      <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noreferrer">Masuk</a>
+    <!-- INSTAGRAM -->
+    <div class="card">
+        <div class="left">
+            <div class="title">@ridetohhell.official</div>
+            <div class="desc">Instagram Resmi</div>
+        </div>
+        <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank">Masuk</a>
     </div>
 
-    <div class="link-box">
-      <div>
-        <div class="label">Chat via WhatsApp — +62 858-8211-0680</div>
-        <div class="sub">Fast contact</div>
-      </div>
-      <a class="btn" href="https://wa.me/6285882110680" target="_blank" rel="noreferrer">Terhubung</a>
+    <!-- WHATSAPP -->
+    <div class="card">
+        <div class="left">
+            <div class="title">Chat via WhatsApp — +62 858-8211-0680</div>
+            <div class="desc">Fast contact</div>
+        </div>
+        <a class="btn" href="https://wa.me/6285882110680" target="_blank">Terhubung</a>
     </div>
 
-    <div class="link-box">
-      <div>
-        <div class="label">YouTube Channel</div>
-        <div class="sub">@RTHProject25</div>
-      </div>
-      <a class="btn" href="https://youtube.com/@RTHProject25" target="_blank" rel="noreferrer">Tonton</a>
+    <!-- YOUTUBE -->
+    <div class="card">
+        <div class="left">
+            <div class="title">YouTube Channel</div>
+            <div class="desc">@RTHProject25</div>
+        </div>
+        <a class="btn" href="https://youtube.com/@RTHProject25" target="_blank">Tonton</a>
     </div>
 
-    <div class="link-box">
-      <div>
-        <div class="label">Halaman Facebook</div>
-        <div class="sub">Ride To Hell</div>
-      </div>
-      <a class="btn" href="https://facebook.com" target="_blank" rel="noreferrer">Buka</a>
+    <!-- FACEBOOK -->
+    <div class="card">
+        <div class="left">
+            <div class="title">Halaman Facebook</div>
+            <div class="desc">Ride To Hell</div>
+        </div>
+        <a class="btn" href="https://facebook.com" target="_blank">Buka</a>
     </div>
 
-    <footer>© 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.</footer>
-  </div>
+    <footer>
+        © 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.
+    </footer>
+
 </div>
 
 <script>
-  // default: blood enabled by default (you wanted aktif)
-  const toggle = document.getElementById('bloodToggle');
-  const STORAGE_KEY = 'rth_blood_enabled';
+    const toggle = document.getElementById("bloodToggle");
 
-  // read saved state; default true
-  const saved = localStorage.getItem(STORAGE_KEY);
-  const enabled = saved === null ? true : saved === '1';
-
-  // apply initial state
-  function applyBlood(on){
-    if(on){
-      document.body.style.backgroundImage = "url('Blood.png')";
-      document.body.style.backgroundSize = "cover";
-      document.body.style.backgroundPosition = "center";
-      document.body.style.backgroundRepeat = "no-repeat";
-      localStorage.setItem(STORAGE_KEY,'1');
-    } else {
-      document.body.style.backgroundImage = "none";
-      localStorage.setItem(STORAGE_KEY,'0');
+    // LOAD STATUS SEBELUMNYA
+    if (localStorage.getItem("bloodMode") === "on") {
+        toggle.checked = true;
+        document.body.style.backgroundImage = "url('Blood.png')";
     }
-  }
 
-  // set toggle checked based on saved value and apply
-  toggle.checked = enabled;
-  applyBlood(enabled);
-
-  // listen changes and apply
-  toggle.addEventListener('change', () => {
-    applyBlood(toggle.checked);
-  });
-
-  // Optional: preload Blood.png to avoid flash
-  const img = new Image();
-  img.src = 'Blood.png';
+    // UBAH MODE
+    toggle.addEventListener("change", () => {
+        if (toggle.checked) {
+            document.body.style.backgroundImage = "url('Blood.png')";
+            localStorage.setItem("bloodMode", "on");
+        } else {
+            document.body.style.backgroundImage = "none";
+            localStorage.setItem("bloodMode", "off");
+        }
+    });
 </script>
 
 </body>
