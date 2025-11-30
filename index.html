@@ -21,7 +21,12 @@
     position:relative;
   }
 
-  /* Background crossfade pseudo-elements (no layout shift) */
+  /* ==========================
+     Background layers + continuous subtle motion (Ken Burns)
+     - ::before = OFF (dark)
+     - ::after  = ON  (blood)
+     Opacity swaps when toggled; each layer also pans/zooms slowly.
+     ========================== */
   body::before,
   body::after{
     content:"";
@@ -34,26 +39,54 @@
     z-index:0;
     opacity:0;
     transition: opacity 600ms ease;
-    will-change: opacity;
+    will-change: opacity, transform;
+    transform-origin: center center;
   }
+
+  /* subtle slow pan+zoom for OFF background */
   body::before{
     background-image: url('bg-darkoff.png');
     opacity:1; /* default visible */
     filter: contrast(0.92) brightness(0.9);
+    animation: rth-bg-off 48s linear infinite;
   }
+
+  /* subtle slow pan+zoom (different timing) for ON background */
   body::after{
     background-image: url('bg-blood.png');
     opacity:0;
     filter: saturate(0.95) contrast(0.95) brightness(0.95);
+    animation: rth-bg-on 62s linear infinite;
   }
+
+  /* enable transitions after JS marks ready (prevents flash) */
   body.bg-ready::before,
   body.bg-ready::after{
     transition: opacity 600ms ease;
   }
+
+  /* swap opacities on toggle */
   body.blood::before{ opacity:0; }
   body.blood::after{ opacity:1; }
 
-  /* global vignette overlay (html::before used to avoid changing content stacking) */
+  /* Ken Burns keyframes */
+  @keyframes rth-bg-off {
+    0%   { transform: translate3d(-2%, -1%, 0) scale(1.02) rotate(0.01deg); }
+    25%  { transform: translate3d(1%, 0.5%, 0)  scale(1.03) rotate(-0.02deg); }
+    50%  { transform: translate3d(2%, 1%, 0)   scale(1.025) rotate(0.01deg); }
+    75%  { transform: translate3d(-1%, 0%, 0)  scale(1.015) rotate(0.00deg); }
+    100% { transform: translate3d(-2%, -1%, 0) scale(1.02) rotate(0.01deg); }
+  }
+
+  @keyframes rth-bg-on {
+    0%   { transform: translate3d(1.5%, 1%, 0) scale(1.03) rotate(-0.01deg); }
+    20%  { transform: translate3d(-1%, 0.5%, 0) scale(1.035) rotate(0.02deg); }
+    45%  { transform: translate3d(0.5%, -0.5%, 0) scale(1.025) rotate(-0.01deg); }
+    70%  { transform: translate3d(1%, 0.2%, 0) scale(1.04) rotate(0.00deg); }
+    100% { transform: translate3d(1.5%, 1%, 0) scale(1.03) rotate(-0.01deg); }
+  }
+
+  /* vignette overlay */
   html::before{
     content:"";
     position:fixed;
@@ -76,7 +109,7 @@
     margin:0 auto;
     padding:22px 18px 80px;
     position:relative;
-    z-index:2; /* ensure content above animated overlay */
+    z-index:2; /* ensure content above animated background */
   }
 
   /* LOGO */
@@ -314,46 +347,36 @@
   const ENABLE = true;
   if(!ENABLE) return;
 
-  const CLOUD_OPACITY = 0.30;       // cloud layer darkness
-  const GRAIN_OPACITY = 0.08;       // grain overlay
-  const LIGHTNING_MAX = 0.7;        // lightning max intensity
-  const LIGHT_MIN_DELAY = 7000;     // lightning min ms
-  const LIGHT_MAX_DELAY = 14000;    // lightning max ms
-  const SMOKE_OPACITY = 0.22;       // smoke base opacity
-  const SMOKE_SPEED = 22000;        // smoke vertical travel time (ms)
+  const CLOUD_OPACITY = 0.30;
+  const GRAIN_OPACITY = 0.08;
+  const LIGHTNING_MAX = 0.7;
+  const LIGHT_MIN_DELAY = 7000;
+  const LIGHT_MAX_DELAY = 14000;
+  const SMOKE_OPACITY = 0.22;
+  const SMOKE_SPEED = 22000;
 
-  // create CSS for overlay (scoped)
   const css = `
   #rth-anim-overlay{ position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
-  /* Clouds: slow moving subtle shapes */
   .rth-clouds{ position:absolute; inset:-10% -10% -10% -10%; opacity:${CLOUD_OPACITY}; mix-blend-mode:multiply; filter: blur(10px) contrast(0.95); background-image:
     radial-gradient(ellipse at 20% 30%, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0) 40%),
     radial-gradient(ellipse at 80% 70%, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 50%),
     linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.08));
   transform:translateZ(0); animation:rth-cloud 26s ease-in-out infinite; }
-  @keyframes rth-cloud{
-    0% { transform: translate3d(-4%, -2%,0) scale(1.02); }
-    50% { transform: translate3d(4%, 2%,0) scale(1.015); }
-    100% { transform: translate3d(-4%, -2%,0) scale(1.02); }
-  }
+  @keyframes rth-cloud{ 0%{ transform: translate3d(-4%,-2%,0) scale(1.02); } 50%{ transform: translate3d(4%,2%,0) scale(1.015); } 100%{ transform: translate3d(-4%,-2%,0) scale(1.02); } }
 
-  /* Grain texture for premium film look */
   .rth-grain{ position:absolute; inset:0; opacity:${GRAIN_OPACITY}; mix-blend-mode:overlay;
     background-image: url('data:image/svg+xml;utf8,\
       <svg xmlns="http://www.w3.org/2000/svg" width="180" height="180">\
         <filter id="g"><feTurbulence baseFrequency="0.9" numOctaves="2"/><feColorMatrix type="saturate" values="0"/></filter>\
-        <rect width="100%" height="100%" filter="url(%23g)" fill="white"/></svg>'); 
+        <rect width="100%" height="100%" filter="url(%23g)" fill="white"/></svg>');
     transform:scale(1.02); animation:rth-grain 14s linear infinite; }
-  @keyframes rth-grain{ 0%{ transform:scale(1.02) translate(0,0);} 50%{ transform:scale(1.025) translate(-1%,0.5%);} 100%{ transform:scale(1.02) translate(0,0);} }
+  @keyframes rth-grain{ 0%{ transform:scale(1.02) translate(0,0); } 50%{ transform:scale(1.025) translate(-1%,0.5%); } 100%{ transform:scale(1.02) translate(0,0); } }
 
-  /* Lightning subtle layer */
   .rth-lightning{ position:absolute; inset:0; mix-blend-mode:screen; transition: background 240ms ease; pointer-events:none; }
 
-  /* micro flicker */
   .rth-flicker{ position:absolute; inset:0; mix-blend-mode:screen; opacity:0; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.00)); animation:rth-flick 7s infinite; }
   @keyframes rth-flick{ 0%{opacity:0} 3%{opacity:0.03} 5%{opacity:0} 100%{opacity:0} }
 
-  /* Smoke layer (vertical drift) - two layers for depth */
   .rth-smoke{ position:absolute; left:-10%; width:120%; top:110%; height:80%; pointer-events:none; overflow:visible; }
   .rth-smoke .s{ position:absolute; left:0; width:100%; height:120%; background:
      radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 40%);
@@ -373,7 +396,6 @@
   style.appendChild(document.createTextNode(css));
   document.head.appendChild(style);
 
-  // build overlay DOM
   const overlay = document.createElement('div');
   overlay.id = 'rth-anim-overlay';
   overlay.innerHTML = `
@@ -395,7 +417,6 @@
     const ly = 20 + Math.random()*55;
     const intensity = (0.25 + Math.random()*LIGHTNING_MAX).toFixed(3);
     flashEl.style.background = `radial-gradient(circle at ${lx}% ${ly}%, rgba(255,255,255,${intensity}) 0%, rgba(255,255,255,0) 18%)`;
-    // layered fade
     setTimeout(()=> {
       flashEl.style.background = `radial-gradient(circle at ${lx}% ${ly}%, rgba(255,255,255,${(intensity*0.5).toFixed(3)}) 0%, rgba(255,255,255,0) 26%)`;
       setTimeout(()=> { flashEl.style.background = 'transparent'; }, 160 + Math.random()*200);
@@ -470,7 +491,7 @@
   const mo = new MutationObserver(()=> bindCTAs());
   mo.observe(document.body, {childList:true, subtree:true});
 
-  if(window && window.console) console.log('RTH: background + premium overlay loaded');
+  if(window && window.console) console.log('RTH: background motion + premium overlay loaded');
 })();
 </script>
 </body>
