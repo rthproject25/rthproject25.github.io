@@ -1,1 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ride To Hell</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
+  body {
+    font-family: Arial, sans-serif;
+    background: #000;
+    color: #fff;
+    text-align: center;
+    transition: background 0.4s ease;
+  }
+
+  /* BLOOD MODE background */
+  body.blood-on {
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA...') repeat;
+    background-size: cover;
+  }
+
+  .container {
+    max-width: 580px;
+    margin: 0 auto;
+    padding: 30px 20px 80px;
+  }
+
+  /* LOGO (embedded) */
+  .logo {
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 15px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 22px;
+    box-shadow: 0 0 18px rgba(0,0,0,0.6);
+    background-image: url('data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAYAAACg5FQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAPgTSURBVHgB7d0LcFxXHcfx965kQJAk9AQqKIoSlGqKioo1GpQKioqKlGqKipCoijw7
+FBBQRAEQkQkBACQ/LA4JOfc8613ureffusvZnZmd2dnZnZmdmZm5s36Pxu925//+97vfOd/3vOfc
+... (POTONGAN BASE64 LOGO SENGAJA DIPENDEKIN UNTUK CHAT, KARENA TERLALU PANJANG)
+');
+  }
+
+  h1 {
+    font-size: 32px;
+    letter-spacing: 6px;
+    margin-bottom: 14px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    opacity: 0.95;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .bold {
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .note {
+    margin-bottom: 18px;
+    opacity: 0.7;
+  }
+
+  /* SWITCH */
+  .switch-area {
+    margin-top: 18px;
+    margin-bottom: 28px;
+  }
+
+  .blood-text {
+    letter-spacing: 14px;
+    opacity: 0.45;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .switch {
+    width: 120px;
+    height: 48px;
+    background: #463333;
+    border-radius: 40px;
+    margin: 0 auto;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .knob {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+    top: 5px;
+    left: 6px;
+    transition: left 0.3s ease;
+  }
+
+  body.blood-on .switch {
+    background: #a24a4a;
+  }
+
+  body.blood-on .knob {
+    left: 76px;
+  }
+
+  /* Contact Cards */
+  .card {
+    background: #111;
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 17px;
+  }
+
+  .text-group {
+    flex: 1;
+    text-align: left;
+  }
+
+  .top {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .sub {
+    font-size: 13px;
+    opacity: 0.8;
+    margin-top: 4px;
+  }
+
+  .btn {
+    padding: 10px 14px;
+    background: #a35b5b;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Screensaver */
+  #screensaver {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+  }
+
+  body.blood-on #screensaver {
+    background: rgba(60,10,10,0.85);
+  }
+
+  #screensaver.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .screen-box {
+    padding: 20px 28px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(6px);
+  }
+
+  .screen-title {
+    font-size: 20px;
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+  }
+
+</style>
+</head>
+<body>
+
+<div id="screensaver">
+  <div class="screen-box">
+    <div class="screen-title">RIDE TO HELL</div>
+    <div class="sub">Sentuh layar untuk kembali</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="logo"></div>
+
+  <h1>RIDE TO HELL</h1>
+
+  <div class="subtitle">
+    Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.
+  </div>
+
+  <div class="bold">RTH bukan sekadar nama — ini cara gue bertahan.</div>
+  <div class="note">Simple contact · No noise</div>
+
+  <div class="switch-area">
+    <div class="blood-text">B&nbsp;&nbsp;L&nbsp;&nbsp;O&nbsp;&nbsp;O&nbsp;&nbsp;D</div>
+    <div id="bloodSwitch" class="switch">
+      <div class="knob"></div>
+    </div>
+  </div>
+
+  <!-- IG -->
+  <div class="card">
+    <div class="icon">IG</div>
+    <div class="text-group">
+      <div class="top">@ridetohhell.official</div>
+      <div class="sub">Instagram Resmi</div>
+    </div>
+    <button class="btn" onclick="window.open('https://instagram.com/ridetohhell.official','_blank')">Masuk</button>
+  </div>
+
+  <!-- WA -->
+  <div class="card">
+    <div class="icon">WA</div>
+    <div class="text-group">
+      <div class="top">Chat via WhatsApp — +62 858-8211-0680</div>
+      <div class="sub">Fast contact</div>
+    </div>
+    <button class="btn" onclick="window.open('https://wa.me/6285882110680','_blank')">Terhubung</button>
+  </div>
+
+  <!-- Youtube -->
+  <div class="card">
+    <div class="icon">YT</div>
+    <div class="text-group">
+      <div class="top">YouTube Channel</div>
+      <div class="sub">@RTHProject25</div>
+    </div>
+    <button class="btn" onclick="window.open('https://youtube.com/@RTHProject25','_blank')">Tonton</button>
+  </div>
+
+  <!-- Facebook -->
+  <div class="card">
+    <div class="icon">f</div>
+    <div class="text-group">
+      <div class="top">Halaman Facebook</div>
+      <div class="sub">Ride To Hell</div>
+    </div>
+    <button class="btn" onclick="window.open('https://facebook.com','_blank')">Buka</button>
+  </div>
+
+</div>
+
+<script>
+let isOn = false;
+let idleTimer = null;
+const idleTime = 6000;
+const screensaver = document.getElementById("screensaver");
+const sw = document.getElementById("bloodSwitch");
+
+function setMode(on){
+  isOn = on;
+  if(on){
+    document.body.classList.add("blood-on");
+  } else {
+    document.body.classList.remove("blood-on");
+  }
+}
+
+function resetIdle(){
+  clearTimeout(idleTimer);
+  screensaver.classList.remove("show");
+  idleTimer = setTimeout(()=>{ screensaver.classList.add("show"); }, idleTime);
+}
+
+sw.addEventListener("click", ()=>{
+  setMode(!isOn);
+  resetIdle();
+});
+
+["mousemove","touchstart","keydown","scroll"].forEach(evt=>{
+  document.addEventListener(evt, resetIdle);
+});
+
+screensaver.addEventListener("click", resetIdle);
+
+resetIdle();
+setMode(false);
+</script>
+
+</body>
+</html>
