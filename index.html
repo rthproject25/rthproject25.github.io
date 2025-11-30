@@ -1,222 +1,282 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Ride To Hell</title>
-
+<meta name="theme-color" content="#000000" />
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-        color: #fff;
-        background: #000;
-        overflow-x: hidden;
-        transition: background 0.4s ease;
-    }
+  :root{
+    --accent-1:#d64545;
+    --accent-2:#9a1f1f;
+    --muted: rgba(255,255,255,0.9);
+    --panel-glow: rgba(214,69,69,0.08);
+  }
 
-    /* BLOOD MODE BACKGROUND */
-    body.blood {
-        background: url('bg-blood.jpg') center/cover no-repeat fixed;
-    }
+  body.blood {
+    --accent-1:#ff4949;
+    --accent-2:#b71c1c;
+    --muted: rgba(255,245,245,0.98);
+    --panel-glow: rgba(214,69,69,0.18);
+    background: url('Blood.png') center/cover no-repeat fixed;
+  }
 
-    .container {
-        max-width: 420px;
-        margin: 40px auto;
-        padding: 20px;
-        background: rgba(0,0,0,0.55);
-        border-radius: 22px;
-        box-shadow: 0 0 20px rgba(255,0,0,0.25);
-        text-align: center;
-    }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;font-family:Inter, Arial, sans-serif;-webkit-font-smoothing:antialiased;background:#000}
 
-    .logo {
-        width: 110px;
-        height: 110px;
-        border-radius: 22px;
-        margin: 0 auto 10px;
-        background: url('avatar.png') center/cover no-repeat;
-        box-shadow: 0 0 18px rgba(255,0,0,0.4);
-    }
+  body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background-color:#000;
+    transition:background .35s ease;
+  }
 
-    h1 {
-        font-size: 32px;
-        font-weight: 700;
-        margin: 10px 0 5px;
-    }
+  .overlay{
+    position:fixed;inset:0;z-index:0;
+    background:linear-gradient(180deg, rgba(0,0,0,0.78), rgba(0,0,0,0.95));
+    pointer-events:none;
+  }
 
-    .desc {
-        font-size: 17px;
-        line-height: 26px;
-        opacity: 0.9;
-        padding: 0 10px;
-        margin-bottom: 20px;
-    }
+  .card{
+    position:relative;
+    z-index:1;
+    width:min(880px,94vw);
+    padding:32px;
+    border-radius:20px;
+    background:linear-gradient(180deg, rgba(18,18,18,0.58), rgba(8,8,8,0.68));
+    border:1px solid rgba(255,255,255,0.03);
+    box-shadow:
+      0 30px 80px rgba(0,0,0,0.8),
+      0 0 40px var(--panel-glow);
+    backdrop-filter: blur(8px) saturate(0.95);
+    overflow:hidden;
+    transition:transform .25s ease, box-shadow .25s ease, background .35s ease;
+    margin: 12px;
+  }
 
-    .strong-line {
-        font-size: 18px;
-        font-weight: 700;
-        margin-bottom: 25px;
-    }
+  .avatar{
+    width:92px;height:92px;border-radius:18px;overflow:hidden;margin:0 auto 18px;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid rgba(255,255,255,0.04);
+    box-shadow:0 10px 30px rgba(0,0,0,0.6), 0 0 28px rgba(214,69,69,0.08);
+    background:linear-gradient(180deg,#070707,#000000);
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
 
-    .mini {
-        opacity: 0.7;
-        margin-bottom: 25px;
-    }
+  h1{
+    text-align:center;
+    font-size:36px;
+    font-weight:900;
+    letter-spacing:4px;
+    color:#fff;
+    margin-bottom:10px;
+  }
 
-    /* TOGGLE BLOOD */
-    .toggle-wrap {
-        margin: 10px 0 25px;
-        font-size: 15px;
-        font-weight: bold;
-        letter-spacing: 2px;
-    }
+  .lead{
+    text-align:center;
+    font-size:15.5px;
+    line-height:1.55;
+    color:var(--muted);
+    max-width:640px;
+    margin:0 auto 10px;
+  }
 
-    .toggle-box {
-        margin-top: 6px;
-        width: 55px;
-        height: 28px;
-        border-radius: 40px;
-        background: #333;
-        position: relative;
-        margin-left: auto;
-        margin-right: auto;
-        cursor: pointer;
-        transition: background 0.3s ease;
-    }
+  .bold-line{
+    text-align:center;
+    margin-top:12px;
+    font-weight:900;
+    font-size:16px;
+    color:#fff;
+    line-height:1.4;
+  }
 
-    .toggle-dot {
-        width: 24px;
-        height: 24px;
-        background: #444;
-        border-radius: 50%;
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        transition: transform 0.3s ease, background 0.3s ease;
-    }
+  .sub{
+    text-align:center;
+    margin-top:10px;
+    color:rgba(255,255,255,0.9);
+    font-weight:700;
+    font-size:13px;
+  }
 
-    /* FIXED: kalau ON dot pindah kanan */
-    body.blood .toggle-box {
-        background: #b80000;
-    }
-    body.blood .toggle-dot {
-        background: #ff3b3b;
-        transform: translateX(26px);
-    }
+  .controls{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:14px;
+    margin:18px 0 6px;
+    color:var(--muted);
+    font-weight:800;
+    letter-spacing:1px;
+    font-size:13px;
+  }
 
-    /* CARD CONTACT */
-    .card {
-        background: rgba(0,0,0,0.55);
-        padding: 18px;
-        border-radius: 18px;
-        margin-bottom: 18px;
-        text-align: left;
-        border: 1px solid rgba(255,255,255,0.06);
-    }
+  .toggle{
+    width:56px;height:30px;border-radius:30px;background:rgba(255,255,255,0.06);
+    padding:4px;display:flex;align-items:center;justify-content:flex-start;cursor:pointer;
+    border:1px solid rgba(255,255,255,0.02);
+    transition: background .18s ease;
+  }
 
-    .card-title {
-        font-size: 17px;
-        font-weight: 700;
-    }
+  body.blood .toggle{
+    justify-content:flex-end;
+    background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+  }
 
-    .card-sub {
-        font-size: 14px;
-        opacity: 0.7;
-        margin-top: 3px;
-        margin-bottom: 12px;
-    }
+  .toggle-dot{
+    width:22px;height:22px;border-radius:50%;
+    background:linear-gradient(90deg,#bdbdbd,#8e8e8e);
+    box-shadow:0 6px 18px rgba(0,0,0,0.35);
+    transition: transform .18s ease, background .18s ease;
+  }
+  body.blood .toggle-dot{
+    background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+  }
 
-    .btn {
-        float: right;
-        background: #c12727;
-        padding: 8px 18px;
-        border-radius: 12px;
-        font-weight: 700;
-        font-size: 14px;
-        color: #fff;
-        text-decoration: none;
-    }
-    .btn:hover {
-        background: #ff4747;
-    }
+  .links{
+    margin-top:18px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
 
-    footer {
-        text-align: center;
-        font-size: 13px;
-        opacity: 0.7;
-        margin: 25px 0 10px;
-    }
+  .btn{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:16px 18px;border-radius:14px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.03);
+    color:var(--muted);text-decoration:none;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
 
+  .btn:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 20px 46px rgba(0,0,0,0.6);
+  }
+
+  .meta{
+    display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:6px;
+  }
+  .meta .label{
+    font-size:17px;font-weight:900;color:#fff;line-height:1.05;
+  }
+  .meta .sub{
+    font-size:13px;font-weight:700;color:rgba(255,255,255,0.9);
+  }
+
+  .cta{
+    background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+    color:#fff;padding:10px 16px;border-radius:10px;font-weight:900;min-width:86px;text-align:center;
+    box-shadow:0 10px 30px rgba(180,40,40,0.12);
+  }
+
+  footer{
+    margin-top:18px;text-align:center;
+    color:rgba(255,255,255,0.65);
+    font-size:14px;
+  }
+
+  @media (max-width:720px){
+    h1{font-size:30px}
+    .avatar{width:74px;height:74px;border-radius:14px}
+    .card{padding:22px;border-radius:16px}
+    .meta .label{font-size:16px}
+    .cta{min-width:70px;padding:8px 12px}
+  }
 </style>
 </head>
-
 <body>
+  <div class="overlay"></div>
 
-<div class="container">
-    <div class="logo"></div>
+  <main class="card">
+    <div class="avatar">
+      <img src="avatar.png" alt="Ride To Hell" />
+    </div>
 
     <h1>RIDE TO HELL</h1>
 
-    <div class="desc">
-        Teritori gelap ini rumah gue. Tempat gue jatuh,
-        bangkit, dan ngegas sendirian.
+    <p class="lead">
+      Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.
+    </p>
+
+    <div class="bold-line">
+      RTH bukan sekadar nama — ini cara gue bertahan.
     </div>
 
-    <div class="strong-line">
-        RTH bukan sekadar nama — ini cara gue bertahan.
+    <div class="sub">Simple contact • No noise</div>
+
+    <div class="controls">
+      <div>BLOOD</div>
+      <div id="bloodToggle" class="toggle">
+        <div class="toggle-dot"></div>
+      </div>
     </div>
 
-    <div class="mini">Simple contact • No noise</div>
-
-    <!-- TOGGLE -->
-    <div class="toggle-wrap">
-        BLOOD
-        <div class="toggle-box" onclick="toggleBlood()">
-            <div class="toggle-dot"></div>
+    <div class="links">
+      <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank">
+        <div class="meta">
+          <div class="label">@ridetohhell.official</div>
+          <div class="sub">Instagram Resmi</div>
         </div>
-    </div>
+        <div class="cta">Masuk</div>
+      </a>
 
-    <!-- IG -->
-    <div class="card">
-        <div class="card-title">@ridetohhell.official</div>
-        <div class="card-sub">Instagram Resmi</div>
-        <a class="btn" href="https://instagram.com/ridetohhell.official" target="_blank">Masuk</a>
-    </div>
+      <a class="btn" href="https://wa.me/6285882110680" target="_blank">
+        <div class="meta">
+          <div class="label">Chat via WhatsApp — +62 858-8211-0680</div>
+          <div class="sub">Fast contact</div>
+        </div>
+        <div class="cta">Terhubung</div>
+      </a>
 
-    <!-- WA -->
-    <div class="card">
-        <div class="card-title">Chat via WhatsApp — +62 858-8211-0680</div>
-        <div class="card-sub">Fast contact</div>
-        <a class="btn" href="https://wa.me/6285882110680" target="_blank">Terhubung</a>
-    </div>
+      <a class="btn" href="https://www.youtube.com/@RTHProject25" target="_blank">
+        <div class="meta">
+          <div class="label">YouTube Channel</div>
+          <div class="sub">@RTHProject25</div>
+        </div>
+        <div class="cta">Tonton</div>
+      </a>
 
-    <!-- YouTube -->
-    <div class="card">
-        <div class="card-title">YouTube Channel</div>
-        <div class="card-sub">@RTHProject25</div>
-        <a class="btn" href="https://youtube.com/@RTHProject25" target="_blank">Tonton</a>
-    </div>
-
-    <!-- Facebook -->
-    <div class="card">
-        <div class="card-title">Halaman Facebook</div>
-        <div class="card-sub">Ride To Hell</div>
-        <a class="btn" href="https://facebook.com" target="_blank">Buka</a>
+      <a class="btn" href="https://www.facebook.com/RideToHell" target="_blank">
+        <div class="meta">
+          <div class="label">Halaman Facebook</div>
+          <div class="sub">Ride To Hell</div>
+        </div>
+        <div class="cta">Buka</div>
+      </a>
     </div>
 
     <footer>
-        © 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.
+      © 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.
     </footer>
+  </main>
 
-</div>
+  <script>
+    (function(){
+      const body = document.body;
+      const toggle = document.getElementById('bloodToggle');
+      const KEY = 'rth_blood_v2';
 
-<script>
-function toggleBlood() {
-    document.body.classList.toggle("blood");
-}
-</script>
+      const saved = localStorage.getItem(KEY);
+      const isActive = saved === null ? true : saved === '1';
 
+      function apply(active){
+        if(active){
+          body.classList.add('blood');
+        } else {
+          body.classList.remove('blood');
+        }
+      }
+
+      apply(isActive);
+
+      toggle.addEventListener('click', ()=> {
+        const now = body.classList.toggle('blood');
+        localStorage.setItem(KEY, now ? '1' : '0');
+      });
+    })();
+  </script>
 </body>
 </html>
