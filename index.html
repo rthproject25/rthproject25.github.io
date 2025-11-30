@@ -1,283 +1,334 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>Ride To Hell — RTH</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Single-file premium CSS -->
 <style>
-  :root{
-    --bg:#080808;
-    --card-bg: rgba(6,6,6,0.72);
-    --glass: rgba(255,255,255,0.03);
-    --muted:#bdbdbd;
-    --white:#ffffff;
-    --accent:#9f514b;
-    --accent-dark:#7a3933;
-    --radius:28px;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-    background:var(--bg);
-    color:var(--white);
-    -webkit-font-smoothing:antialiased;
-    overscroll-behavior-y: auto;
-    -webkit-overflow-scrolling:touch;
-  }
+:root{
+  --bg:#050404;
+  --muted:#bfbfbf;
+  --white:#ffffff;
+  --blood-1:#b84f49;
+  --blood-2:#7f332f;
+  --card-bg: rgba(10,10,10,0.56);
+  --glass-blur:8px;
+  --radius:20px;
+  --shadow: 0 18px 50px rgba(0,0,0,0.6);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
 
-  /* full animated background */
-  .bg {
-    position:fixed; inset:0; z-index:-3;
-    background: url('Blood.jpg') center center/cover no-repeat;
-    filter: brightness(.24) contrast(1.05);
-    transition:filter .4s ease;
-    animation: bgMove 28s linear infinite;
-  }
-  @keyframes bgMove {
-    0%{background-position:50% 40%}
-    50%{background-position:50% 60%}
-    100%{background-position:50% 40%}
-  }
-  .bg::after{
-    content:"";
-    position:absolute; inset:0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.85) 100%);
-    pointer-events:none;
-  }
+/* Reset */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--white);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:auto;
+}
 
-  /* central app card */
-  .wrap{
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    padding:28px 18px 80px;
-  }
-  .card-main{
-    width:100%;
-    max-width:440px;
-    background: linear-gradient(180deg, rgba(10,10,10,0.65), rgba(0,0,0,0.8));
-    border-radius:34px;
-    padding:28px;
-    box-shadow: 0 20px 80px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
-    position:relative;
-    backdrop-filter: blur(6px);
-    overflow:visible;
-  }
+/* Background blood texture layer (Blood.jpg - B capital) */
+.bg-layer{
+  position:fixed; inset:0; z-index:-3;
+  background: #000 center/cover no-repeat;
+  background-image: url('Blood.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(.32) contrast(.95) saturate(.7);
+  transition: filter .45s ease, transform .6s ease;
+  will-change: transform;
+  pointer-events:none;
+  opacity:1;
+}
+/* subtle parallax movement */
+@keyframes slowMove{ 0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)} }
+.bg-layer{ animation: slowMove 30s linear infinite; }
 
-  /* small top-right toggle (like screenshot) */
-  .top-toggle{
-    position:absolute; right:18px; top:18px;
-    display:flex; align-items:center; gap:10px;
-  }
-  .mini-toggle{
-    width:56px; height:34px; border-radius:26px; background:rgba(255,255,255,0.06);
-    display:flex; align-items:center; padding:4px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5), inset 0 -6px 12px rgba(0,0,0,0.4);
-    cursor:pointer;
-  }
-  .mini-knob{
-    width:26px; height:26px; border-radius:50%; background:var(--accent);
-    transform:translateX(0); transition:transform .24s cubic-bezier(.2,.9,.2,1);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.45);
-  }
-  .mini-off .mini-knob{ background: rgba(255,255,255,0.95); transform:translateX(0); }
-  .mini-on .mini-knob{ transform:translateX(22px); background:var(--accent); }
+/* dim vignette */
+.bg-layer::after{
+  content:"";
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.78) 100%);
+  pointer-events:none;
+}
 
-  /* avatar + title */
-  .top-row{ display:flex; align-items:center; gap:16px; justify-content:center; flex-direction:column; text-align:center }
-  .avatar{ width:92px; height:92px; border-radius:20px; overflow:hidden; box-shadow: 0 20px 40px rgba(0,0,0,.6); margin:2px auto 8px; background:var(--glass); display:flex; align-items:center; justify-content:center }
-  .avatar img{ width:100%; height:100%; object-fit:cover; display:block }
+/* Layout wrapper */
+.wrap{
+  position:relative;
+  z-index:2;
+  max-width:820px;
+  margin:0 auto;
+  padding:36px 22px 120px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
 
-  .title{ font-weight:800; letter-spacing:8px; font-size:36px; margin:6px 0 6px }
-  .lead{ color:var(--muted); font-size:15px; max-width:380px; line-height:1.45; margin:10px auto 8px }
+/* Main card */
+.main-card{
+  width:100%;
+  max-width:520px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.48));
+  border-radius:28px;
+  padding:28px 20px 28px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(var(--glass-blur));
+  position:relative;
+  overflow:visible;
+}
 
-  .headline{ margin-top:6px; font-weight:800; text-align:center; font-size:15px }
+/* Pulled-up logo (not cropped) */
+.logo{
+  width:96px; height:96px; border-radius:18px;
+  background:#0b0b0b; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+  margin:-66px auto 8px; box-shadow:0 12px 40px rgba(0,0,0,0.6);
+}
+.logo img{ width:86px; height:86px; object-fit:cover; display:block; }
 
-  .muted{ color:var(--muted); margin-top:10px; text-align:center }
+/* Headings */
+.site-title{
+  text-align:center;
+  font-weight:800;
+  font-size:34px;
+  letter-spacing:5px;
+  margin:6px 0 6px;
+}
+.lead{
+  text-align:center; color:var(--muted); font-size:15px; margin:8px 0 6px; line-height:1.45;
+}
+.note{ text-align:center; color:var(--muted); font-size:13px; margin-bottom:8px; }
 
-  /* BLOOD row centered */
-  .blood-row{ display:flex; gap:16px; justify-content:center; margin:18px 0 10px; letter-spacing:8px; color:rgba(255,255,255,0.95); font-weight:700; pointer-events:none }
-  .blood-row span{ display:inline-block; font-size:14px; transform:translateY(0); transition:transform .2s }
+/* BLOOD row (static letters) */
+.blood-row{
+  display:flex; gap:16px; justify-content:center; margin:12px 0 6px;
+  color:rgba(255,255,255,0.92); font-weight:800; letter-spacing:6px;
+}
+.blood-row span{ display:inline-block; font-size:16px; }
 
-  /* big knob under BLOOD */
-  .big-toggle{
-    display:flex; justify-content:center; margin:8px 0 16px;
-  }
-  .big-switch{
-    width:260px; height:84px; border-radius:52px; background:rgba(0,0,0,0.72);
-    display:flex; align-items:center; padding:12px; position:relative;
-    box-shadow: 0 18px 60px rgba(0,0,0,.6), inset 0 -6px 18px rgba(0,0,0,.6);
-    cursor:pointer;
-  }
-  .big-knob{ width:56px; height:56px; border-radius:50%; background:#fff; box-shadow: 0 12px 40px rgba(0,0,0,.5); transition:left .28s, transform .18s; position:absolute; left:14px; top:14px }
-  .big-on{ background:linear-gradient(180deg,var(--accent),var(--accent-dark)); box-shadow:0 30px 90px rgba(159,81,75,0.12) }
-  .big-on .big-knob{ left:190px; background:#fff; box-shadow:0 30px 90px rgba(159,81,75,0.14) }
+/* Big toggle (center) */
+.toggle-wrap{ display:flex; justify-content:center; margin:14px 0 18px; }
+.toggle{
+  --w:240px; --h:88px;
+  width:var(--w); height:var(--h); border-radius:999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18));
+  padding:12px; position:relative; box-shadow: inset 0 -6px 20px rgba(0,0,0,0.6);
+  cursor:pointer; transition: background .28s ease, box-shadow .28s ease;
+}
+.knob{
+  width:68px; height:68px; border-radius:50%; background:#fff; position:absolute; left:14px; top:10px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.55);
+  transition: left .32s cubic-bezier(.2,.9,.2,1), box-shadow .25s;
+}
+.toggle.on{
+  background: linear-gradient(180deg, rgba(184,79,73,0.96), rgba(127,51,47,0.96));
+  box-shadow: 0 30px 80px rgba(127,51,47,0.12), inset 0 -8px 24px rgba(0,0,0,0.6);
+}
+.toggle.on .knob{ left:calc(var(--w) - var(--h) + 14px); box-shadow: 0 20px 60px rgba(127,51,47,0.16); }
 
-  /* list of contact cards */
-  .list{ margin-top:6px; display:flex; flex-direction:column; gap:14px }
-  .item{
-    display:flex; align-items:center; gap:12px;
-    padding:14px 16px; border-radius:16px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.55));
-    box-shadow: 0 14px 40px rgba(0,0,0,0.6), inset 0 6px 30px rgba(0,0,0,0.35);
-    backdrop-filter: blur(6px);
-  }
-  .ico{ width:56px; height:56px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); color:var(--muted); font-weight:700; flex:0 0 56px }
-  .meta{ flex:1; min-width:0 }
-  .meta .title{ font-weight:800; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .meta .sub{ color:var(--muted); font-size:13px; margin-top:6px }
+/* Link list - glass cards */
+.links{ display:flex; flex-direction:column; gap:14px; margin-top:6px; }
+.link{
+  display:flex; align-items:center; gap:14px;
+  padding:14px; border-radius:14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.42));
+  box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+}
+.icon{
+  min-width:56px; min-height:56px; border-radius:12px;
+  background: rgba(255,255,255,0.02); display:flex; align-items:center; justify-content:center;
+  font-weight:800; color:var(--muted);
+}
+.meta{ flex:1; min-width:0; }
+.meta .title{ font-weight:800; font-size:17px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.meta .sub{ color:var(--muted); margin-top:6px; font-size:13px; }
 
-  .action{ margin-left:auto; flex:0 0 auto }
-  .btn{
-    display:inline-block; padding:10px 18px; border-radius:14px; font-weight:800; border:none; text-decoration:none;
-    color:var(--white); background:linear-gradient(180deg,var(--accent),var(--accent-dark)); box-shadow: 0 12px 36px rgba(0,0,0,0.55);
-  }
+/* CTA */
+.cta{ margin-left:12px; padding:10px 16px; border-radius:12px; border:none; cursor:pointer;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.08));
+  color:var(--white); font-weight:800; box-shadow: 0 8px 26px rgba(0,0,0,0.45);
+}
+.theme-on .cta{ background: linear-gradient(180deg, var(--blood-1), var(--blood-2)); box-shadow: 0 14px 40px rgba(127,51,47,0.18); }
 
-  .footer{ text-align:center; color:var(--muted); margin-top:18px; font-size:13px }
+/* Footer */
+.footer{ text-align:center; color:var(--muted); font-size:13px; margin-top:18px; }
 
-  /* responsive tweaks */
-  @media (max-width:420px){
-    .card-main{ padding:20px; border-radius:24px }
-    .title{ font-size:32px; letter-spacing:6px }
-    .big-switch{ width:220px; height:70px }
-    .big-on .big-knob{ left:140px }
-    .avatar{ width:80px; height:80px }
-    .ico{ width:48px; height:48px; flex:0 0 48px }
-  }
-
-  /* ensure no weird splitting for phone text */
-  .meta .title, .meta .sub { word-break:break-word; }
+/* small screens */
+@media (max-width:420px){
+  .main-card{ padding:20px; border-radius:22px }
+  .site-title{ font-size:30px; letter-spacing:4px }
+  .toggle{ --w:200px; --h:72px }
+  .knob{ width:60px; height:60px; top:8px; left:12px }
+  .toggle.on .knob{ left: calc(var(--w) - var(--h) + 12px) }
+  .icon{ min-width:48px; min-height:48px }
+  .meta .title{ font-size:15px }
+}
 </style>
 </head>
 <body>
-  <div class="bg" aria-hidden="true"></div>
 
-  <div class="wrap">
-    <div class="card-main" id="cardMain">
-      <div class="top-toggle">
-        <div id="miniToggle" class="mini-toggle mini-off" role="button" tabindex="0" aria-pressed="false" aria-label="Blood toggle small">
-          <div class="mini-knob" id="miniKnob"></div>
-        </div>
-      </div>
+<!-- Background texture layer -->
+<div class="bg-layer" aria-hidden="true"></div>
 
-      <div class="top-row">
-        <div class="avatar"><img src="avatar.png" alt="RTH Logo"></div>
-        <div class="title">RIDE TO HELL</div>
-        <div class="lead">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</div>
-        <div class="headline">RTH bukan sekadar nama — ini cara gue bertahan.</div>
-        <div class="muted">Simple contact · No noise</div>
-      </div>
+<!-- Page content -->
+<div class="wrap">
+  <section class="main-card" id="card">
 
-      <div class="blood-row" id="bloodRow">
-        <span>B</span><span>L</span><span>O</span><span>O</span><span>D</span>
-      </div>
-
-      <div class="big-toggle">
-        <div id="bigSwitch" class="big-switch" aria-pressed="false" role="button" tabindex="0">
-          <div class="big-knob" id="bigKnob"></div>
-        </div>
-      </div>
-
-      <div class="list" id="list">
-        <div class="item">
-          <div class="ico">IG</div>
-          <div class="meta">
-            <div class="title" title="@ridetohhell.official">@ridetohhell.official</div>
-            <div class="sub">Instagram Resmi</div>
-          </div>
-          <div class="action"><a id="btnIG" class="btn" href="https://instagram.com/ridetohhell.official" target="_blank" rel="noopener">Masuk</a></div>
-        </div>
-
-        <div class="item">
-          <div class="ico">WA</div>
-          <div class="meta">
-            <div class="title">Chat via WhatsApp — +62 858-8211-0680</div>
-            <div class="sub">Fast contact</div>
-          </div>
-          <div class="action"><a id="btnWA" class="btn" href="https://wa.me/6285882110680" target="_blank" rel="noopener">Terhubung</a></div>
-        </div>
-
-        <div class="item">
-          <div class="ico">YT</div>
-          <div class="meta">
-            <div class="title">YouTube Channel</div>
-            <div class="sub">@RTHProject25</div>
-          </div>
-          <div class="action"><a id="btnYT" class="btn" href="https://youtube.com" target="_blank" rel="noopener">Tonton</a></div>
-        </div>
-
-        <div class="item">
-          <div class="ico">f</div>
-          <div class="meta">
-            <div class="title">Halaman Facebook</div>
-            <div class="sub">Ride To Hell</div>
-          </div>
-          <div class="action"><a id="btnFB" class="btn" href="https://facebook.com" target="_blank" rel="noopener">Buka</a></div>
-        </div>
-      </div>
-
-      <div class="footer">© 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.</div>
+    <div class="logo" aria-hidden="true">
+      <img src="avatar.png" alt="RTH logo" id="logoImg" />
     </div>
-  </div>
 
+    <div class="site-title">RIDE TO HELL</div>
+    <p class="lead">Teritori gelap ini rumah gue. Tempat gue jatuh, bangkit, dan ngegas sendirian.</p>
+    <p class="note"><strong>RTH bukan sekadar nama — ini cara gue bertahan.</strong></p>
+
+    <div class="blood-row" aria-hidden="true">
+      <span>B</span><span>L</span><span>O</span><span>O</span><span>D</span>
+    </div>
+
+    <div class="toggle-wrap" style="pointer-events:auto;">
+      <div id="toggle" class="toggle" role="switch" aria-checked="false" tabindex="0">
+        <div class="knob" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="links" id="links">
+      <div class="link">
+        <div class="icon">IG</div>
+        <div class="meta">
+          <div class="title">@ridetohhell.official</div>
+          <div class="sub">Instagram Resmi</div>
+        </div>
+        <button class="cta" onclick="openLink('https://instagram.com/ridetohhell.official')">Masuk</button>
+      </div>
+
+      <div class="link">
+        <div class="icon">WA</div>
+        <div class="meta">
+          <div class="title">Chat via WhatsApp — +62 858-8211-0680</div>
+          <div class="sub">Fast contact</div>
+        </div>
+        <button class="cta" onclick="openLink('https://wa.me/6285882110680')">Terhubung</button>
+      </div>
+
+      <div class="link">
+        <div class="icon">YT</div>
+        <div class="meta">
+          <div class="title">YouTube Channel</div>
+          <div class="sub">@RTHProject25</div>
+        </div>
+        <button class="cta" onclick="openLink('https://www.youtube.com/@RTHProject25')">Tonton</button>
+      </div>
+
+      <div class="link">
+        <div class="icon">f</div>
+        <div class="meta">
+          <div class="title">Halaman Facebook</div>
+          <div class="sub">Ride To Hell</div>
+        </div>
+        <button class="cta" onclick="openLink('https://facebook.com')">Buka</button>
+      </div>
+    </div>
+
+    <div class="footer">© 2025 Ride To Hell — Jalan gelap, kerja keras, berdiri sendiri.</div>
+  </section>
+</div>
+
+<!-- Single-file JS: behavior & small UX -->
 <script>
-  // toggle logic (mini and big control same state)
-  const mini = document.getElementById('miniToggle');
-  const big = document.getElementById('bigSwitch');
-  const card = document.getElementById('cardMain');
+(function(){
+  const root = document.documentElement;
+  const body = document.body;
+  const toggle = document.getElementById('toggle');
+  const bg = document.querySelector('.bg-layer');
+  const card = document.getElementById('card');
 
+  // Initialize from saved state
   let on = false;
-  function setOn(val){
-    on = !!val;
-    if(on){
-      mini.classList.remove('mini-off'); mini.classList.add('mini-on');
-      big.classList.add('big-on');
-      big.setAttribute('aria-pressed','true');
-      mini.setAttribute('aria-pressed','true');
-      document.querySelector('.bg').style.filter = 'brightness(.38) contrast(1.05)';
-    } else {
-      mini.classList.remove('mini-on'); mini.classList.add('mini-off');
-      big.classList.remove('big-on');
-      big.setAttribute('aria-pressed','false');
-      mini.setAttribute('aria-pressed','false');
-      document.querySelector('.bg').style.filter = 'brightness(.24) contrast(1.05)';
-    }
-    try{ localStorage.setItem('rth_blood', on ? '1' : '0') }catch(e){}
-  }
-  mini.addEventListener('click', ()=> setOn(!on));
-  big.addEventListener('click', ()=> setOn(!on));
-  mini.addEventListener('keydown', (e)=> { if(e.key==='Enter' || e.key===' ') { e.preventDefault(); setOn(!on) } });
-  big.addEventListener('keydown', (e)=> { if(e.key==='Enter' || e.key===' ') { e.preventDefault(); setOn(!on) } });
-
-  // init from storage
   try{
-    if(localStorage.getItem('rth_blood') === '1') setOn(true);
-    else setOn(false);
-  }catch(e){ setOn(false) }
+    on = localStorage.getItem('rth_theme_blood') === '1';
+  }catch(e){ on = false; }
 
-  // simple pull-to-refresh hint: not interfering with scroll
-  let ptrStart = 0, ptr = false;
-  window.addEventListener('touchstart', e => {
-    if(window.scrollY <= 0) { ptrStart = e.touches[0].clientY; ptr = true }
-  }, {passive:true});
-  window.addEventListener('touchmove', e => {
-    if(!ptr) return;
-    const d = e.touches[0].clientY - ptrStart;
-    if(d > 110){
-      // trigger refresh
-      try{ location.reload() }catch(e){ window.location = window.location.href }
-      ptr = false;
+  function applyTheme(state){
+    on = !!state;
+    if(on){
+      document.body.classList.add('theme-on');
+      toggle.classList.add('on');
+      toggle.setAttribute('aria-checked','true');
+      bg.style.filter = 'brightness(.48) contrast(1.02) saturate(.75)';
+      try{ localStorage.setItem('rth_theme_blood','1'); }catch(e){}
+    } else {
+      document.body.classList.remove('theme-on');
+      toggle.classList.remove('on');
+      toggle.setAttribute('aria-checked','false');
+      bg.style.filter = 'brightness(.32) contrast(.95) saturate(.7)';
+      try{ localStorage.setItem('rth_theme_blood','0'); }catch(e){}
     }
-  }, {passive:true});
-  window.addEventListener('touchend', ()=> ptr=false);
+  }
 
-  // small safety: keep ellipsis titles readable on tap
-  document.querySelectorAll('.meta .title').forEach(el=>{
-    el.addEventListener('click', ()=> { alert(el.textContent.trim()) })
+  // init
+  applyTheme(on);
+
+  // Click & keyboard
+  toggle.addEventListener('click', ()=> applyTheme(!on));
+  toggle.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); applyTheme(!on); }
   });
+
+  // open links in new tab
+  window.openLink = function(url){
+    try{ window.open(url, '_blank'); } catch(e){ location.href = url; }
+  };
+
+  // Pull-to-refresh: allow slight overscroll and manual refresh when pulled down beyond threshold
+  (function(){
+    let startY = 0, dist = 0, pulling = false, threshold = 100;
+    // Only on touch devices
+    window.addEventListener('touchstart', function(e){
+      if(window.scrollY <= 0){ startY = e.touches[0].clientY; dist = 0; pulling = true; }
+      else pulling = false;
+    }, {passive:true});
+    window.addEventListener('touchmove', function(e){
+      if(!pulling) return;
+      dist = e.touches[0].clientY - startY;
+      if(dist > 0 && dist < threshold) {
+        // small visual feedback: move card down slightly
+        card.style.transform = `translateY(${Math.min(dist/4, 20)}px)`;
+      } else if(dist >= threshold){
+        card.style.transform = `translateY(18px)`;
+      }
+    }, {passive:true});
+    window.addEventListener('touchend', function(){
+      if(!pulling) return;
+      if(dist >= threshold){
+        // trigger refresh
+        try{ location.reload(); } catch(e){ location.href = location.href; }
+      } else {
+        card.style.transform = '';
+      }
+      pulling = false; startY = 0; dist = 0;
+    }, {passive:true});
+  })();
+
+  // ensure logo fallback if missing
+  document.getElementById('logoImg').addEventListener('error', function(){
+    this.style.display = 'none';
+    const box = document.querySelector('.logo');
+    box.style.background = 'linear-gradient(180deg,#111,#0b0b0b)';
+  });
+
+  // minor accessibility: focus styles
+  toggle.addEventListener('focus', ()=> toggle.style.outline = '4px solid rgba(184,79,73,0.08)');
+  toggle.addEventListener('blur', ()=> toggle.style.outline = 'none');
+
+})();
 </script>
 </body>
 </html>
